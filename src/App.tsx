@@ -1,9 +1,17 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./normalize.css";
+import "./App.css";
+import { Footer } from "./footer/footer";
+import { Header } from "./header/header";
+import { Main } from "./main/main";
 
 function App() {
   return (
-    <h1>RS Trello</h1>
+    <>
+      <Header />
+      <Main />
+      <Footer />
+    </>
   );
 }
 
