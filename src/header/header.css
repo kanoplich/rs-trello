@@ -1,3 +1,11 @@
 .header{
-    background: grey;
+    display: flex;
+    align-items: center;
+}
+.header-nav{
+    display: flex;
+    flex-direction: row;
+}
+.nav-link{
+    text-decoration: none;
 }
