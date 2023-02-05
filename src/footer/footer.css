@@ -1,3 +1,46 @@
 .footer{
-    background: goldenrod;
+    position: relative;
+    z-index: 10;
+}
+.footer-wrapper{
+    display: grid;
+    grid-template-columns:repeat(3,1fr);
+    align-items: center;
+    padding: 1rem 1.5rem;
+    width: 100%;
+    box-sizing: border-b/software/jira/features/scrum-boardsox;
+    background-color: #1976d2;
+    min-height: 60px;
+    -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+    color: white;
+}
+.footer-link{
+    justify-content: flex-end;
+    margin:0;
+    text-decoration: none;
+}
+.github-icon{
+    margin-right:0.5rem;
+}
+
+.footer-year{
+    margin: 0 auto;
+}
+.footer-popup{
+    position: absolute;
+    transform: translateY(-100%);
+    -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+    transition: opacity 0.2s ease-in-out;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+}
+.footer-popup.open{
+    z-index: 1;
+    opacity: 1;
+    pointer-events:all
 }
