@@ -7,5 +7,5 @@
   height: 100vh;
 }
 #root > * {
-  padding: 1rem;
+  padding: 0;
 }

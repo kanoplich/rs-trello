@@ -1,5 +1,9 @@
-.main{
+/* .main{
     display: grid;
     grid-template-columns: 1fr 3fr;
     flex-grow: 1;
+} */
+
+.main {
+  height: 100vh;
 }

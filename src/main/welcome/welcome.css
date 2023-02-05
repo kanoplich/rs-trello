@@ -1,0 +1,12 @@
+.welcome__title {
+  font-size: 3rem;
+  line-height: 3.5rem;
+  margin-bottom: 24px;
+}
+.welcome__desc {
+  line-height: 24px;
+  margin-bottom: 24px;
+}
+.welcome__image {
+  max-width: auto;
+}
