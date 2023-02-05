@@ -125,9 +125,12 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {routes.map((page, index) => (
-              <Link to={page.path} className="nav-link">
+              <Link
+                key={page.name + " " + index}
+                to={page.path}
+                className="nav-link"
+              >
                 <Button
-                  key={page.name + " " + index}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
@@ -136,6 +139,7 @@ function ResponsiveAppBar() {
               </Link>
             ))}
           </Box>
+          {/* Login component commented */}
           {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
