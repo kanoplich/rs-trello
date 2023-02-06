@@ -15,6 +15,8 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
 import WorkspacePage from "../../main/workspace/workspace";
 import { routes } from "../../main/main";
+import { Modal } from "@mui/material";
+import AcountMenu from "../../components/accountMenu"
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -169,6 +171,7 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box> */}
+          <AcountMenu />
         </Toolbar>
       </Container>
     </AppBar>
