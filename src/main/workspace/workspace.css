@@ -1,0 +1,116 @@
+.workspace__icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  margin-left: -28px;
+  position: absolute;
+  top: 120px;
+  z-index: 1;
+}
+
+.workspace__team_title {
+  font-size: 1em;
+  font-style: inherit;
+  letter-spacing: -0.003em;
+  color: #172B4D;
+  white-space: nowrap;
+  font-weight: 600;
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0px;
+  height: 16px;
+}
+
+.workspace__team_desc {
+  font-size: 11px;
+  color: #172B4D;
+  letter-spacing: -0.08px;
+  margin: 0px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-transform: none;
+  font-weight: normal;
+  line-height: 14px;
+}
+
+.workspace__links {
+  font-style: inherit;
+  line-height: 1.33333;
+  font-weight: 600;
+  margin-top: 20px;
+  text-transform: uppercase;
+  color: #6B778C;
+  padding-left: 4px;
+  padding-bottom: 4px;
+  font-size: 11px;
+  margin-bottom: 0;
+}
+
+.workspace__links_link {
+  display: flex;
+  max-width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 3px;
+  padding: 0px;
+  font-size: 11px;
+  text-decoration: none;
+  margin: 0;
+  transition: 250ms;
+}
+.workspace__links_link:hover {
+  background-color: #ebebeb;
+}
+
+.workspace__links_issues {
+  font-style: inherit;
+  line-height: 1.33333;
+  text-transform: none;
+  font-weight: normal;
+  color:#172B4D;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 11px;
+  padding: 4px 0px 4px 4px;
+  margin: 0;
+}
+
+.workspace__links_count {
+  box-sizing: border-box;
+  font-style: inherit;
+  background: #DFE1E6;
+  line-height: initial;
+  align-content: center;
+  padding: 0px 2px;
+  border-radius: 9.6px;
+  font-weight: normal;
+  text-transform: none;
+  margin: 3px;
+  width: 30px;
+  min-width: 30px;
+  height: 16px;
+  text-align: center;
+  color: #172B4D;
+  font-size: 11px;
+}
+
+.workspace__links_count::after {
+  content: '0';
+}
+
+.workspace__btn {
+  opacity: 1;
+  transition: opacity 0.3s ease 0s;
+  margin: 0px;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+}

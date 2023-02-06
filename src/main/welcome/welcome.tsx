@@ -13,18 +13,19 @@ export default function WelcomePage() {
               justifyContent: "space-between",
               alignItems: "center",
               height: "60vh",
+              gap: "5%",
             }}
           >
           <Box>
             <Box sx={{
-              width: "80%",
+              width: "100%",
             }}>
               <h1 className="welcome__title">Team collaboration and incremental delivery starts on the scrum board</h1>
               <p className="welcome__desc">The scrum framework enables software teams to manage complex projects by creating a culture of collaboration. The Jira scrum board is the tool that unites teams around a single goal and promotes iterative, incremental delivery.</p>
               <Button variant="contained">Get started</Button>
             </Box>
           </Box>
-          <Box sx={{
+          <Box display={{xs: "none", sm: 'block'}} sx={{
               width: "100%",
             }}>
             <img className="welcome__image" src={image} alt="Welcome" />
