@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import './welcome.css';
-// import { useState } from "react";
-import { Container, Box, Button } from "@mui/material/";
+import { Container, Box } from "@mui/material/";
 import FixedContainer from "../../components/registrationForm";
 
 
 const image: string = require("../../assets/image/JiraScrum.svg").default;
 
 export default function WelcomePage() {
-
-  const [modalActive, setModalActive] = useState(false);
 
   return (
     <>
