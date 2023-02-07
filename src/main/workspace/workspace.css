@@ -1,13 +1,39 @@
+.workspace__title {
+  font-size: 1.71429em;
+  font-style: inherit;
+  color:  #172B4D;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-top: 0px;
+  line-height: 32px;
+  outline: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 20px;
+}
+
+.workspace__nav-link {
+  text-decoration: none;
+  color: #172B4D;
+}
+.workspace__nav-link_btn {
+  text-decoration: none;
+}
+.workspace__nav-link_view {
+  color: #0065FF;
+}
+.workspace__nav-link_view:visited {
+  color: #0065FF;
+}
 .workspace__icon {
   width: 24px;
   height: 24px;
   border-radius: 3px;
   margin-left: -28px;
   position: absolute;
-  top: 120px;
+  top: 20px;
   z-index: 1;
 }
-
 .workspace__team_title {
   font-size: 1em;
   font-style: inherit;
@@ -61,7 +87,7 @@
   transition: 250ms;
 }
 .workspace__links_link:hover {
-  background-color: #ebebeb;
+  background-color: #f1f0f0;
 }
 
 .workspace__links_issues {
@@ -101,6 +127,11 @@
   content: '0';
 }
 
+.workspace__border {
+  border: 1px solid #172B4D;
+  opacity: .2;
+}
+
 .workspace__btn {
   opacity: 1;
   transition: opacity 0.3s ease 0s;
@@ -113,4 +144,27 @@
   white-space: nowrap;
   margin: 0;
   padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 4px;
+  background-color: inherit;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #adadad;
+  border-radius: 9em;
+  box-shadow: inset 1px 1px 10px #f3faf7;
+}
+.workspace__first-letter {
+  text-transform: lowercase;
+}
+.workspace__first-letter::first-letter {
+  text-transform: uppercase;
+}
+.empty-card__desc {
+  color: #172B4D;
+  margin-bottom: 24px;
+  margin-top: 12%;
 }
