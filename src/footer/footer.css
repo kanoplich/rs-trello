@@ -9,6 +9,7 @@
     box-sizing: border-b/software/jira/features/scrum-boardsox;
 }
 .footer-wrapper{
+    position: relative;
     display: grid;
     grid-template-columns:repeat(3,1fr);
     align-items: center;
@@ -18,10 +19,14 @@
     min-height: 60px;
     margin: 0 auto;
 }
+.footer-team{display: flex;flex-wrap: wrap;}
 .footer-link{
     justify-content: flex-end;
     margin:0;
     text-decoration: none;
+}
+.rss-link{
+    color: inherit;
 }
 .github-icon{
     margin-right:0.5rem;
