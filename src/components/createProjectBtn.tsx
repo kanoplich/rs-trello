@@ -1,7 +1,8 @@
 import React from "react";
 import Button from '@mui/material/Button';
-import { height } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateBtn({text}:{text:string}){
-return  <Button variant="text" sx={{color:"inherit",maxHeight:"2.25rem",margin:"auto 0"}}>{text}</Button>
+    const navigate = useNavigate()
+    return  <Button variant="text" sx={{color:"inherit",maxHeight:"2.25rem",margin:"auto 0"}} onClick={() => navigate('/projects')}>{text}</Button>
 }

@@ -1,0 +1,14 @@
+.projects_main{
+    max-width: 1536px;
+    padding: 0 1.5rem;
+    margin: 0 auto;
+}.projects_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center ;
+}
+.project_btn{
+    display: flex;
+    color:#1976d2;
+    gap: 1rem;
+}
