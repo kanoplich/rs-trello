@@ -11,7 +11,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 
 const githubTeam = [
   {
@@ -64,7 +64,7 @@ function FooterTeamList() {
       >
         {githubTeam.map((item, index) => {
           return (
-            <Link to={item.link} key={index} className="footer-link">
+            <Link to={item.link} key={index} target="_blank" className="footer-link">
               <ListItem>
                 <ListItemAvatar>
                   <Avatar>{item.name[0]}</Avatar>
@@ -86,12 +86,20 @@ function FooterTeamList() {
 }
 
 export function Footer() {
+  const navigate =useNavigate();
   return (
     <footer className="footer">
       <FooterTeamList />
       <div className="footer-wrapper">
         <div className="footer-team">
           <FooterBtn />
+          <Button
+          variant="text"
+          color="inherit"
+          >
+            <a href="https://rs.school/" target="_blank" rel="noreferrer" className="footer-link rss-link">RSS-SCHOOL</a>
+          </Button>
+     
         </div>
         <div className="footer-year">©2023</div>
         <Typography
@@ -99,6 +107,7 @@ export function Footer() {
           variant="h6"
           noWrap
           component="a"
+          target="_blank"
           href="https://www.atlassian.com/software/jira/features/scrum-boards"
           sx={{
             mr: 2,
@@ -108,15 +117,17 @@ export function Footer() {
             letterSpacing: ".3rem",
             color: "White",
             textDecoration: "none",
+            margin:0
           }}
         >
-          OFFICIAL
+          ORIGINAL
         </Typography>
         <Typography
           variant="h6"
           noWrap
           component="a"
           className=" footer-link"
+          target="_blank"
           href="https://www.atlassian.com/software/jira/features/scrum-boards"
           sx={{
             mr: 2,
@@ -127,9 +138,10 @@ export function Footer() {
             letterSpacing: ".1rem",
             color: "inherit",
             textDecoration: "none",
+            margin:0
           }}
         >
-          OFFICIAL
+          ORIGINAL
         </Typography>
       </div>
     </footer>
