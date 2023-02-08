@@ -71,7 +71,7 @@ export default function FixedContainer() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button variant="contained" onClick={handleOpen}>Get started</Button>
       <Modal
         open={open}
         onClose={handleClose}
