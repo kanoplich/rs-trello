@@ -1,11 +1,54 @@
 import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { useState } from "react";
 import "./project.css";
+import { Routes, Route, Link } from "react-router-dom";
+import { Container, Breadcrumbs, Box, IconButton } from "@mui/material/";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import SearchField from "../../components/searchField";
+import { routes } from "../main";
+import { ProjectAside } from "../../components/ProjectAside";
 
 export default function Project() {
+
+  const [isBoardOpen, setBoardOpen] = useState(false);
+
   return (
     <>
-      <aside className="aside">
+      <Container maxWidth="xl">
+        <Breadcrumbs aria-label="breadcrumb" sx={{ marginTop: 2 }}>
+          <Link className="breadcrumbs__link"
+            to={routes[1].path}
+          >
+            Projects
+          </Link>
+          <Link className="breadcrumbs__link"
+            to="projects/:name/*"
+          >
+            data
+          </Link>
+        </Breadcrumbs>
+        <h2 className="projects__title">KEY board</h2>
+        <Box sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}>
+          <IconButton onClick={() => setBoardOpen(true)}>
+            <AddCircleIcon />
+          </IconButton>
+          <SearchField />
+        </Box>
+        <div className="board__container">
+          <Box className="board__background"></Box>
+          <Box className="board__background"></Box>
+          <Box className="board__background"></Box>
+        </div>
+      </Container>
+      <ProjectAside
+        boardOpen={isBoardOpen}
+        closeBoard={() => setBoardOpen(false)}
+      />
+      {/* <aside className="aside">
         <div>ADD PROJECT NAME with img?</div>
         PLANNING
         <div>
@@ -20,7 +63,7 @@ export default function Project() {
           <Route path="board" element={<div>BOARDS</div>} />
           <Route path="roadmap" element={<div>ROADMAP</div>} />
         </Routes>
-      </section>
+      </section> */}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./workspace.css"
-import { Container, Box, Card, CardContent, CardActions, Button } from "@mui/material/";
+import { Container, Box, Card, CardContent, CardActions, Button, Divider } from "@mui/material/";
 import { Link } from 'react-router-dom';
 import { routes } from "../main";
 
@@ -44,7 +44,7 @@ function CardProject() {
           </Link>
         </Box>
       </CardContent>
-      <div className="workspace__border"></div>
+      <Divider />
       <CardActions>
         <Link to="/projects/:name/board" className="workspace__nav-link">
           <Button size="small" variant="text" color="inherit" style={{

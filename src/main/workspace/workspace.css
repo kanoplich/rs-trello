@@ -127,11 +127,6 @@
   content: '0';
 }
 
-.workspace__border {
-  border: 1px solid #172B4D;
-  opacity: .2;
-}
-
 .workspace__btn {
   opacity: 1;
   transition: opacity 0.3s ease 0s;
