@@ -1,11 +1,19 @@
-import React from "react";
+import React from 'react';
 import Button from '@mui/material/Button';
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { checkProjectModal } from '../store/actions';
 
-export let openCreateProject = false;
-export default function CreateBtn({text}:{text:string}){
-    const navigate = useNavigate()
-    return  <Button variant="text" sx={{color:"inherit",maxHeight:"2.25rem",margin:"auto 0"}} onClick={() => {
-        navigate('/projects')
-    }}>{text}</Button>
+export default function CreateBtn({ text }: { text: string }) {
+  const dispatch = useDispatch();
+  return (
+    <Button
+      variant='text'
+      sx={{ color: 'inherit', maxHeight: '2.25rem', margin: 'auto 0' }}
+      onClick={() => {
+        dispatch(checkProjectModal(true));
+      }}
+    >
+      {text}
+    </Button>
+  );
 }
