@@ -9,3 +9,6 @@ export const selectProjectModal: Selector<
   [(state: RootState) => state.modals.projectModal],
   toggle => toggle
 );
+
+export const getProjects: Selector<RootState, RootState['projects']> =
+  createSelector([(st: RootState) => st.projects], projects => projects);

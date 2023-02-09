@@ -7,47 +7,47 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import StarCheckBox from './starCheckbox';
-
-
-
-const tableHeader = ["Name","Key","Type","Lead"];
+import { useSelector } from 'react-redux';
+import { getProjects } from '../../store/selectors';
+import { Link } from 'react-router-dom';
 
 export default function ProjectsTable() {
-   const [rows,setRows] = React.useState([]);
+  const projects = useSelector(getProjects);
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+      <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
         <TableHead>
           <TableRow>
-            <TableCell align="left" sx={{width:"1rem"}}><StarCheckBox/></TableCell>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="left">Key</TableCell>
-            <TableCell align="left">Type</TableCell>
-            <TableCell align="left">Lead</TableCell>
+            <TableCell align='center' sx={{ width: '1rem' }}>
+              <StarCheckBox />
+            </TableCell>
+            <TableCell align='center'>Name</TableCell>
+            <TableCell align='center'>Key</TableCell>
+            <TableCell align='center'>Type</TableCell>
+            <TableCell align='center'>Lead</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.length > 0 && rows.map((row) => (
-            // <TableRow
-            //   key={row.name}
-            //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            // >
-            //   <TableCell component="th" scope="row">
-            //     {row.name}
-            //   </TableCell>
-            //   <TableCell align="right">{row.calories}</TableCell>
-            //   <TableCell align="right">{row.fat}</TableCell>
-            //   <TableCell align="right">{row.carbs}</TableCell>
-            //   <TableCell align="right">{row.protein}</TableCell>
-            // </TableRow>
-            <div>false</div>
-          ))}
+          {projects.length > 0 &&
+            projects.map(row => (
+              <TableRow
+                key={row.id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell>
+                  {' '}
+                  <StarCheckBox />
+                </TableCell>
+                <TableCell component='th' scope='row' align='center'>
+                  <Link to={`${row.name}/boards`}>{row.name}</Link>
+                </TableCell>
+                <TableCell align='center'>{row.key}</TableCell>
+                <TableCell align='center'>{row.type}</TableCell>
+                <TableCell align='center'>{row.lead}</TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
 }
-
-
-
-
