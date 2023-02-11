@@ -41,12 +41,6 @@
   min-height: 100%;
   border-radius: 5px;
 }
-/* .board__container {
-  display: grid;
-  grid-template-columns: 260px 260px 260px;
-  gap: 20px;
-  margin-top: 20px;
-} */
 
 .board__container {
   display: flex;
@@ -68,4 +62,17 @@
   align-items: center;
   text-decoration: none;
   color: #172B4D;
+}
+.project__to-do {
+  background-color: white;
+  width: 100%;
+  resize: none;
+  border-radius: 5px;
+  z-index: 1;
+}
+.project__to-do:hover {
+  background-color: #F4F5F7;
+}
+.project__to-do:focus {
+  background-color: white;
 }

@@ -9,16 +9,15 @@ import SearchField from "../../components/searchField";
 import { routes } from "../main";
 import { ProjectAside } from "./projectAside";
 import { ProjectBoard } from "./projectBoard";
-import { BoardType } from "./projectBoard";
 
-export const boards: BoardType[] = [
-  { key: 1, title: "TO DO" },
-  { key: 2, title: "IN PROGRESS" },
-  { key: 3, title: "DONE" },
-]
 export default function Project() {
 
   const [isBoardOpen, setBoardOpen] = useState(false);
+  const [boards, setBoards] = useState([
+    { key: 1, title: "TO DO" },
+    { key: 2, title: "IN PROGRESS" },
+    { key: 3, title: "DONE" },
+  ]);
 
   return (
     <>
@@ -46,19 +45,23 @@ export default function Project() {
           </IconButton>
           <SearchField />
         </Box>
-        <Box sx={{ 
+        <Box sx={{
           display: "flex",
           alignItems: "baseline",
-          gap: "20px"
-          }}>
-        <div className="board__container">
-          {
-            boards.map((elem) => <ProjectBoard key={elem.key} title={elem.title} />)
-          }
-        </div>
-        <IconButton sx={{
-            borderRadius: "3px",
-          }}>
+          gap: "20px",
+          paddingBottom: "10px",
+          paddingTop: "2px",
+          overflow: "auto",
+        }}>
+          <div className="board__container">
+            {
+              boards.map((elem) => <ProjectBoard key={elem.key} title={elem.title} />)
+            }
+          </div>
+          <IconButton
+            sx={{
+              borderRadius: "3px",
+            }}>
             <Add fontSize="medium" />
           </IconButton>
         </Box>

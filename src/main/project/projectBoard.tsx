@@ -21,11 +21,12 @@ export function ProjectBoard(props: BoardType) {
         minHeight: "260px",
         borderRadius: "5px",
         backgroundColor: "#F4F5F7",
+        position: "relative",
       }}>
-      <Box sx={{ 
+      <Box sx={{
         display: "flex",
         alignItems: "center",
-        }}>
+      }}>
         <TextField
           defaultValue={props.title}
           sx={{
@@ -34,20 +35,19 @@ export function ProjectBoard(props: BoardType) {
             border: 'none',
             "& fieldset": { border: 'none' },
           }} />
-          <IconButton sx={{
+        <IconButton
+          sx={{
             borderRadius: "3px",
           }}>
-            <ClearIcon fontSize="medium" />
-          </IconButton>
+          <ClearIcon fontSize="medium" />
+        </IconButton>
       </Box>
       {textFiled &&
-        <TextField
-          multiline
-          rows={2}
-          sx={{
-            width: 1,
-            backgroundColor: "white"
-          }} />
+        <textarea className='project__to-do'
+          placeholder='What needs to be done?'
+          autoFocus
+          rows={3}
+        ></textarea>
       }
       <Button variant="text" color="inherit"
         startIcon={<Add />}
@@ -56,7 +56,7 @@ export function ProjectBoard(props: BoardType) {
           width: 1,
           textTransform: "lowercase",
         }}
-        onClick={() => setTextFiled((prev) => !prev)}
+        onClick={() => setTextFiled(true)}
       >Create issue</Button>
     </Box>
   );
