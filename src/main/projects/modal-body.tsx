@@ -1,14 +1,16 @@
 import { Box, TextField, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { createKey } from '../../helperFunctions';
 import {
   checkProjectModal,
   checkProjectModalFields,
 } from '../../store/actions';
-import { selectProjectModal } from '../../store/selectors';
+import { getProjects, selectProjectModal } from '../../store/selectors';
 
 export default function ModalBody() {
   const dispatch = useDispatch();
   const modal = useSelector(selectProjectModal);
+  const projects = useSelector(getProjects);
   return (
     <form>
       <Box className='modal_body'>
@@ -49,13 +51,17 @@ export default function ModalBody() {
         <Button
           variant='contained'
           onClick={() => {
+            let id = 1;
+            if (projects.length) {
+              id = projects[projects.length - 1].id + 1;
+            }
             dispatch(
               checkProjectModalFields({
                 name: modal.defaultProjectName,
-                key: 'RANDOM KEY',
+                key: createKey(),
                 lead: 'DEFAULT LEAD',
                 type: modal.defaultType,
-                id: 1,
+                id: id,
               })
             );
             dispatch(checkProjectModal(false));
