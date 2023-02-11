@@ -24,7 +24,7 @@ function CardProject() {
         }}
         >
           <Box>
-            <img className="workspace__icon" src={icon} alt="Welcome" />
+            <img className="workspace__icon" src={icon} alt="avatar" />
           </Box>
           <Box>
             <p className="workspace__team_title">Team name</p>
