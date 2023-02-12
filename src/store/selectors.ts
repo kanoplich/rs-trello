@@ -29,7 +29,9 @@ export const getProjectSearchResults = createSelector(
   (search, state) => {
     return search.length > 0
       ? state.filter(
-          item => item.name.includes(search) || item.lead.includes(search)
+          item =>
+            item.name.toLowerCase().includes(search) ||
+            item.lead.toLowerCase().includes(search)
         )
       : state;
   }
