@@ -1,4 +1,6 @@
 .projects_main {
+  display: flex;
+  flex-direction: column;
   max-width: 1536px;
   padding: 0 1.5rem;
   margin: 0 auto;
@@ -32,8 +34,13 @@
   gap: 1rem;
 }
 .project_item {
+  position: relative;
   transition: all 0.3s ease-in-out;
 }
 .project_item:hover {
   background-color: rgb(225, 225, 225);
+}
+.error_project {
+  margin-top: 2rem;
+  text-align: center;
 }
