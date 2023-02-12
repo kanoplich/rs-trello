@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Link } from "react-router-dom";
 import Drawer from '@mui/material/Drawer';
-import { Box, Typography, SvgIcon, Button } from '@mui/material/';
-import { routes } from '../main';
+import { Box, Typography, SvgIcon } from '@mui/material/';
+import { useSelector } from "react-redux";
+import { selectProjectModal } from "../../store/selectors";
 
 
 type DrawerProps = {
@@ -14,6 +15,7 @@ const avatar: string = require("../../assets/icon/avatar_5.svg").default;
 
 export function ProjectAside(props: DrawerProps) {
   const { boardOpen, closeBoard } = props;
+  const modals = useSelector(selectProjectModal);
 
   return (
     <Drawer
@@ -37,7 +39,9 @@ export function ProjectAside(props: DrawerProps) {
             sx={{
               fontSize: 14,
               mx: "10px",
-            }}>Project name</Typography>
+            }}>
+            {modals.inputs.projectName.trim() ? modals.inputs.projectName : modals.defaultProjectName}
+          </Typography>
           <Typography
             variant="inherit"
             sx={{

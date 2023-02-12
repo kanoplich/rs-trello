@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Box, TextField, Button, IconButton } from '@mui/material/';
+import { Box, Button, IconButton } from '@mui/material/';
 import ClearIcon from '@mui/icons-material/Clear';
 import Add from '@mui/icons-material/Add';
-
-export type BoardType = {
-  key: number | string,
-  title: string,
+interface IBoard {
+  data: string
+  key: number
 }
 
-export function ProjectBoard(props: BoardType) {
+export function ProjectBoard({ data }: IBoard) {
 
   const [textFiled, setTextFiled] = useState(false);
 
@@ -27,14 +26,11 @@ export function ProjectBoard(props: BoardType) {
         display: "flex",
         alignItems: "center",
       }}>
-        <TextField
-          defaultValue={props.title}
-          sx={{
-            width: .8,
-            color: "#172B4D",
-            border: 'none',
-            "& fieldset": { border: 'none' },
-          }} />
+        <input className='project-board__title'
+          type='text'
+          defaultValue={data}
+          required
+        />
         <IconButton
           sx={{
             borderRadius: "3px",

@@ -2,22 +2,21 @@ import React from "react";
 import "./project.css";
 import { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import { Container, Breadcrumbs, Box, IconButton, Button } from "@mui/material/";
+import { Container, Breadcrumbs, Box, IconButton } from "@mui/material/";
 import Add from '@mui/icons-material/Add';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SearchField from "../../components/searchField";
 import { routes } from "../main";
 import { ProjectAside } from "./projectAside";
 import { ProjectBoard } from "./projectBoard";
+import { useSelector } from "react-redux";
+import { selectProjectModal } from "../../store/selectors";
+
 
 export default function Project() {
 
   const [isBoardOpen, setBoardOpen] = useState(false);
-  const [boards, setBoards] = useState([
-    { key: 1, title: "TO DO" },
-    { key: 2, title: "IN PROGRESS" },
-    { key: 3, title: "DONE" },
-  ]);
+  const modals = useSelector(selectProjectModal);
 
   return (
     <>
@@ -31,7 +30,7 @@ export default function Project() {
           <Link className="breadcrumbs__link"
             to="projects/:name/*"
           >
-            data
+            {modals.inputs.projectName.trim() ? modals.inputs.projectName : modals.defaultProjectName}
           </Link>
         </Breadcrumbs>
         <h2 className="projects__title">KEY board</h2>
@@ -55,7 +54,7 @@ export default function Project() {
         }}>
           <div className="board__container">
             {
-              boards.map((elem) => <ProjectBoard key={elem.key} title={elem.title} />)
+              modals.columns.map((elem, i) => <ProjectBoard data={elem} key={i} />)
             }
           </div>
           <IconButton
