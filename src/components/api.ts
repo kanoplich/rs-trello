@@ -1,6 +1,6 @@
 import { bodyUserType, userType } from "./types";
 
-export const bases = 'https://srv-trello-clone.onrender.com/';
+export const bases = 'https://srv-trello-clone.onrender.com';
 
 
 
