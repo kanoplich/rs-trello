@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ProjectModalType, ProjectType } from '../types';
+import { RootState } from './store';
 
 export const checkProjectModal = createAction<boolean>(
   'jira/checkProjectModal'
@@ -26,4 +27,8 @@ export const refreshProjectModal = createAction<ProjectModalType>(
 
 export const checkProjectSearchField = createAction<string>(
   'jira/checkProjectSearchField'
+);
+
+export const sortProjectOptions = createAction<RootState['projects']['sort']>(
+  'jira/sortProjectOptions'
 );

@@ -12,6 +12,7 @@ import {
   checkProjectType,
   deleteProject,
   refreshProjectModal,
+  sortProjectOptions,
 } from './actions';
 
 export type RootState = {
@@ -29,6 +30,10 @@ export type RootState = {
   projects: {
     projects: ProjectType[];
     checkAllProjects: boolean;
+    sort: {
+      by: 'name' | 'lead' | 'none';
+      direction: 'asc' | 'desc';
+    };
   };
   projectSearch: string;
 };
@@ -173,6 +178,10 @@ const initialState: RootState = {
   projects: {
     projects: initialProjects,
     checkAllProjects: false,
+    sort: {
+      by: 'none',
+      direction: 'asc',
+    },
   },
   projectSearch: '',
 };
@@ -218,6 +227,9 @@ const JiraReducer = createReducer(initialState, builder => {
     })
     .addCase(checkProjectSearchField, (state, action) => {
       state.projectSearch = action.payload;
+    })
+    .addCase(sortProjectOptions, (state, action) => {
+      state.projects.sort = action.payload;
     });
 });
 
