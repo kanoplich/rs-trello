@@ -1,6 +1,7 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit';
 import { ProjectModalType, ProjectType } from '../types';
 import {
+  addColumnForProjectInModal,
   checkAllProjects,
   checkProject,
   checkProjectColumns,
@@ -10,7 +11,9 @@ import {
   checkProjectSearchField,
   checkProjectTeamLead,
   checkProjectType,
+  deleteColumnForProjectImModal,
   deleteProject,
+  refreshColumnsInModal,
   refreshProjectModal,
   sortProjectOptions,
 } from './actions';
@@ -45,118 +48,16 @@ const initialProjects = [
     type: 'Team-managed software',
     id: 1,
     checked: false,
-  },
-  {
-    name: 'Default Project2',
-    key: 'Xqf9r3',
-    lead: 'Default lead2',
-    type: 'Team-managed software',
-    id: 2,
-    checked: false,
-  },
-  {
-    name: '3Default Project',
-    key: 'H8WGyn',
-    lead: 'Default lead3',
-    type: 'Team-managed software',
-    id: 3,
-    checked: false,
-  },
-  {
-    name: '4Default Project',
-    key: 'RlWnDn',
-    lead: '4Default lead',
-    type: 'Team-managed software',
-    id: 4,
-    checked: false,
-  },
-  {
-    name: '5Default Project',
-    key: 'jNea9m',
-    lead: 'Default lead5',
-    type: 'Team-managed software',
-    id: 5,
-    checked: false,
-  },
-  {
-    name: '6Default Project',
-    key: 'TEdRZj',
-    lead: 'Default lead6',
-    type: 'Team-managed software',
-    id: 6,
-    checked: false,
-  },
-  {
-    name: 'Default Project',
-    key: 'nwjBKQ',
-    lead: 'Default lead',
-    type: 'Team-managed software',
-    id: 7,
-    checked: false,
-  },
-  {
-    name: 'Default Project',
-    key: 'u8aLYi',
-    lead: 'Default lead',
-    type: 'Team-managed software',
-    id: 8,
-    checked: false,
-  },
-  {
-    name: 'Default Project',
-    key: 'ENYl5f',
-    lead: 'Default lead',
-    type: 'Team-managed software',
-    id: 9,
-    checked: true,
-  },
-  {
-    name: 'Default Project',
-    key: 'uXOHst',
-    lead: 'Default lead',
-    type: 'Team-managed software',
-    id: 10,
-    checked: true,
-  },
-  {
-    name: 'Default Project',
-    key: 'BwXfBA',
-    lead: 'Default lead',
-    type: 'Team-managed software',
-    id: 11,
-    checked: true,
-  },
-  {
-    name: 'Default Project',
-    key: 'Z9GDfa',
-    lead: 'Default lead',
-    type: 'Team-managed software',
-    id: 12,
-    checked: false,
-  },
-  {
-    name: 'Default Project',
-    key: 'CdXJKj',
-    lead: 'Default lead',
-    type: 'Team-managed software',
-    id: 13,
-    checked: false,
-  },
-  {
-    name: 'Default Project',
-    key: 'LVQPrc',
-    lead: 'Default lead',
-    type: 'Team-managed software',
-    id: 14,
-    checked: false,
+    columns: {},
   },
   {
     name: 'Default Project',
     key: 'sJaFMY',
     lead: 'Default lead',
     type: 'Team-managed software',
-    id: 15,
+    id: 2,
     checked: false,
+    columns: {},
   },
 ];
 const initialState: RootState = {
@@ -220,7 +121,23 @@ const JiraReducer = createReducer(initialState, builder => {
       state.modals.projectModal.inputs.teamLead = action.payload;
     })
     .addCase(checkProjectColumns, (state, action) => {
-      state.modals.projectModal.inputs.projectName = action.payload;
+      state.modals.projectModal.inputs.columnName = action.payload;
+    })
+    .addCase(addColumnForProjectInModal, (state, action) => {
+      if (
+        state.modals.projectModal.columns.find(
+          item => item === action.payload
+        ) ||
+        action.payload === ''
+      )
+        return;
+      state.modals.projectModal.columns.push(action.payload);
+    })
+    .addCase(deleteColumnForProjectImModal, (state, action) => {
+      state.modals.projectModal.columns =
+        state.modals.projectModal.columns.filter(
+          item => item !== action.payload
+        );
     })
     .addCase(refreshProjectModal, (state, action) => {
       state.modals.projectModal.inputs = action.payload;
@@ -230,6 +147,9 @@ const JiraReducer = createReducer(initialState, builder => {
     })
     .addCase(sortProjectOptions, (state, action) => {
       state.projects.sort = action.payload;
+    })
+    .addCase(refreshColumnsInModal, (state, action) => {
+      state.modals.projectModal.columns = action.payload;
     });
 });
 

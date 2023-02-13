@@ -57,3 +57,8 @@ export const getSortedProjects = createSelector(
     return sort.direction === 'asc' ? selectProjects : selectProjects.reverse();
   }
 );
+
+export const getColumnNameInModal = createSelector(
+  [(state: RootState) => state.modals.projectModal.inputs.columnName],
+  column => column
+);

@@ -32,3 +32,13 @@ export const checkProjectSearchField = createAction<string>(
 export const sortProjectOptions = createAction<RootState['projects']['sort']>(
   'jira/sortProjectOptions'
 );
+
+export const addColumnForProjectInModal = createAction<string>(
+  'jira/addColumnForProjectInModal'
+);
+export const deleteColumnForProjectImModal = createAction<string>(
+  'jira/deleteColumnForProjectImModal'
+);
+export const refreshColumnsInModal = createAction<
+  RootState['modals']['projectModal']['columns']
+>('jira/refreshColumnsInModal');
