@@ -8,7 +8,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import StarCheckBox from './starCheckbox';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProjects, getProjectSearchResults } from '../../store/selectors';
+import {
+  getProjects,
+  getSortedOptions,
+  getSortedProjects,
+} from '../../store/selectors';
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import { IconButton } from '@mui/material';
@@ -16,12 +20,49 @@ import {
   checkAllProjects,
   checkProject,
   deleteProject,
+  sortProjectOptions,
 } from '../../store/actions';
+import ArrowUp from '@mui/icons-material/KeyboardArrowUp';
+import ArrowDown from '@mui/icons-material/KeyboardArrowDown';
 
 export default function ProjectsTable() {
   const dispatch = useDispatch();
   const projects = useSelector(getProjects);
-  const checkedProjects = useSelector(getProjectSearchResults);
+  const checkedProjects = useSelector(getSortedProjects);
+  const sortOptions = useSelector(getSortedOptions);
+  console.log('sortOptions', sortOptions);
+  const helperDispatch = (
+    by: 'name' | 'none' | 'lead',
+    direction: 'asc' | 'desc'
+  ) => {
+    dispatch(
+      sortProjectOptions({
+        by: by,
+        direction: direction,
+      })
+    );
+  };
+  const handleSort = (key: 'name' | 'lead' | 'none', opposite: string) => {
+    if (sortOptions.by === 'none' || sortOptions.by === opposite) {
+      helperDispatch(key, 'asc');
+    } else if (sortOptions.by === key) {
+      helperDispatch(key, 'desc');
+      if (sortOptions.direction === 'desc') helperDispatch('none', 'asc');
+    }
+  };
+  const SortArrow = (by: 'name' | 'lead') => {
+    return (
+      <>
+        {sortOptions.by === by && sortOptions.direction === 'asc' ? (
+          <ArrowDown className='project_arrow' />
+        ) : sortOptions.by === by && sortOptions.direction === 'desc' ? (
+          <ArrowUp className='project_arrow' />
+        ) : (
+          <></>
+        )}
+      </>
+    );
+  };
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer component={Paper} sx={{ maxHeight: '70vh' }}>
@@ -40,10 +81,23 @@ export default function ProjectsTable() {
               >
                 <StarCheckBox check={projects.checkAllProjects} />
               </TableCell>
-              <TableCell align='center'>Name</TableCell>
+              <TableCell
+                align='center'
+                className='project_sort'
+                onClick={() => handleSort('name', 'lead')}
+              >
+                Name {SortArrow('name')}
+              </TableCell>
               <TableCell align='center'>Key</TableCell>
               <TableCell align='center'>Type</TableCell>
-              <TableCell align='center'>Lead</TableCell>
+              <TableCell
+                align='center'
+                className='project_sort'
+                onClick={() => handleSort('lead', 'name')}
+              >
+                Lead
+                {SortArrow('lead')}
+              </TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
