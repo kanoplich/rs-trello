@@ -14,6 +14,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { addUser, getUser } from './api';
 
 
 const style = {
@@ -55,12 +56,16 @@ export default function FixedContainer() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [newCustomer, setNewCustomer] = React.useState(false);
-  const userCreate = () => {
+  const userCreate = async () => {
     if (!newCustomer) {
+      await getUser('login10');
+      console.log('name');
       setNewCustomer(true);
       setButtonEnter('Register');
       setButtonChange('Log in your account')
     } else {
+      await addUser({login:'login1', password:'password', name:'name', surname:'surname'});
+      console.log('login')
       setNewCustomer(false);
       setButtonEnter('Log in');
       setButtonChange('Create Account')
@@ -151,50 +156,3 @@ export default function FixedContainer() {
   );
 }
 
-/*export default function FixedContainer() {
-
- return (
-    <React.Fragment>
-   fontSize={14}  
-                    underline="none" 
-                    paddingTop={1.2} 
-                    sx={{ 
-                      width: '100%', 
-                      textAlign:'center',  
-                      mb:1,  
-                    color: "#2C67DA" }}
-      <Container fixed>
-        <Box sx={{ 
-          bgcolor: "#6E81A5", 
-          height: '100vh', 
-          width:'100vw', 
-          position:'fixed', 
-          top:'0', 
-          left:'0', 
-          opacity:'0.7' 
-          }} 
-        />
-        <Paper elevation={3} 
-               classList="form">
-          <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              JIRA-CLONE
-          </Typography>
-        </Paper>
-      </Container>
-    </React.Fragment>
-  );
-}*/
