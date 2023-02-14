@@ -2,14 +2,14 @@ import * as React from 'react';
 import { Box, IconButton } from '@mui/material/';
 import ClearIcon from '@mui/icons-material/Clear';
 import { ProjectTodo } from './projectTodo';
-import { CardState } from '../../../store/store';
 import { BtnTodo } from './BtnTodo';
+import { BoardsType } from '../../../types';
 
-interface ICardState {
-  data: CardState
+interface IBoardsType {
+  data: BoardsType
 }
 
-export function ProjectBoard({data}: ICardState) {
+export function ProjectBoard({data}: IBoardsType) {
 
   return (
     <Box
@@ -41,7 +41,7 @@ export function ProjectBoard({data}: ICardState) {
       {
         data.cards.map(elem => <ProjectTodo data={elem} key={elem.id}/>)
       }
-      <BtnTodo />
+      <BtnTodo data={data}/>
     </Box>
   );
 }

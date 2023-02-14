@@ -1,5 +1,5 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit';
-import { ProjectModalType, ProjectType } from '../types';
+import { ProjectModalType, ProjectType, CardsType, BoardsType } from '../types';
 import {
   addColumnForProjectInModal,
   checkAllProjects,
@@ -16,7 +16,11 @@ import {
   refreshColumnsInModal,
   refreshProjectModal,
   sortProjectOptions,
+  addTaskBoard
 } from './actions';
+
+let TASK_ID = 3;
+let CARD_ID = 3;
 
 export type RootState = {
   modals: {
@@ -38,7 +42,6 @@ export type RootState = {
       direction: 'asc' | 'desc';
     };
   };
-  cards: CardState[];
   projectSearch: string;
 };
 const initialProjects = [
@@ -49,7 +52,42 @@ const initialProjects = [
     type: 'Team-managed software',
     id: 1,
     checked: false,
-    columns: {},
+    columns: [
+      {
+        title: 'TO DO',
+        id: 1,
+        cards: [
+          {
+            id: 1,
+            text: 'Test to do'
+          },
+          {
+            id: 2,
+            text: 'Test to do'
+          }
+        ]
+      },
+      {
+        title: 'IN PROGRESS',
+        id: 2,
+        cards: [
+          {
+            id: 1,
+            text: 'Test in progress'
+          }
+        ]
+      },
+      {
+        title: 'DONE',
+        id: 3,
+        cards: [
+          {
+            id: 1,
+            text: 'Test done'
+          }
+        ]
+      }
+    ]
   },
   {
     name: 'Default Project',
@@ -58,57 +96,44 @@ const initialProjects = [
     type: 'Team-managed software',
     id: 2,
     checked: false,
-    columns: {},
-  },
-];
-
-export interface CardType {
-  id: number,
-  text: string,
-}
-
-export interface CardState {
-  title: string,
-  id: number,
-  cards: CardType[],
-}
-
-const initialCard: CardState[] = [
-  {
-    title: 'TO DO',
-    id: 0,
-    cards: [
+    columns: [
       {
-        id: 0,
-        text: 'first',
-      }
-    ]
-  },
-  {
-    title: 'IN PROGRESS',
-    id: 1,
-    cards: [
-      {
-        id: 0,
-        text: 'second',
+        title: 'TO DO next',
+        id: 1,
+        cards: [
+          {
+            id: 1,
+            text: 'Test to do next'
+          },
+          {
+            id: 2,
+            text: 'Test to do'
+          }
+        ]
       },
       {
-        id: 1,
-        text: 'test'
+        title: 'IN PROGRESS next',
+        id: 2,
+        cards: [
+          {
+            id: 1,
+            text: 'Test in progress'
+          }
+        ]
+      },
+      {
+        title: 'DONE next',
+        id: 3,
+        cards: [
+          {
+            id: 1,
+            text: 'Test done'
+          }
+        ]
       }
     ]
   },
-  {
-    title: 'DONE',
-    id: 2,
-    cards: [
-      {
-        id: 0,
-        text: 'third',
-      }
-    ]
-  }
-]
+];
 
 const initialState: RootState = {
   modals: {
@@ -134,7 +159,6 @@ const initialState: RootState = {
       direction: 'asc',
     },
   },
-  cards: initialCard,
   projectSearch: '',
 };
 
@@ -201,6 +225,21 @@ const JiraReducer = createReducer(initialState, builder => {
     })
     .addCase(refreshColumnsInModal, (state, action) => {
       state.modals.projectModal.columns = action.payload;
+    })
+    .addCase(addTaskBoard, (state, action) => {
+      state.projects.projects.map((item) => {
+        if(item.id === action.payload.id) {
+          item.columns.map(elem => {
+            if(elem.id === action.payload.id) {
+              elem.cards.push({
+                id: TASK_ID,
+                text: action.payload.text
+              })
+              TASK_ID += 1;
+            }
+          })
+        }
+      })
     });
 });
 

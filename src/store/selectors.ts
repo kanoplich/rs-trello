@@ -64,3 +64,6 @@ export const getColumnNameInModal = createSelector(
   [(state: RootState) => state.modals.projectModal.inputs.columnName],
   column => column
 );
+
+export const getProjectsProjects: Selector<RootState, RootState['projects']['projects']> =
+  createSelector([(state: RootState) => state.projects.projects], projects => projects);

@@ -1,7 +1,7 @@
 import React from "react";
 import "./project.css";
 import { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Container, Breadcrumbs, Box, IconButton } from "@mui/material/";
 import Add from '@mui/icons-material/Add';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -10,14 +10,22 @@ import { routes } from "../main";
 import { ProjectAside } from "./components/projectAside";
 import { ProjectBoard } from "./components/projectBoard";
 import { useSelector } from "react-redux";
-import { selectProjectModal, getBoardCards } from "../../store/selectors";
+import { getProjectsProjects } from "../../store/selectors";
 
 
 export default function Project() {
 
   const [isBoardOpen, setBoardOpen] = useState(false);
-  const modals = useSelector(selectProjectModal);
-  const cards = useSelector(getBoardCards);
+  const projects = useSelector(getProjectsProjects);
+  const { name } = useParams();
+
+
+  const boards = projects.filter(item => {
+    if(item.name === name) {
+      return item.columns
+    }
+  });
+
 
   return (
     <>
@@ -31,10 +39,10 @@ export default function Project() {
           <Link className="breadcrumbs__link"
             to="projects/:name/*"
           >
-            {modals.inputs.projectName.trim() ? modals.inputs.projectName : modals.defaultProjectName}
+            {boards[0].name}
           </Link>
         </Breadcrumbs>
-        <h2 className="projects__title">KEY board</h2>
+        <h2 className="projects__title">{boards[0].key} board</h2>
         <Box sx={{
           display: "flex",
           justifyContent: "space-between",
@@ -55,7 +63,7 @@ export default function Project() {
         }}>
           <div className="board__container">
             {
-              cards.map((elem) => <ProjectBoard data={elem} key={elem.id}/>)
+              boards[0].columns.map((elem) => <ProjectBoard data={elem} key={elem.id}/>)
             }
           </div>
           <IconButton
