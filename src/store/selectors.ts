@@ -1,6 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { Selector } from 'react-redux';
-import { RootState, CardState } from './store';
+import { ProjectType } from '../types';
+import { RootState } from './store';
+
 
 export const selectProjectModal: Selector<
   RootState,
@@ -37,4 +39,28 @@ export const getProjectSearchResults = createSelector(
   }
 );
 
-export const getBoardCards: Selector<RootState, RootState['cards']> = createSelector([(state: RootState) => state.cards], cards => cards);
+export const getSortedOptions = createSelector(
+  [(state: RootState) => state.projects.sort],
+  sort => sort
+);
+export const getSortedProjects = createSelector(
+  [getProjectSearchResults, getSortedOptions],
+  (projects, sort) => {
+    const sortFunctionByFields: Record<
+      RootState['projects']['sort']['by'],
+      (pA: ProjectType, pB: ProjectType) => number
+    > = {
+      none: (pA, pB) => pA.id - pB.id,
+      lead: (pA, pB) => pA.lead.localeCompare(pB.lead),
+      name: (pA, pB) => pA.name.localeCompare(pB.name),
+    };
+    const sortFunc = sortFunctionByFields[sort.by];
+    const selectProjects = sortFunc ? [...projects].sort(sortFunc) : projects;
+    return sort.direction === 'asc' ? selectProjects : selectProjects.reverse();
+  }
+);
+
+export const getColumnNameInModal = createSelector(
+  [(state: RootState) => state.modals.projectModal.inputs.columnName],
+  column => column
+);

@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ProjectModalType, ProjectType } from '../types';
+import { RootState } from './store';
 
 export const checkProjectModal = createAction<boolean>(
   'jira/checkProjectModal'
@@ -28,4 +29,18 @@ export const checkProjectSearchField = createAction<string>(
   'jira/checkProjectSearchField'
 );
 
-export const addCardProject = createAction('board/addCard');
+
+export const sortProjectOptions = createAction<RootState['projects']['sort']>(
+  'jira/sortProjectOptions'
+);
+
+export const addColumnForProjectInModal = createAction<string>(
+  'jira/addColumnForProjectInModal'
+);
+export const deleteColumnForProjectImModal = createAction<string>(
+  'jira/deleteColumnForProjectImModal'
+);
+export const refreshColumnsInModal = createAction<
+  RootState['modals']['projectModal']['columns']
+>('jira/refreshColumnsInModal');
+

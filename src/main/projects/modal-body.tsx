@@ -1,23 +1,31 @@
 import { Box, TextField, Button } from '@mui/material';
-import { useDeferredValue } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createKey } from '../../helperFunctions';
 import {
+  addColumnForProjectInModal,
   checkProjectColumns,
   checkProjectModal,
   checkProjectModalFields,
   checkProjectName,
   checkProjectTeamLead,
   checkProjectType,
+  deleteColumnForProjectImModal,
+  refreshColumnsInModal,
   refreshProjectModal,
 } from '../../store/actions';
-import { getProjects, selectProjectModal } from '../../store/selectors';
+import {
+  getColumnNameInModal,
+  getProjects,
+  selectProjectModal,
+} from '../../store/selectors';
+import DeleteIcon from '@mui/icons-material/DeleteForever';
+import { IconButton } from '@mui/material';
 
 export default function ModalBody() {
   const dispatch = useDispatch();
   const modal = useSelector(selectProjectModal);
   const projects = useSelector(getProjects);
-  const deffered = useDeferredValue(modal);
+  const column = useSelector(getColumnNameInModal);
   return (
     <Box className='modal_body' component='form'>
       <TextField
@@ -60,10 +68,15 @@ export default function ModalBody() {
             if (event) dispatch(checkProjectColumns(event.target.value));
           }}
         />
-        <Button variant='outlined'>ADD</Button>
+        <Button
+          variant='outlined'
+          onClick={() => dispatch(addColumnForProjectInModal(column))}
+        >
+          ADD
+        </Button>
       </div>
 
-      <div>{<ColumnsProjectModal />}</div>
+      <div className='modal_project_columns'>{<ColumnsProjectModal />}</div>
       <Button
         variant='contained'
         onClick={() => {
@@ -71,6 +84,7 @@ export default function ModalBody() {
           if (projects.projects.length) {
             id = projects.projects[projects.projects.length - 1].id + 1;
           }
+          //TODO:MADE TYPE FOR COLUMNS
           dispatch(
             checkProjectModalFields({
               name: modal.inputs.projectName || modal.defaultProjectName,
@@ -79,6 +93,7 @@ export default function ModalBody() {
               type: modal.inputs.typeField || modal.defaultType,
               id: id,
               checked: false,
+              columns: { ...modal.columns },
             })
           );
           dispatch(checkProjectModal(false));
@@ -90,6 +105,7 @@ export default function ModalBody() {
               teamLead: '',
             })
           );
+          dispatch(refreshColumnsInModal(modal.defaultColumns));
         }}
       >
         Create
@@ -99,12 +115,20 @@ export default function ModalBody() {
 }
 
 export function ColumnsProjectModal() {
+  const dispatch = useDispatch();
   const columns = useSelector(selectProjectModal);
   return (
-    <div>
+    <>
       {columns.columns.map(item => (
-        <div key={item}>{item}</div>
+        <div key={item} className='modal_column_item'>
+          <div>{item}</div>
+          <IconButton
+            onClick={() => dispatch(deleteColumnForProjectImModal(item))}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </div>
       ))}
-    </div>
+    </>
   );
 }
