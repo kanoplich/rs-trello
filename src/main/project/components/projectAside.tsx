@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Drawer from '@mui/material/Drawer';
 import { Box, Typography, SvgIcon } from '@mui/material/';
 import { useSelector } from "react-redux";
-import { selectProjectModal } from "../../store/selectors";
+import { selectProjectModal } from "../../../store/selectors";
 
 
 type DrawerProps = {
@@ -11,7 +11,7 @@ type DrawerProps = {
   closeBoard: () => void,
 }
 
-const avatar: string = require("../../assets/icon/avatar_5.svg").default;
+const avatar: string = require("../../../assets/icon/avatar_5.svg").default;
 
 export function ProjectAside(props: DrawerProps) {
   const { boardOpen, closeBoard } = props;

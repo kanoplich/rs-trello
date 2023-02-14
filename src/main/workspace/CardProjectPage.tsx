@@ -6,7 +6,7 @@ import { routes } from "../main";
 import { useSelector } from "react-redux";
 import { getProjects } from "../../store/selectors";
 import { ProjectType } from '../../types';
-import { FullCardProject } from "./FullCardProject";
+import { ListCardProject } from "./ListCardProject";
 
 export function CardProjectPage() {
 
@@ -35,7 +35,7 @@ export function CardProjectPage() {
       >
 
         {
-          projects.map((item: ProjectType) => <FullCardProject data={item} key={item.id}/>)
+          projects.projects.map((item: ProjectType) => <ListCardProject data={item} key={item.id}/>)
         }
         
       </Box>

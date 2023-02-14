@@ -7,16 +7,17 @@ import Add from '@mui/icons-material/Add';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SearchField from "../../components/searchField";
 import { routes } from "../main";
-import { ProjectAside } from "./projectAside";
-import { ProjectBoard } from "./projectBoard";
+import { ProjectAside } from "./components/projectAside";
+import { ProjectBoard } from "./components/projectBoard";
 import { useSelector } from "react-redux";
-import { selectProjectModal } from "../../store/selectors";
+import { selectProjectModal, getBoardCards } from "../../store/selectors";
 
 
 export default function Project() {
 
   const [isBoardOpen, setBoardOpen] = useState(false);
   const modals = useSelector(selectProjectModal);
+  const cards = useSelector(getBoardCards);
 
   return (
     <>
@@ -54,7 +55,7 @@ export default function Project() {
         }}>
           <div className="board__container">
             {
-              modals.columns.map((elem, i) => <ProjectBoard data={elem} key={i} />)
+              cards.map((elem) => <ProjectBoard data={elem} key={elem.id}/>)
             }
           </div>
           <IconButton

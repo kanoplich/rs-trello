@@ -27,3 +27,5 @@ export const refreshProjectModal = createAction<ProjectModalType>(
 export const checkProjectSearchField = createAction<string>(
   'jira/checkProjectSearchField'
 );
+
+export const addCardProject = createAction('board/addCard');

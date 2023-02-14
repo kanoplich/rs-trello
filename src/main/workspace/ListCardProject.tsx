@@ -10,7 +10,7 @@ interface CardProjectProps {
 
 const icon: string = require("../../assets/icon/avatar_5.svg").default;
 
-export function FullCardProject({data}: CardProjectProps) {
+export function ListCardProject({data}: CardProjectProps) {
 
   return (
     <Card sx={{

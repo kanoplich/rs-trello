@@ -12,6 +12,7 @@ import {
   checkProjectType,
   deleteProject,
   refreshProjectModal,
+  addCardProject
 } from './actions';
 
 export type RootState = {
@@ -30,6 +31,7 @@ export type RootState = {
     projects: ProjectType[];
     checkAllProjects: boolean;
   };
+  cards: CardState[];
   projectSearch: string;
 };
 const initialProjects = [
@@ -154,6 +156,55 @@ const initialProjects = [
     checked: false,
   },
 ];
+
+export interface CardType {
+  id: number,
+  text: string,
+}
+
+export interface CardState {
+  title: string,
+  id: number,
+  cards: CardType[],
+}
+
+const initialCard: CardState[] = [
+  {
+    title: 'TO DO',
+    id: 0,
+    cards: [
+      {
+        id: 0,
+        text: 'first',
+      }
+    ]
+  },
+  {
+    title: 'IN PROGRESS',
+    id: 1,
+    cards: [
+      {
+        id: 0,
+        text: 'second',
+      },
+      {
+        id: 1,
+        text: 'test'
+      }
+    ]
+  },
+  {
+    title: 'DONE',
+    id: 2,
+    cards: [
+      {
+        id: 0,
+        text: 'third',
+      }
+    ]
+  }
+]
+
 const initialState: RootState = {
   modals: {
     projectModal: {
@@ -174,6 +225,7 @@ const initialState: RootState = {
     projects: initialProjects,
     checkAllProjects: false,
   },
+  cards: initialCard,
   projectSearch: '',
 };
 

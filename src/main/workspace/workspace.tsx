@@ -16,7 +16,7 @@ export default function WorkspacePage() {
         <Container maxWidth="xl">
           <h1 className="workspace__title">Workspace</h1>
 
-          {!projects.length ? <EmptyCardProject /> : <CardProjectPage />}
+          {!projects.projects.length ? <EmptyCardProject /> : <CardProjectPage />}
 
         </Container>
       </section>

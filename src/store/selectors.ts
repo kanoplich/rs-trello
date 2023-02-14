@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { Selector } from 'react-redux';
-import { RootState } from './store';
+import { RootState, CardState } from './store';
 
 export const selectProjectModal: Selector<
   RootState,
@@ -36,3 +36,5 @@ export const getProjectSearchResults = createSelector(
       : state;
   }
 );
+
+export const getBoardCards: Selector<RootState, RootState['cards']> = createSelector([(state: RootState) => state.cards], cards => cards);
