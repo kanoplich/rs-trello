@@ -58,8 +58,8 @@ export default function FixedContainer() {
   const [newCustomer, setNewCustomer] = React.useState(false);
   const userCreate = async () => {
     if (!newCustomer) {
-      await getUser('login10');
-      console.log('name');
+      const car = (await getUser('login10')).body;
+      console.log(car);
       setNewCustomer(true);
       setButtonEnter('Register');
       setButtonChange('Log in your account')
