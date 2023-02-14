@@ -5,10 +5,20 @@ import './projects.css';
 import ProjectsTable from './tableProjects';
 import CreateBtn from '../../components/createProjectBtn';
 import { useSelector } from 'react-redux';
-import { getProjects } from '../../store/selectors';
+import {
+  getCheckedPojects,
+  getProjects,
+  getProjectSearchResults,
+  getProjectsSearchField,
+} from '../../store/selectors';
 
 export default function Projects() {
   const projects = useSelector(getProjects);
+  const checked = projects.checkAllProjects;
+  const search = useSelector(getProjectsSearchField);
+  const checkedProjects = useSelector(getCheckedPojects);
+  const searchedProjects = useSelector(getProjectSearchResults);
+
   return (
     <>
       <div className='projects_main'>
@@ -21,8 +31,17 @@ export default function Projects() {
         </div>
         <ProjectsTable />
         <></>
-        {projects.length === 0 && (
-          <div className='first_project'> CREATE YOUR FIRST PROJECT!</div>
+        {!projects.projects.length && (
+          <div className='error_project'> CREATE YOUR FIRST PROJECT!</div>
+        )}
+        {checked && !checkedProjects.length && (
+          <div className='error_project'>
+            {' '}
+            {`you don't have favorite projects!`.toUpperCase()}
+          </div>
+        )}
+        {search.length > 0 && !searchedProjects.length && (
+          <div className='error_project'>PROJECTS NOT FOUND!</div>
         )}
       </div>
       <Outlet />
