@@ -3,7 +3,6 @@ import "./project.css";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Container, Breadcrumbs, Box, IconButton } from "@mui/material/";
-import Add from '@mui/icons-material/Add';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SearchField from "../../components/searchField";
 import { routes } from "../main";
@@ -11,6 +10,7 @@ import { ProjectAside } from "./components/projectAside";
 import { ProjectBoard } from "./components/projectBoard";
 import { useSelector } from "react-redux";
 import { getProjectsProjects } from "../../store/selectors";
+import { BtnAddCard } from "./components/BtnCardAdd";
 
 
 export default function Project() {
@@ -20,12 +20,14 @@ export default function Project() {
   const { name } = useParams();
 
 
+  let idProject = 1;
+
   const boards = projects.filter(item => {
-    if(item.name === name) {
-      return item.columns
+    if (item.name === name) {
+      idProject = item.id;
+      return item.columns;
     }
   });
-
 
   return (
     <>
@@ -63,15 +65,10 @@ export default function Project() {
         }}>
           <div className="board__container">
             {
-              boards[0].columns.map((elem) => <ProjectBoard data={elem} key={elem.id}/>)
+              boards[0].columns.map((elem) => <ProjectBoard data={elem} idProject={idProject} key={elem.id} />)
             }
           </div>
-          <IconButton
-            sx={{
-              borderRadius: "3px",
-            }}>
-            <Add fontSize="medium" />
-          </IconButton>
+          <BtnAddCard data={boards[0]}/>
         </Box>
       </Container>
       <ProjectAside

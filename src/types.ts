@@ -22,9 +22,12 @@ export interface BoardsType {
   title: string;
   id: number;
   cards: CardsType[];
+  idProject?: number;
 }
 
 export interface CardsType {
   id: number;
   text: string;
+  idProject?: number;
+  idCard?: number;
 }

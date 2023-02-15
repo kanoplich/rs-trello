@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { Box, IconButton } from '@mui/material/';
 import ClearIcon from '@mui/icons-material/Clear';
 import { ProjectTodo } from './projectTodo';
@@ -6,10 +7,11 @@ import { BtnTodo } from './BtnTodo';
 import { BoardsType } from '../../../types';
 
 interface IBoardsType {
-  data: BoardsType
+  data: BoardsType,
+  idProject: number,
 }
 
-export function ProjectBoard({data}: IBoardsType) {
+export function ProjectBoard({data, idProject}: IBoardsType) {
 
   return (
     <Box
@@ -25,12 +27,9 @@ export function ProjectBoard({data}: IBoardsType) {
       <Box sx={{
         display: "flex",
         alignItems: "center",
+        paddingBottom: "5px",
       }}>
-        <input className='project-board__title'
-          type='text'
-          defaultValue={data.title}
-          required
-        />
+        <span className='project-board__title'>{data.title}</span>
         <IconButton
           sx={{
             borderRadius: "3px",
@@ -41,7 +40,7 @@ export function ProjectBoard({data}: IBoardsType) {
       {
         data.cards.map(elem => <ProjectTodo data={elem} key={elem.id}/>)
       }
-      <BtnTodo data={data}/>
+      <BtnTodo data={data} idProject={idProject}/>
     </Box>
   );
 }
