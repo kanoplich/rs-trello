@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { ProjectModalType, ProjectType } from '../types';
+import { ProjectModalType, ProjectType, CardsType, BoardsType } from '../types';
 import { RootState } from './store';
 
 export const checkProjectModal = createAction<boolean>(
@@ -42,3 +42,5 @@ export const deleteColumnForProjectImModal = createAction<string>(
 export const refreshColumnsInModal = createAction<
   RootState['modals']['projectModal']['columns']
 >('jira/refreshColumnsInModal');
+
+export const addTaskBoard = createAction<CardsType>('board/add_task');

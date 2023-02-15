@@ -3,6 +3,7 @@ import { Selector } from 'react-redux';
 import { ProjectType } from '../types';
 import { RootState } from './store';
 
+
 export const selectProjectModal: Selector<
   RootState,
   RootState['modals']['projectModal']
@@ -37,6 +38,7 @@ export const getProjectSearchResults = createSelector(
       : state;
   }
 );
+
 export const getSortedOptions = createSelector(
   [(state: RootState) => state.projects.sort],
   sort => sort
@@ -62,3 +64,6 @@ export const getColumnNameInModal = createSelector(
   [(state: RootState) => state.modals.projectModal.inputs.columnName],
   column => column
 );
+
+export const getProjectsProjects: Selector<RootState, RootState['projects']['projects']> =
+  createSelector([(state: RootState) => state.projects.projects], projects => projects);
