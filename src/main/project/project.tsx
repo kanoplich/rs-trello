@@ -68,7 +68,7 @@ export default function Project() {
               boards[0].columns.map((elem) => <ProjectBoard data={elem} idProject={idProject} key={elem.id} />)
             }
           </div>
-          <BtnAddCard data={boards[0]}/>
+          <BtnAddCard data={boards[0]} />
         </Box>
       </Container>
       <ProjectAside

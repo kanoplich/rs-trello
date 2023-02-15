@@ -11,7 +11,7 @@ interface IBoardsType {
   idProject: number,
 }
 
-export function ProjectBoard({data, idProject}: IBoardsType) {
+export function ProjectBoard({ data, idProject }: IBoardsType) {
 
   return (
     <Box
@@ -38,9 +38,9 @@ export function ProjectBoard({data, idProject}: IBoardsType) {
         </IconButton>
       </Box>
       {
-        data.cards.map(elem => <ProjectTodo data={elem} key={elem.id}/>)
+        data.cards.map(elem => <ProjectTodo data={elem} key={elem.id} />)
       }
-      <BtnTodo data={data} idProject={idProject}/>
+      <BtnTodo data={data} idProject={idProject} />
     </Box>
   );
 }
