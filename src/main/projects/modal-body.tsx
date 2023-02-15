@@ -20,6 +20,7 @@ import {
 } from '../../store/selectors';
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import { IconButton } from '@mui/material';
+import { BoardsType } from '../../types';
 
 export default function ModalBody() {
   const dispatch = useDispatch();
@@ -84,7 +85,19 @@ export default function ModalBody() {
           if (projects.projects.length) {
             id = projects.projects[projects.projects.length - 1].id + 1;
           }
-          //TODO:MADE TYPE FOR COLUMNS
+          const columns: BoardsType[] = modal.columns.reduce(
+            (acc: BoardsType[], item, index) => {
+              const columns: BoardsType = {
+                title: item,
+                id: index + 1,
+                cards: [],
+              };
+              acc.push(columns);
+              return acc;
+            },
+            []
+          );
+
           dispatch(
             checkProjectModalFields({
               name: modal.inputs.projectName || modal.defaultProjectName,
@@ -93,7 +106,7 @@ export default function ModalBody() {
               type: modal.inputs.typeField || modal.defaultType,
               id: id,
               checked: false,
-              columns: { ...modal.columns },
+              columns: columns,
             })
           );
           dispatch(checkProjectModal(false));
