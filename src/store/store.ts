@@ -16,7 +16,7 @@ import {
   refreshColumnsInModal,
   refreshProjectModal,
   sortProjectOptions,
-  addTaskBoard
+  addTaskBoard,
 } from './actions';
 
 let TASK_ID = 3;
@@ -59,13 +59,13 @@ const initialProjects = [
         cards: [
           {
             id: 1,
-            text: 'Test to do'
+            text: 'Test to do',
           },
           {
             id: 2,
-            text: 'Test to do'
-          }
-        ]
+            text: 'Test to do',
+          },
+        ],
       },
       {
         title: 'IN PROGRESS',
@@ -73,9 +73,9 @@ const initialProjects = [
         cards: [
           {
             id: 1,
-            text: 'Test in progress'
-          }
-        ]
+            text: 'Test in progress',
+          },
+        ],
       },
       {
         title: 'DONE',
@@ -83,11 +83,11 @@ const initialProjects = [
         cards: [
           {
             id: 1,
-            text: 'Test done'
-          }
-        ]
-      }
-    ]
+            text: 'Test done',
+          },
+        ],
+      },
+    ],
   },
   {
     name: 'Default Project',
@@ -103,13 +103,13 @@ const initialProjects = [
         cards: [
           {
             id: 1,
-            text: 'Test to do next'
+            text: 'Test to do next',
           },
           {
             id: 2,
-            text: 'Test to do'
-          }
-        ]
+            text: 'Test to do',
+          },
+        ],
       },
       {
         title: 'IN PROGRESS next',
@@ -117,9 +117,9 @@ const initialProjects = [
         cards: [
           {
             id: 1,
-            text: 'Test in progress'
-          }
-        ]
+            text: 'Test in progress',
+          },
+        ],
       },
       {
         title: 'DONE next',
@@ -127,11 +127,11 @@ const initialProjects = [
         cards: [
           {
             id: 1,
-            text: 'Test done'
-          }
-        ]
-      }
-    ]
+            text: 'Test done',
+          },
+        ],
+      },
+    ],
   },
 ];
 
@@ -227,19 +227,19 @@ const JiraReducer = createReducer(initialState, builder => {
       state.modals.projectModal.columns = action.payload;
     })
     .addCase(addTaskBoard, (state, action) => {
-      state.projects.projects.map((item) => {
-        if(item.id === action.payload.id) {
+      state.projects.projects.map(item => {
+        if (item.id === action.payload.id) {
           item.columns.map(elem => {
-            if(elem.id === action.payload.id) {
+            if (elem.id === action.payload.id) {
               elem.cards.push({
                 id: TASK_ID,
-                text: action.payload.text
-              })
+                text: action.payload.text,
+              });
               TASK_ID += 1;
             }
-          })
+          });
         }
-      })
+      });
     });
 });
 

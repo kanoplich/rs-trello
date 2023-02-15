@@ -19,12 +19,12 @@ export type ProjectModalType = {
 };
 
 export interface BoardsType {
-  title: string,
-  id: number,
-  cards: CardsType[],
+  title: string;
+  id: number;
+  cards: CardsType[];
 }
 
 export interface CardsType {
-  id: number,
-  text: string
+  id: number;
+  text: string;
 }
