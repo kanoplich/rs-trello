@@ -44,3 +44,5 @@ export const refreshColumnsInModal = createAction<
 >('jira/refreshColumnsInModal');
 
 export const addTaskBoard = createAction<CardsType>('board/add_task');
+
+export const addCardBoard = createAction<BoardsType>('board/add_card');

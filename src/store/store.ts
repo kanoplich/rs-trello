@@ -17,6 +17,7 @@ import {
   refreshProjectModal,
   sortProjectOptions,
   addTaskBoard,
+  addCardBoard,
 } from './actions';
 
 let TASK_ID = 3;
@@ -227,10 +228,10 @@ const JiraReducer = createReducer(initialState, builder => {
       state.modals.projectModal.columns = action.payload;
     })
     .addCase(addTaskBoard, (state, action) => {
-      state.projects.projects.map(item => {
-        if (item.id === action.payload.id) {
+      state.projects.projects.find(item => {
+        if (item.id === action.payload.idProject) {
           item.columns.map(elem => {
-            if (elem.id === action.payload.id) {
+            if (elem.id === action.payload.idCard) {
               elem.cards.push({
                 id: TASK_ID,
                 text: action.payload.text,
@@ -240,7 +241,14 @@ const JiraReducer = createReducer(initialState, builder => {
           });
         }
       });
-    });
+    })
+    .addCase(addCardBoard, (state, action) => {
+      state.projects.projects.find(item => {
+        if(item.id === action.payload.idProject) {
+          item.columns.push(action.payload)
+        }
+      })
+    })
 });
 
 const store = configureStore({ reducer: JiraReducer });
