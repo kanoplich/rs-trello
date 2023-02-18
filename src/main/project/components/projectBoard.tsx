@@ -39,26 +39,32 @@ export function ProjectBoard({ data, idProject }: IBoardsType) {
         position: "relative",
         padding: "5px",
       }}>
-      <Droppable droppableId={String(data.id)}> // @ts-expect-error: reason
-        <Box sx={{
-          display: "flex",
-          alignItems: "center",
-          paddingBottom: "5px",
-        }}>
-          <span className='project-board__title'>{data.title}</span>
-          <IconButton
-            onClick={() => deleteCard()}
-            sx={{
-              borderRadius: "3px",
-            }}>
-            <ClearIcon fontSize="medium" />
-          </IconButton>
-        </Box>
-        {
-          data.cards.map(elem => <ProjectTodo data={elem} idCard={data.id} idProject={idProject} key={elem.id} />)
-        }
+      <Box sx={{
+        display: "flex",
+        alignItems: "center",
+        paddingBottom: "5px",
+      }}>
+        <span className='project-board__title'>{data.title}</span>
+        <IconButton
+          onClick={() => deleteCard()}
+          sx={{
+            borderRadius: "3px",
+          }}>
+          <ClearIcon fontSize="medium" />
+        </IconButton>
+      </Box>
+      <Droppable droppableId={String(data.id)}>
+        {(provided) => (
+          <div {...provided.droppableProps} ref={provided.innerRef}>
+            {
+              data.cards.map((elem, index) => (<ProjectTodo index={index} data={elem} idCard={data.id} idProject={idProject} key={elem.id} />))
+            }
+            {provided.placeholder}
+          </div>
+        )}
       </Droppable>
       <BtnTodo data={data} idProject={idProject} />
     </Box>
+
   );
 }

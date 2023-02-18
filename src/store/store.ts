@@ -22,7 +22,7 @@ import {
   deleteTaskBoard,
 } from './actions';
 
-let TASK_ID = 3;
+let TASK_ID = 5;
 
 export type RootState = {
   modals: {
@@ -74,7 +74,7 @@ const initialProjects = [
         id: 2,
         cards: [
           {
-            id: 1,
+            id: 3,
             text: 'Test in progress',
           },
         ],
@@ -84,7 +84,7 @@ const initialProjects = [
         id: 3,
         cards: [
           {
-            id: 1,
+            id: 4,
             text: 'Test done',
           },
         ],
@@ -118,7 +118,7 @@ const initialProjects = [
         id: 2,
         cards: [
           {
-            id: 1,
+            id: 3,
             text: 'Test in progress',
           },
         ],
@@ -128,7 +128,7 @@ const initialProjects = [
         id: 3,
         cards: [
           {
-            id: 1,
+            id: 4,
             text: 'Test done',
           },
         ],

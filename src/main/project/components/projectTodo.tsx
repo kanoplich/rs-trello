@@ -5,14 +5,16 @@ import { CardsType } from '../../../types';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux/es/hooks/useDispatch';
 import { deleteTaskBoard } from '../../../store/actions';
+import { Draggable } from 'react-beautiful-dnd';
 
 interface ICardsType {
   data: CardsType
   idProject: number
   idCard: number
+  index: number
 }
 
-export function ProjectTodo({ data, idProject, idCard }: ICardsType) {
+export function ProjectTodo({ index, data, idProject, idCard }: ICardsType) {
 
   const [state, setState] = useState(false)
   const dispatch = useDispatch();
@@ -42,25 +44,34 @@ export function ProjectTodo({ data, idProject, idCard }: ICardsType) {
   }
 
   return (
-    <Card
-      onMouseEnter={() => setState(true)}
-      onMouseLeave={() => setState(false)}
-      sx={{
-        marginBottom: "7px",
-        position: 'relative',
-      }}>
-      <CardContent
-        sx={{
-          paddingBottom: '24px',
-        }}
-      >
-        <Typography
+    <Draggable draggableId={String(data.id)} index={index}>
+      {provided => (
+        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+          
+        <Card
+          onMouseEnter={() => setState(true)}
+          onMouseLeave={() => setState(false)}
           sx={{
-            width: '200px',
-          }}
-          gutterBottom>{data.text}</Typography>
-      </CardContent>
-      {state && hoverBtn()}
-    </Card>
+            marginBottom: "7px",
+            position: 'relative',
+          }}>
+          <CardContent
+            sx={{
+              paddingBottom: '24px',
+            }}
+          >
+            <Typography
+              sx={{
+                width: '200px',
+              }}
+              gutterBottom>{data.text}</Typography>
+          </CardContent>
+          {state && hoverBtn()}
+        </Card> 
+
+        </div>
+      )}
+
+    </Draggable>
   );
 }
