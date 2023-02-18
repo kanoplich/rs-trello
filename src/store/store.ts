@@ -18,10 +18,11 @@ import {
   sortProjectOptions,
   addTaskBoard,
   addCardBoard,
+  deleteCardBoard,
+  deleteTaskBoard,
 } from './actions';
 
 let TASK_ID = 3;
-let CARD_ID = 3;
 
 export type RootState = {
   modals: {
@@ -244,8 +245,34 @@ const JiraReducer = createReducer(initialState, builder => {
     })
     .addCase(addCardBoard, (state, action) => {
       state.projects.projects.find(item => {
-        if(item.id === action.payload.idProject) {
+        if (item.id === action.payload.idProject) {
           item.columns.push(action.payload)
+        }
+      })
+    })
+    .addCase(deleteCardBoard, (state, action) => {
+      state.projects.projects.map(item => {
+        if (item.id === action.payload.idProject) {
+          item.columns.map((elem, i) => {
+            if (elem.id === action.payload.id) {
+              item.columns.splice(i, 1);
+            }
+          })
+        }
+      })
+    })
+    .addCase(deleteTaskBoard, (state, action) => {
+      state.projects.projects.map(item => {
+        if (item.id === action.payload.idProject) {
+          item.columns.map(elem => {
+            if (elem.id === action.payload.idCard) {
+              elem.cards.map((todo, i) => {
+                if (todo.id === action.payload.id) {
+                  elem.cards.splice(i, 1);
+                }
+              })
+            }
+          })
         }
       })
     })

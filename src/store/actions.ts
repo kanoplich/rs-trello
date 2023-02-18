@@ -46,3 +46,7 @@ export const refreshColumnsInModal = createAction<
 export const addTaskBoard = createAction<CardsType>('board/add_task');
 
 export const addCardBoard = createAction<BoardsType>('board/add_card');
+
+export const deleteCardBoard = createAction<BoardsType>('board/delete_card');
+
+export const deleteTaskBoard = createAction<CardsType>('board/delete_task');

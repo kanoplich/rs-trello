@@ -31,7 +31,12 @@ export default function Project() {
 
   return (
     <>
-      <Container maxWidth="xl">
+      <Container
+        maxWidth="xl"
+        sx={{
+          overflowX: 'scroll',
+          maxHeight: '100vh',
+        }}>
         <Breadcrumbs aria-label="breadcrumb" sx={{ marginTop: 2 }}>
           <Link className="breadcrumbs__link"
             to={routes[1].path}

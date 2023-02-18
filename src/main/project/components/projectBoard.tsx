@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useDispatch } from 'react-redux/es/hooks/useDispatch';
 import { Box, IconButton } from '@mui/material/';
 import ClearIcon from '@mui/icons-material/Clear';
 import { ProjectTodo } from './projectTodo';
 import { BtnTodo } from './BtnTodo';
 import { BoardsType } from '../../../types';
+import { deleteCardBoard } from '../../../store/actions';
 
 interface IBoardsType {
   data: BoardsType,
@@ -12,6 +13,17 @@ interface IBoardsType {
 }
 
 export function ProjectBoard({ data, idProject }: IBoardsType) {
+
+  const dispatch = useDispatch();
+  
+  const deleteCard = () => {
+    dispatch(deleteCardBoard({
+      id: data.id,
+      idProject: idProject,
+      cards: [],
+      title: '',
+    }))
+  }
 
   return (
     <Box
@@ -31,6 +43,7 @@ export function ProjectBoard({ data, idProject }: IBoardsType) {
       }}>
         <span className='project-board__title'>{data.title}</span>
         <IconButton
+          onClick={() => deleteCard()}
           sx={{
             borderRadius: "3px",
           }}>
@@ -38,7 +51,7 @@ export function ProjectBoard({ data, idProject }: IBoardsType) {
         </IconButton>
       </Box>
       {
-        data.cards.map(elem => <ProjectTodo data={elem} key={elem.id} />)
+        data.cards.map(elem => <ProjectTodo data={elem} idCard={data.id} idProject={idProject} key={elem.id} />)
       }
       <BtnTodo data={data} idProject={idProject} />
     </Box>
