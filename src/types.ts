@@ -4,6 +4,7 @@ export interface ProjectType {
   lead: string;
   type: string;
   id: number;
+  logo: string;
   checked: boolean;
   columns: BoardsType[];
 }

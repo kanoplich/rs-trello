@@ -45,6 +45,10 @@ export const refreshColumnsInModal = createAction<
 
 export const addTaskBoard = createAction<CardsType>('board/add_task');
 
+export const hideModalView = createAction<boolean>('jira/hideModalView');
+export const changeModalView = createAction<'big' | 'small'>(
+  'jira/changeModalView'
+);
 export const addCardBoard = createAction<BoardsType>('board/add_card');
 
 export const deleteCardBoard = createAction<BoardsType>('board/delete_card');

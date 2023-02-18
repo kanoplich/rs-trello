@@ -10,11 +10,11 @@ import {
 } from '@mui/material/';
 import { Link } from 'react-router-dom';
 import { ProjectType } from '../../types';
+const icon: string = require('../../assets/icon/avatar_5.svg').default;
 
 interface CardProjectProps {
   data: ProjectType;
 }
-const icon: string = require(`../../assets/icon/avatar_5.svg`).default;
 
 export function ListCardProject({ data }: CardProjectProps) {
   return (

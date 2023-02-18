@@ -17,6 +17,8 @@ import {
   refreshProjectModal,
   sortProjectOptions,
   addTaskBoard,
+  hideModalView,
+  changeModalView,
   addCardBoard,
   deleteCardBoard,
   deleteTaskBoard,
@@ -28,7 +30,8 @@ export type RootState = {
   modals: {
     projectModal: {
       isOpen: boolean;
-      //   view:'big' | 'small' | 'hidden'
+      view: 'big' | 'small';
+      isHidden: boolean;
       defaultType: string;
       defaultProjectName: string;
       defaultColumns: string[];
@@ -52,6 +55,7 @@ const initialProjects = [
     key: 'Zyb6kr',
     lead: 'Default lead1',
     type: 'Team-managed software',
+    logo: `../../assets/icon/avatar_1.svg`,
     id: 1,
     checked: false,
     columns: [
@@ -96,6 +100,7 @@ const initialProjects = [
     key: 'sJaFMY',
     lead: 'Default lead',
     type: 'Team-managed software',
+    logo: `../../assets/icon/avatar_2.svg`,
     id: 2,
     checked: false,
     columns: [
@@ -141,6 +146,8 @@ const initialState: RootState = {
   modals: {
     projectModal: {
       isOpen: false,
+      isHidden: false,
+      view: 'big',
       defaultType: 'Team-managed software',
       defaultProjectName: 'Default Project',
       defaultColumns: ['TODO', 'IN PROGRESS', 'DONE'],
@@ -243,6 +250,12 @@ const JiraReducer = createReducer(initialState, builder => {
         }
       });
     })
+    .addCase(hideModalView, (state, action) => {
+      state.modals.projectModal.isHidden = action.payload;
+    })
+    .addCase(changeModalView, (state, action) => {
+      state.modals.projectModal.view = action.payload;
+    });
     .addCase(addCardBoard, (state, action) => {
       state.projects.projects.find(item => {
         if (item.id === action.payload.idProject) {
