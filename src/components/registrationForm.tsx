@@ -14,9 +14,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { addUser, getUser } from './api';
+import { addUser, getUser, getProjects, getColumn, getCard} from './api';
 import { bodyUserType, userType } from './types';
 import * as qs from 'qs'
+
 
 
 const style = {
@@ -77,6 +78,23 @@ export default function FixedContainer() {
       setNewCustomer(true);
       setButtonEnter('Register');
       setButtonChange('Log in your account')
+      const u= {
+        projects: ['63f1005a8a3531cf4a287b39'],
+        _id: "63ea5e95a971ed1fa800e8e8",
+        login: "login15",
+        password: "password3",
+        name: "name3",
+        surname: "surname3",
+        __v: 0,
+    };
+      const project = await getProjects(u.projects[0])/*.then(res=>
+        res= getColumn(res.column[0])
+      );*/
+      console.log(project)
+      const column = await getColumn(project.columns[0])
+      console.log(column)
+      const card = await getCard(column.cards[0])
+      console.log(card)
     } else {
       setNewCustomer(false);
       setButtonEnter('Log in');
@@ -90,7 +108,7 @@ export default function FixedContainer() {
     if (!newCustomer) {
        user = (await getUser(userLogin))[0];
        if (user.password===userPassword){
-        console.log(true);
+        console.log(user);
         setOpen(false);
        }
 
