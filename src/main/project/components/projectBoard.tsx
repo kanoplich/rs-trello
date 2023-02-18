@@ -6,6 +6,7 @@ import { ProjectTodo } from './projectTodo';
 import { BtnTodo } from './BtnTodo';
 import { BoardsType } from '../../../types';
 import { deleteCardBoard } from '../../../store/actions';
+import { Droppable } from 'react-beautiful-dnd';
 
 interface IBoardsType {
   data: BoardsType,
@@ -15,7 +16,7 @@ interface IBoardsType {
 export function ProjectBoard({ data, idProject }: IBoardsType) {
 
   const dispatch = useDispatch();
-  
+
   const deleteCard = () => {
     dispatch(deleteCardBoard({
       id: data.id,
@@ -26,6 +27,8 @@ export function ProjectBoard({ data, idProject }: IBoardsType) {
   }
 
   return (
+
+
     <Box
       sx={{
         width: "260px",
@@ -36,23 +39,25 @@ export function ProjectBoard({ data, idProject }: IBoardsType) {
         position: "relative",
         padding: "5px",
       }}>
-      <Box sx={{
-        display: "flex",
-        alignItems: "center",
-        paddingBottom: "5px",
-      }}>
-        <span className='project-board__title'>{data.title}</span>
-        <IconButton
-          onClick={() => deleteCard()}
-          sx={{
-            borderRadius: "3px",
-          }}>
-          <ClearIcon fontSize="medium" />
-        </IconButton>
-      </Box>
-      {
-        data.cards.map(elem => <ProjectTodo data={elem} idCard={data.id} idProject={idProject} key={elem.id} />)
-      }
+      <Droppable droppableId={String(data.id)}> // @ts-expect-error: reason
+        <Box sx={{
+          display: "flex",
+          alignItems: "center",
+          paddingBottom: "5px",
+        }}>
+          <span className='project-board__title'>{data.title}</span>
+          <IconButton
+            onClick={() => deleteCard()}
+            sx={{
+              borderRadius: "3px",
+            }}>
+            <ClearIcon fontSize="medium" />
+          </IconButton>
+        </Box>
+        {
+          data.cards.map(elem => <ProjectTodo data={elem} idCard={data.id} idProject={idProject} key={elem.id} />)
+        }
+      </Droppable>
       <BtnTodo data={data} idProject={idProject} />
     </Box>
   );

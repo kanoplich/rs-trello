@@ -11,6 +11,9 @@ import { ProjectBoard } from "./components/projectBoard";
 import { useSelector } from "react-redux";
 import { getProjectsProjects } from "../../store/selectors";
 import { BtnAddCard } from "./components/BtnCardAdd";
+import { DragDropContext } from "react-beautiful-dnd";
+import { Droppable } from 'react-beautiful-dnd';
+
 
 
 export default function Project() {
@@ -28,6 +31,10 @@ export default function Project() {
       return item.columns;
     }
   });
+
+  const onDragEnd = () => {
+
+  }
 
   return (
     <>
@@ -60,21 +67,23 @@ export default function Project() {
           </IconButton>
           <SearchField />
         </Box>
-        <Box sx={{
-          display: "flex",
-          alignItems: "baseline",
-          gap: "20px",
-          paddingBottom: "10px",
-          paddingTop: "2px",
-          overflow: "auto",
-        }}>
-          <div className="board__container">
-            {
-              boards[0].columns.map((elem) => <ProjectBoard data={elem} idProject={idProject} key={elem.id} />)
-            }
-          </div>
-          <BtnAddCard data={boards[0]} />
-        </Box>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Box sx={{
+            display: "flex",
+            alignItems: "baseline",
+            gap: "20px",
+            paddingBottom: "10px",
+            paddingTop: "2px",
+            overflow: "auto",
+          }}>
+            <div className="board__container">
+              {
+                boards[0].columns.map((elem) => <ProjectBoard data={elem} idProject={idProject} key={elem.id} />)
+              }
+            </div>
+            <BtnAddCard data={boards[0]} />
+          </Box>
+        </DragDropContext>
       </Container>
       <ProjectAside
         boardOpen={isBoardOpen}
