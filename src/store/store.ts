@@ -50,6 +50,7 @@ const initialProjects = [
     key: 'Zyb6kr',
     lead: 'Default lead1',
     type: 'Team-managed software',
+    logo: `../../assets/icon/avatar_1.svg`,
     id: 1,
     checked: false,
     columns: [
@@ -94,6 +95,7 @@ const initialProjects = [
     key: 'sJaFMY',
     lead: 'Default lead',
     type: 'Team-managed software',
+    logo: `../../assets/icon/avatar_2.svg`,
     id: 2,
     checked: false,
     columns: [

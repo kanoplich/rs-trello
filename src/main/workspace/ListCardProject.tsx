@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './workspace.css';
 import {
   Box,
@@ -11,12 +11,13 @@ import {
 import { Link } from 'react-router-dom';
 import { ProjectType } from '../../types';
 
+// import ReactLogo from '../../assets/icon/avatar_1.svg';
 interface CardProjectProps {
   data: ProjectType;
 }
-const icon: string = require(`../../assets/icon/avatar_5.svg`).default;
 
 export function ListCardProject({ data }: CardProjectProps) {
+  // const icon: string = require(data.logo);
   return (
     <Card
       sx={{
@@ -37,7 +38,9 @@ export function ListCardProject({ data }: CardProjectProps) {
           }}
         >
           <Box>
-            <img className='workspace__icon' src={icon} alt='avatar' />
+            {/* <img className='workspace__icon' src={} alt='avatar' /> */}
+            {/* <SvgIcon component={component} viewBox='0 0 384 512' /> */}
+            {/* <ReactSVG className='workspace__icon' src={data.logo} /> */}
           </Box>
           <Box>
             <p className='workspace__team_title'>{data.name}</p>

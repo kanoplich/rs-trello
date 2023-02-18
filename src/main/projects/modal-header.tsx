@@ -1,9 +1,15 @@
 import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux/es/hooks/useDispatch';
-import { checkProjectModal } from '../../store/actions';
+import {
+  checkProjectModal,
+  refreshColumnsInModal,
+  refreshProjectModal,
+} from '../../store/actions';
 import CloseIcon from '@mui/icons-material/Close';
 import MinimizeIcon from '@mui/icons-material/Minimize';
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
+import { selectProjectModal } from '../../store/selectors';
+import { useSelector } from 'react-redux';
 
 const controlStyle = {
   color: 'black',
@@ -11,6 +17,7 @@ const controlStyle = {
 };
 export default function ModalHeader() {
   const dispatch = useDispatch();
+  const modal = useSelector(selectProjectModal);
   return (
     <>
       <div className='modal_header'>
@@ -24,7 +31,18 @@ export default function ModalHeader() {
           </Button>
           <Button
             sx={controlStyle}
-            onClick={() => dispatch(checkProjectModal(false))}
+            onClick={() => {
+              dispatch(checkProjectModal(false));
+              dispatch(
+                refreshProjectModal({
+                  columnName: '',
+                  projectName: '',
+                  typeField: '',
+                  teamLead: '',
+                })
+              );
+              dispatch(refreshColumnsInModal(modal.defaultColumns));
+            }}
           >
             <CloseIcon />
           </Button>
