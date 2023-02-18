@@ -1,7 +1,9 @@
 import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux/es/hooks/useDispatch';
 import {
+  changeModalView,
   checkProjectModal,
+  hideModalView,
   refreshColumnsInModal,
   refreshProjectModal,
 } from '../../store/actions';
@@ -23,10 +25,22 @@ export default function ModalHeader() {
       <div className='modal_header'>
         <h2 className='modal_header_text'>Create Project</h2>
         <div className='modal_btns'>
-          <Button sx={controlStyle}>
+          <Button
+            sx={controlStyle}
+            onClick={() => {
+              dispatch(checkProjectModal(false));
+              dispatch(hideModalView(true));
+            }}
+          >
             <MinimizeIcon />
           </Button>
-          <Button sx={controlStyle}>
+          <Button
+            sx={controlStyle}
+            onClick={() => {
+              const view = modal.view === 'big' ? 'small' : 'big';
+              dispatch(changeModalView(view));
+            }}
+          >
             <UnfoldLessIcon sx={{ transform: 'rotate(45deg)' }} />
           </Button>
           <Button
