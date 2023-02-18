@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { ProjectModalType, ProjectType, CardsType, BoardsType } from '../types';
+import { ProjectModalType, ProjectType, CardsType, BoardsType, ISort } from '../types';
 import { RootState } from './store';
 
 export const checkProjectModal = createAction<boolean>(
@@ -50,3 +50,5 @@ export const addCardBoard = createAction<BoardsType>('board/add_card');
 export const deleteCardBoard = createAction<BoardsType>('board/delete_card');
 
 export const deleteTaskBoard = createAction<CardsType>('board/delete_task');
+
+export const sortDragAndDrop = createAction<ISort>('board/sort_drag_and_drop');

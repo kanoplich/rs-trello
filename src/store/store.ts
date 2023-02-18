@@ -20,6 +20,7 @@ import {
   addCardBoard,
   deleteCardBoard,
   deleteTaskBoard,
+  sortDragAndDrop,
 } from './actions';
 
 let TASK_ID = 5;
@@ -275,6 +276,26 @@ const JiraReducer = createReducer(initialState, builder => {
           })
         }
       })
+    })
+    .addCase(sortDragAndDrop, (state, action) => {
+      const {
+        droppableIdStart,
+        droppableIdEnd,
+        droppableIndexStart,
+        droppableIndexEnd,
+        draggableId,
+        idProject,
+      } = action.payload;
+      // const newState = [...state.projects.projects[idProject - 1].columns];
+      if (droppableIdStart === droppableIdEnd) {
+        const card = state.projects.projects[idProject - 1].columns.find(card => droppableIdStart === String(card.id));
+        if (typeof card !== 'undefined') {
+          const todo = card.cards.splice(droppableIndexStart, 1);
+          if (typeof todo !== 'undefined') {
+            card.cards.splice(droppableIndexEnd, 0, ...todo);
+          }
+        }
+      }
     })
 });
 

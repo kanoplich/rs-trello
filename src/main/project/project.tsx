@@ -11,9 +11,9 @@ import { ProjectBoard } from "./components/projectBoard";
 import { useSelector } from "react-redux";
 import { getProjectsProjects } from "../../store/selectors";
 import { BtnAddCard } from "./components/BtnCardAdd";
-import { DragDropContext } from "react-beautiful-dnd";
-import { Droppable } from 'react-beautiful-dnd';
-
+import { DragDropContext, DropResult, OnDragEndResponder } from "react-beautiful-dnd";
+import { sortDragAndDrop } from "../../store/actions";
+import { useDispatch } from "react-redux";
 
 
 export default function Project() {
@@ -21,7 +21,7 @@ export default function Project() {
   const [isBoardOpen, setBoardOpen] = useState(false);
   const projects = useSelector(getProjectsProjects);
   const { name } = useParams();
-
+  const dispatch = useDispatch();
 
   let idProject = 1;
 
@@ -32,7 +32,22 @@ export default function Project() {
     }
   });
 
-  const onDragEnd = () => {
+  const onDragEnd = (result: DropResult) => {
+
+    const {destination, source, draggableId} = result;
+
+    if(!destination) {
+      return;
+    }
+
+    dispatch(sortDragAndDrop({
+      droppableIdStart: source.droppableId,
+      droppableIdEnd: destination.droppableId,
+      droppableIndexStart: source.index,
+      droppableIndexEnd: destination.index,
+      draggableId,
+      idProject,
+    }))
 
   }
 
@@ -74,7 +89,7 @@ export default function Project() {
             gap: "20px",
             paddingBottom: "10px",
             paddingTop: "2px",
-            overflow: "auto",
+            // overflow: "auto",
           }}>
             <div className="board__container">
               {
