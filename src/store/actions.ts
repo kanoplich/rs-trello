@@ -49,3 +49,8 @@ export const hideModalView = createAction<boolean>('jira/hideModalView');
 export const changeModalView = createAction<'big' | 'small'>(
   'jira/changeModalView'
 );
+export const addCardBoard = createAction<BoardsType>('board/add_card');
+
+export const deleteCardBoard = createAction<BoardsType>('board/delete_card');
+
+export const deleteTaskBoard = createAction<CardsType>('board/delete_task');

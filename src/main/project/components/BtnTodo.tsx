@@ -11,10 +11,11 @@ import { BoardsType } from '../../../types';
 
 
 interface IBoardsType {
-  data: BoardsType
+  data: BoardsType,
+  idProject: number,
 }
 
-export function BtnTodo({data}: IBoardsType) {
+export function BtnTodo({data, idProject}: IBoardsType) {
 
   const [form, setForm] = useState(false);
   const [textForm, setTextForm] = useState('');
@@ -28,7 +29,9 @@ export function BtnTodo({data}: IBoardsType) {
   const setCardTask = () => {
     if(textForm.trim()) {
       dispatch(addTaskBoard({
-        id: data.id,
+        id: 1,
+        idCard: data.id,
+        idProject: idProject,
         text: textForm,
       }))
     }

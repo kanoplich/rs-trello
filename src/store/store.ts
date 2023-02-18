@@ -19,10 +19,12 @@ import {
   addTaskBoard,
   hideModalView,
   changeModalView,
+  addCardBoard,
+  deleteCardBoard,
+  deleteTaskBoard,
 } from './actions';
 
 let TASK_ID = 3;
-let CARD_ID = 3;
 
 export type RootState = {
   modals: {
@@ -234,10 +236,10 @@ const JiraReducer = createReducer(initialState, builder => {
       state.modals.projectModal.columns = action.payload;
     })
     .addCase(addTaskBoard, (state, action) => {
-      state.projects.projects.map(item => {
-        if (item.id === action.payload.id) {
+      state.projects.projects.find(item => {
+        if (item.id === action.payload.idProject) {
           item.columns.map(elem => {
-            if (elem.id === action.payload.id) {
+            if (elem.id === action.payload.idCard) {
               elem.cards.push({
                 id: TASK_ID,
                 text: action.payload.text,
@@ -254,6 +256,39 @@ const JiraReducer = createReducer(initialState, builder => {
     .addCase(changeModalView, (state, action) => {
       state.modals.projectModal.view = action.payload;
     });
+    .addCase(addCardBoard, (state, action) => {
+      state.projects.projects.find(item => {
+        if (item.id === action.payload.idProject) {
+          item.columns.push(action.payload)
+        }
+      })
+    })
+    .addCase(deleteCardBoard, (state, action) => {
+      state.projects.projects.map(item => {
+        if (item.id === action.payload.idProject) {
+          item.columns.map((elem, i) => {
+            if (elem.id === action.payload.id) {
+              item.columns.splice(i, 1);
+            }
+          })
+        }
+      })
+    })
+    .addCase(deleteTaskBoard, (state, action) => {
+      state.projects.projects.map(item => {
+        if (item.id === action.payload.idProject) {
+          item.columns.map(elem => {
+            if (elem.id === action.payload.idCard) {
+              elem.cards.map((todo, i) => {
+                if (todo.id === action.payload.id) {
+                  elem.cards.splice(i, 1);
+                }
+              })
+            }
+          })
+        }
+      })
+    })
 });
 
 const store = configureStore({ reducer: JiraReducer });
