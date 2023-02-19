@@ -14,6 +14,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { addUser, getUser, getProjects, getColumn, getCard} from './api';
+import { bodyUserType, userType } from './types';
+import * as qs from 'qs'
+
 
 
 const style = {
@@ -33,11 +37,13 @@ const style = {
   p: 4,
 };
 
+export let user:userType;
 
-function createField () {
-return  <ListItem>
-<TextField id="login-password" 
-           label="Enter your password" 
+function createField ( ) {
+return  <>
+<ListItem>
+<TextField id="user-name" 
+           label="Enter your name" 
            variant="outlined" 
            margin="dense" 
            sx={{ 
@@ -45,6 +51,17 @@ return  <ListItem>
           }} 
 />
 </ListItem>
+<ListItem>
+<TextField id="user-surname" 
+           label="Enter your surname" 
+           variant="outlined" 
+           margin="dense" 
+           sx={{ 
+            width: '100%' 
+          }} 
+/>
+</ListItem>
+</>
 }
 
 
@@ -55,15 +72,58 @@ export default function FixedContainer() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [newCustomer, setNewCustomer] = React.useState(false);
-  const userCreate = () => {
+
+  const userCreate = async () => {
     if (!newCustomer) {
       setNewCustomer(true);
       setButtonEnter('Register');
       setButtonChange('Log in your account')
+      const u= {
+        projects: ['63f1005a8a3531cf4a287b39'],
+        _id: "63ea5e95a971ed1fa800e8e8",
+        login: "login15",
+        password: "password3",
+        name: "name3",
+        surname: "surname3",
+        __v: 0,
+    };
+      const project = await getProjects(u.projects[0])/*.then(res=>
+        res= getColumn(res.column[0])
+      );*/
+      console.log(project)
+      const column = await getColumn(project.columns[0])
+      console.log(column)
+      const card = await getCard(column.cards[0])
+      console.log(card)
     } else {
       setNewCustomer(false);
       setButtonEnter('Log in');
       setButtonChange('Create Account')
+    }
+  }
+
+  const verificateUser = async () => {
+    const userLogin =(document.getElementById('user-login') as HTMLInputElement).value.trim();
+    const userPassword = (document.getElementById('user-password') as HTMLInputElement).value.trim();
+    if (!newCustomer) {
+       user = (await getUser(userLogin))[0];
+       if (user.password===userPassword){
+        console.log(user);
+        setOpen(false);
+       }
+
+    } else {
+      const userName = (document.getElementById('user-name') as HTMLInputElement).value;
+      const userSurname = (document.getElementById('user-surname') as HTMLInputElement).value;
+      const ass: bodyUserType= { 
+        login: userLogin,
+        password: userPassword,
+      name: userName,
+      surname: userSurname,
+      projects:[],
+     }
+    user= await addUser(ass);
+      setOpen(false);
     }
   }
 
@@ -99,7 +159,7 @@ export default function FixedContainer() {
           </Typography>
           <List >
             <ListItem>
-              <TextField id="login-email" 
+              <TextField id="user-login" 
                          label="Enter your email" 
                          variant="outlined" 
                          margin="dense" 
@@ -109,9 +169,21 @@ export default function FixedContainer() {
                         }} 
               />
             </ListItem>
-            {(!newCustomer) && createField()}
             <ListItem>
-            <Button variant="contained" 
+              <TextField id="user-password" 
+                         label="Enter your password" 
+                         variant="outlined" 
+                         margin="dense" 
+                         sx={{ 
+                          width: '100%' 
+                        }} 
+              />
+            </ListItem>
+            {(newCustomer) && createField()}
+            <ListItem>
+            <Button onClick={verificateUser}
+                    id="button-enter"
+                    variant="contained" 
                     size="large"  
                     sx={{ 
                       width: '100%'
@@ -151,50 +223,3 @@ export default function FixedContainer() {
   );
 }
 
-/*export default function FixedContainer() {
-
- return (
-    <React.Fragment>
-   fontSize={14}  
-                    underline="none" 
-                    paddingTop={1.2} 
-                    sx={{ 
-                      width: '100%', 
-                      textAlign:'center',  
-                      mb:1,  
-                    color: "#2C67DA" }}
-      <Container fixed>
-        <Box sx={{ 
-          bgcolor: "#6E81A5", 
-          height: '100vh', 
-          width:'100vw', 
-          position:'fixed', 
-          top:'0', 
-          left:'0', 
-          opacity:'0.7' 
-          }} 
-        />
-        <Paper elevation={3} 
-               classList="form">
-          <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              JIRA-CLONE
-          </Typography>
-        </Paper>
-      </Container>
-    </React.Fragment>
-  );
-}*/
