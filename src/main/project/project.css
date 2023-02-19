@@ -79,3 +79,6 @@
 .project-board__title:focus {
   background-color: white;
 }
+.todo__wrapper {
+  min-height: 10px;
+}

@@ -286,7 +286,8 @@ const JiraReducer = createReducer(initialState, builder => {
         draggableId,
         idProject,
       } = action.payload;
-      // const newState = [...state.projects.projects[idProject - 1].columns];
+
+
       if (droppableIdStart === droppableIdEnd) {
         const card = state.projects.projects[idProject - 1].columns.find(card => droppableIdStart === String(card.id));
         const todo = card?.cards.splice(droppableIndexStart, 1);

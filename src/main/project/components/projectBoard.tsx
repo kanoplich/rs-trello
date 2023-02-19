@@ -55,7 +55,7 @@ export function ProjectBoard({ data, idProject }: IBoardsType) {
       </Box>
       <Droppable droppableId={String(data.id)}>
         {(provided) => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
+          <div className='todo__wrapper' {...provided.droppableProps} ref={provided.innerRef}>
             {
               data.cards.map((elem, index) => (<ProjectTodo index={index} data={elem} idCard={data.id} idProject={idProject} key={elem.id} />))
             }

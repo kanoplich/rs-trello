@@ -11,7 +11,7 @@ import { ProjectBoard } from "./components/projectBoard";
 import { useSelector } from "react-redux";
 import { getProjectsProjects } from "../../store/selectors";
 import { BtnAddCard } from "./components/BtnCardAdd";
-import { DragDropContext, DropResult, OnDragEndResponder } from "react-beautiful-dnd";
+import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import { sortDragAndDrop } from "../../store/actions";
 import { useDispatch } from "react-redux";
 
@@ -25,6 +25,7 @@ export default function Project() {
 
   let idProject = 1;
 
+
   const boards = projects.filter(item => {
     if (item.name === name) {
       idProject = item.id;
@@ -32,11 +33,14 @@ export default function Project() {
     }
   });
 
+  console.log(boards)
+
+
   const onDragEnd = (result: DropResult) => {
 
-    const {destination, source, draggableId} = result;
+    const { destination, source, draggableId, type } = result;
 
-    if(!destination) {
+    if (!destination) {
       return;
     }
 
@@ -82,23 +86,26 @@ export default function Project() {
           </IconButton>
           <SearchField />
         </Box>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Box sx={{
-            display: "flex",
-            alignItems: "baseline",
-            gap: "20px",
-            paddingBottom: "10px",
-            paddingTop: "2px",
-            // overflow: "auto",
-          }}>
-            <div className="board__container">
-              {
-                boards[0].columns.map((elem) => <ProjectBoard data={elem} idProject={idProject} key={elem.id} />)
-              }
-            </div>
+        <Box sx={{
+          display: "flex",
+          alignItems: "baseline",
+          gap: "20px",
+          paddingBottom: "10px",
+          paddingTop: "2px",
+        }}>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="all-lists" direction="horizontal" type="list">
+              {provided => (
+                <div className="board__container" {...provided.droppableProps} ref={provided.innerRef}>
+                  {
+                    boards[0].columns.map((elem, index) => <ProjectBoard data={elem} idProject={idProject} key={elem.id} />)
+                  }
+                </div>
+              )}
+            </Droppable>
             <BtnAddCard data={boards[0]} />
-          </Box>
-        </DragDropContext>
+          </DragDropContext>
+        </Box>
       </Container>
       <ProjectAside
         boardOpen={isBoardOpen}
