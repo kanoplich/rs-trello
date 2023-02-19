@@ -1,6 +1,7 @@
+import React from 'react';
 import { Box, TextField, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { createKey } from '../../helperFunctions';
+import { createKey, getRandomNum } from '../../helperFunctions';
 import {
   addColumnForProjectInModal,
   checkProjectColumns,
@@ -35,9 +36,7 @@ export default function ModalBody() {
         id='nameField'
         sx={{ minWidth: '100%', maxWidth: '100%' }}
         helperText='Please name your project'
-        onChange={event => {
-          if (event) dispatch(checkProjectName(event.target.value));
-        }}
+        onBlur={event => dispatch(checkProjectName(event.target.value))}
       />
       <TextField
         label='Type'
@@ -45,9 +44,7 @@ export default function ModalBody() {
         id='typeField'
         size='small'
         sx={{ minWidth: '100%', maxWidth: '100%' }}
-        onChange={event => {
-          if (event) dispatch(checkProjectType(event.target.value));
-        }}
+        onBlur={event => dispatch(checkProjectType(event?.target.value))}
       />
       <TextField
         label='Teamlead'
@@ -55,29 +52,31 @@ export default function ModalBody() {
         id='leadField'
         helperText='Please choose your teamlead'
         sx={{ width: '100%', maxWidth: '100%' }}
-        onChange={event => {
-          if (event) dispatch(checkProjectTeamLead(event.target.value));
-        }}
+        onBlur={event => dispatch(checkProjectTeamLead(event.target.value))}
       />
-      <div className='modal_add_col'>
-        <TextField
-          label='Add Columns'
-          id='columnField'
-          size='small'
-          sx={{ width: '100%', maxWidth: '100%' }}
-          onChange={event => {
-            if (event) dispatch(checkProjectColumns(event.target.value));
-          }}
-        />
-        <Button
-          variant='outlined'
-          onClick={() => dispatch(addColumnForProjectInModal(column))}
-        >
-          ADD
-        </Button>
-      </div>
+      {modal.view === 'big' && (
+        <>
+          <div className='modal_add_col'>
+            <TextField
+              label='Add Columns'
+              id='columnField'
+              size='small'
+              sx={{ width: '100%', maxWidth: '100%' }}
+              onBlur={event =>
+                dispatch(checkProjectColumns(event.target.value))
+              }
+            />
+            <Button
+              variant='outlined'
+              onClick={() => dispatch(addColumnForProjectInModal(column))}
+            >
+              ADD
+            </Button>
+          </div>
+          <div className='modal_project_columns'>{<ColumnsProjectModal />}</div>
+        </>
+      )}
 
-      <div className='modal_project_columns'>{<ColumnsProjectModal />}</div>
       <Button
         variant='contained'
         onClick={() => {
@@ -107,6 +106,7 @@ export default function ModalBody() {
               id: id,
               checked: false,
               columns: columns,
+              logo: `../../assets/icon/avatar_${getRandomNum(1, 26)}.svg`,
             })
           );
           dispatch(checkProjectModal(false));
