@@ -289,11 +289,18 @@ const JiraReducer = createReducer(initialState, builder => {
       // const newState = [...state.projects.projects[idProject - 1].columns];
       if (droppableIdStart === droppableIdEnd) {
         const card = state.projects.projects[idProject - 1].columns.find(card => droppableIdStart === String(card.id));
-        if (typeof card !== 'undefined') {
-          const todo = card.cards.splice(droppableIndexStart, 1);
-          if (typeof todo !== 'undefined') {
-            card.cards.splice(droppableIndexEnd, 0, ...todo);
-          }
+        const todo = card?.cards.splice(droppableIndexStart, 1);
+        if (typeof todo !== 'undefined') {
+          card?.cards.splice(droppableIndexEnd, 0, ...todo);
+        }
+      }
+
+      if (droppableIdStart !== droppableIdEnd) {
+        const cardStart = state.projects.projects[idProject - 1].columns.find(card => droppableIdStart === String(card.id));
+        const todo = cardStart?.cards.splice(droppableIndexStart, 1);
+        const cardEnd = state.projects.projects[idProject - 1].columns.find(card => droppableIdEnd === String(card.id));
+        if (typeof todo !== 'undefined') {
+          cardEnd?.cards.splice(droppableIndexEnd, 0, ...todo);
         }
       }
     })
