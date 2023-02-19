@@ -33,9 +33,6 @@ export default function Project() {
     }
   });
 
-  console.log(boards)
-
-
   const onDragEnd = (result: DropResult) => {
 
     const { destination, source, draggableId, type } = result;

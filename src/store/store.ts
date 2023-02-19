@@ -256,7 +256,7 @@ const JiraReducer = createReducer(initialState, builder => {
     })
     .addCase(changeModalView, (state, action) => {
       state.modals.projectModal.view = action.payload;
-    });
+    })
     .addCase(addCardBoard, (state, action) => {
       state.projects.projects.find(item => {
         if (item.id === action.payload.idProject) {
