@@ -22,9 +22,10 @@ import {
   addCardBoard,
   deleteCardBoard,
   deleteTaskBoard,
+  sortDragAndDrop,
 } from './actions';
 
-let TASK_ID = 3;
+let TASK_ID = 5;
 
 export type RootState = {
   modals: {
@@ -78,7 +79,7 @@ const initialProjects = [
         id: 2,
         cards: [
           {
-            id: 1,
+            id: 3,
             text: 'Test in progress',
           },
         ],
@@ -88,7 +89,7 @@ const initialProjects = [
         id: 3,
         cards: [
           {
-            id: 1,
+            id: 4,
             text: 'Test done',
           },
         ],
@@ -123,7 +124,7 @@ const initialProjects = [
         id: 2,
         cards: [
           {
-            id: 1,
+            id: 3,
             text: 'Test in progress',
           },
         ],
@@ -133,7 +134,7 @@ const initialProjects = [
         id: 3,
         cards: [
           {
-            id: 1,
+            id: 4,
             text: 'Test done',
           },
         ],
@@ -255,7 +256,7 @@ const JiraReducer = createReducer(initialState, builder => {
     })
     .addCase(changeModalView, (state, action) => {
       state.modals.projectModal.view = action.payload;
-    });
+    })
     .addCase(addCardBoard, (state, action) => {
       state.projects.projects.find(item => {
         if (item.id === action.payload.idProject) {
@@ -288,6 +289,34 @@ const JiraReducer = createReducer(initialState, builder => {
           })
         }
       })
+    })
+    .addCase(sortDragAndDrop, (state, action) => {
+      const {
+        droppableIdStart,
+        droppableIdEnd,
+        droppableIndexStart,
+        droppableIndexEnd,
+        draggableId,
+        idProject,
+      } = action.payload;
+
+
+      if (droppableIdStart === droppableIdEnd) {
+        const card = state.projects.projects[idProject - 1].columns.find(card => droppableIdStart === String(card.id));
+        const todo = card?.cards.splice(droppableIndexStart, 1);
+        if (typeof todo !== 'undefined') {
+          card?.cards.splice(droppableIndexEnd, 0, ...todo);
+        }
+      }
+
+      if (droppableIdStart !== droppableIdEnd) {
+        const cardStart = state.projects.projects[idProject - 1].columns.find(card => droppableIdStart === String(card.id));
+        const todo = cardStart?.cards.splice(droppableIndexStart, 1);
+        const cardEnd = state.projects.projects[idProject - 1].columns.find(card => droppableIdEnd === String(card.id));
+        if (typeof todo !== 'undefined') {
+          cardEnd?.cards.splice(droppableIndexEnd, 0, ...todo);
+        }
+      }
     })
 });
 

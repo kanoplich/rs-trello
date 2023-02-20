@@ -97,7 +97,7 @@ export function Footer() {
           variant="text"
           color="inherit"
           >
-            <a href="https://rs.school/" target="_blank" rel="noreferrer" className="footer-link rss-link">RSS-SCHOOL</a>
+            <a href="https://rs.school/" target="_blank" rel="noreferrer" className="footer-link rss-link">RS-SCHOOL</a>
           </Button>
      
         </div>

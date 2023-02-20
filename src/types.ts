@@ -32,3 +32,12 @@ export interface CardsType {
   idProject?: number;
   idCard?: number;
 }
+
+export interface ISort {
+  droppableIdStart: string;
+  droppableIdEnd: string;
+  droppableIndexStart: number;
+  droppableIndexEnd: number;
+  draggableId: string;
+  idProject: number;
+}

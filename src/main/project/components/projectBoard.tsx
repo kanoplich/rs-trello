@@ -6,6 +6,7 @@ import { ProjectTodo } from './projectTodo';
 import { BtnTodo } from './BtnTodo';
 import { BoardsType } from '../../../types';
 import { deleteCardBoard } from '../../../store/actions';
+import { Droppable } from 'react-beautiful-dnd';
 
 interface IBoardsType {
   data: BoardsType,
@@ -15,7 +16,7 @@ interface IBoardsType {
 export function ProjectBoard({ data, idProject }: IBoardsType) {
 
   const dispatch = useDispatch();
-  
+
   const deleteCard = () => {
     dispatch(deleteCardBoard({
       id: data.id,
@@ -26,6 +27,8 @@ export function ProjectBoard({ data, idProject }: IBoardsType) {
   }
 
   return (
+
+
     <Box
       sx={{
         width: "260px",
@@ -50,10 +53,18 @@ export function ProjectBoard({ data, idProject }: IBoardsType) {
           <ClearIcon fontSize="medium" />
         </IconButton>
       </Box>
-      {
-        data.cards.map(elem => <ProjectTodo data={elem} idCard={data.id} idProject={idProject} key={elem.id} />)
-      }
+      <Droppable droppableId={String(data.id)}>
+        {(provided) => (
+          <div className='todo__wrapper' {...provided.droppableProps} ref={provided.innerRef}>
+            {
+              data.cards.map((elem, index) => (<ProjectTodo index={index} data={elem} idCard={data.id} idProject={idProject} key={elem.id} />))
+            }
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
       <BtnTodo data={data} idProject={idProject} />
     </Box>
+
   );
 }
