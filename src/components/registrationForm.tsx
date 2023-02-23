@@ -39,6 +39,7 @@ const style = {
   p: 4,
 };
 
+let text:string='';
 export let user:userType;
 
 function createField ( ) {
@@ -80,47 +81,77 @@ export default function FixedContainer() {
     if (!newCustomer) {
       setNewCustomer(true);
       setButtonEnter('Register');
-      setButtonChange('Log in your account')
+      setButtonChange('Log in your account');
     } else {
       setNewCustomer(false);
       setButtonEnter('Log in');
-      setButtonChange('Create Account')
+      setButtonChange('Create Account');
     }
+    setErrorState(false);
   }
 
   function getFullDataUser (user:userType) {
+    if (user.projects.length!==0) {
     user.projects.map(async (el, ind) =>{
       const  newPr:ProjectType = await getProjects(el as string);
       user.projects.splice(ind, 1,(newPr as ProjectType));
+      if ((user.projects[ind] as ProjectType).columns.length!==0) {
        (user.projects[ind] as ProjectType).columns.map(async (elm, indx) =>{
          const  newCol:ProjectColumnsType = await getColumn(elm as string);
          (user.projects[ind] as ProjectType).columns.splice(indx, 1, (newCol as ProjectColumnsType));
-           ((user.projects[ind] as ProjectType).columns[indx] as ProjectColumnsType).cards.map(async (e, i) =>{
+         if (((user.projects[ind] as ProjectType).columns[indx] as ProjectColumnsType).cards.length!==0) {
+         ((user.projects[ind] as ProjectType).columns[indx] as ProjectColumnsType).cards.map(async (e, i) =>{
             const  newCard:ProjectCardType = await getCard(e as string);
             ((user.projects[ind] as ProjectType).columns[indx] as ProjectColumnsType).cards.splice(i, 1, (newCard as ProjectCardType));
-           })
-    })
-  })
+           })}
+    })}
+  })}
   return user
   }
 
   const deleteError = () => {
-    setErrorState(false)
+    setErrorState(false);
+
+  }
+
+  const createErrorMesage = (text:string) => {
+    return <ListItem>
+    <Typography id="modal-modal-title" 
+            variant="h6"
+            sx={{
+              display: { xs: "flex", md: "flex" },
+              fontSize:16,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "red",
+              textDecoration: "none",
+            }}
+    > {text}
+    </Typography>
+  </ListItem>
+    
   }
 
   const verificateUser = async () => {
     const userLogin =(document.getElementById('user-login') as HTMLInputElement).value.trim();
     const userPassword = (document.getElementById('user-password') as HTMLInputElement).value.trim();
     if (!newCustomer) {
-       user = (await getUser(userLogin))[0];
+      const users = (await getUser(userLogin));
+      if (users.length!==0){
+        user=users[0];
        if (user.password===userPassword){
         user=getFullDataUser(user);
         setErrorState(false);
         setOpen(false);
        } else {
-        console.log('Wrong paswword');
+        console.log('Password is wrong');
         setErrorState(true);
+        text='Password is wrong';
         return
+       }} else {
+        setErrorState(true);
+        text='Login is wrong';
        }
     } else {
       const userName = (document.getElementById('user-name') as HTMLInputElement).value;
@@ -132,14 +163,21 @@ export default function FixedContainer() {
       surname: userSurname,
       projects:[],
      }
-    user= await addUser(newUser);
-    setErrorState(false);
-    setOpen(false);
-  }
+     user= await addUser(newUser).then(res=>{
+      if (res.id==='') {
+        setErrorState(true);
+        text= 'This user was created before'
+        return res
+      } else {
+        setErrorState(false);
+        setOpen(false);
+        return res
+      }
+    })
   console.log(user)
   
   }
-
+}
   
 
   return (
@@ -193,21 +231,7 @@ export default function FixedContainer() {
                         }} 
               />
             </ListItem>
-            {(errorState)&&<ListItem>
-              <Typography id="modal-modal-title" 
-                      variant="h6"
-                      sx={{
-                        display: { xs: "flex", md: "flex" },
-                        fontSize:16,
-                        fontFamily: "monospace",
-                        fontWeight: 700,
-                        letterSpacing: ".3rem",
-                        color: "red",
-                        textDecoration: "none",
-                      }}
-              > You password is Wrong
-              </Typography>
-            </ListItem>}
+            {(errorState)&& createErrorMesage(text)}
             {(newCustomer) && createField()}
             <ListItem>
             <Button onClick={verificateUser}

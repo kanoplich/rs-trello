@@ -2,11 +2,11 @@ import { bodyUserType, userType, bodyProjectCardType, bodyProjectColumnsType, bo
 import * as qs from 'qs'
 import { json } from "stream/consumers";
 
-export const bases = 'http://localhost:3001';
+export const bases = 'https://srv-trello-clone.onrender.com';
 
 
 
-export const getUser = async (login:string)=> await fetch (`${bases}/${login}`).then(res=> res.json());
+export const getUser = async (login:string)=> await fetch (`${bases}/${login}`).then(res=> res.json()).catch(rej=>console.log(rej));
 
 export const addUser =async (user:bodyUserType):Promise<userType>=> await fetch ( `${bases}`, {
     credentials: 'include',
@@ -19,7 +19,14 @@ export const addUser =async (user:bodyUserType):Promise<userType>=> await fetch 
     if (res.status<400)
     {return res.json()
     } else {
-      return `Error ${res.status}`
+      return {
+        id: '',
+        login: '',
+        password: '',
+        name: '',
+        surname: '',
+        projects: []
+      };
     }
   }).catch(rej=>console.log(rej));
 
@@ -40,7 +47,7 @@ export const addUser =async (user:bodyUserType):Promise<userType>=> await fetch 
   
 
 
-  export const getProjects = async (id:string)=> await fetch (`${bases}/projects/${id}`).then(res=> res.json());
+  export const getProjects = async (id:string)=> await fetch (`${bases}/projects/${id}`).then(res=> res.json()).catch(rej=>console.log(rej));
 
   export const addProject =async (project:bodyProjectType):Promise<ProjectType>=> await fetch ( `${bases}/projects/`, {
     credentials: 'include',
@@ -87,7 +94,7 @@ export const addUser =async (user:bodyUserType):Promise<userType>=> await fetch 
 
 
 
-  export const getColumn = async (id:string)=> await fetch (`${bases}/projects/columns/${id}`).then(res=> res.json());
+  export const getColumn = async (id:string)=> await fetch (`${bases}/projects/columns/${id}`).then(res=> res.json()).catch(rej=>console.log(rej));
 
   export const addColumn =async (column:bodyProjectColumnsType):Promise<ProjectColumnsType>=>
    await fetch ( `${bases}/projects/columns`, {
@@ -135,7 +142,7 @@ export const addUser =async (user:bodyUserType):Promise<userType>=> await fetch 
 
 
 
-  export const getCard = async (id:string)=> await fetch (`${bases}/projects/columns/cards/${id}`).then(res=> res.json());
+  export const getCard = async (id:string)=> await fetch (`${bases}/projects/columns/cards/${id}`).then(res=> res.json()).catch(rej=>console.log(rej));
 
   export const addCard =async (card:bodyProjectCardType):Promise<ProjectCardType>=> 
   await fetch ( `${bases}/projects/columns/cards`, {
