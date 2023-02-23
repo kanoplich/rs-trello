@@ -10,6 +10,8 @@ import {
 } from '@mui/material/';
 import { Link } from 'react-router-dom';
 import { ProjectType } from '../../types';
+import { useDispatch } from 'react-redux';
+import { setActiveProjectId } from '../../store/actions';
 const icon: string = require('../../assets/icon/avatar_5.svg').default;
 
 interface CardProjectProps {
@@ -17,6 +19,9 @@ interface CardProjectProps {
 }
 
 export function ListCardProject({ data }: CardProjectProps) {
+
+  const dispatch = useDispatch();
+
   return (
     <Card
       sx={{
@@ -46,20 +51,21 @@ export function ListCardProject({ data }: CardProjectProps) {
         </Box>
         <p className='workspace__links'>QUICK LINKS</p>
         <Box>
-          <Link className='workspace__links_link' to='#'>
+          <span className='workspace__links_link'>
             <p className='workspace__links_issues'>My open issues</p>
             <div className='workspace__links_count'></div>
-          </Link>
+          </span>
         </Box>
         <Box>
-          <Link className='workspace__links_link' to='#'>
+          <span className='workspace__links_link'>
             <p className='workspace__links_issues'>Done issues</p>
-          </Link>
+          </span>
         </Box>
       </CardContent>
       <Divider />
       <CardActions>
         <Link
+          onClick={() => dispatch(setActiveProjectId(data.id))}
           to={`/projects/${data.name}/board`}
           className='workspace__nav-link'
         >

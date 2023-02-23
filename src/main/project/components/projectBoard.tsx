@@ -4,16 +4,19 @@ import { Box, IconButton } from '@mui/material/';
 import ClearIcon from '@mui/icons-material/Clear';
 import { ProjectTodo } from './projectTodo';
 import { BtnTodo } from './BtnTodo';
-import { BoardsType } from '../../../types';
+import { BoardsType, CardsType } from '../../../types';
 import { deleteCardBoard } from '../../../store/actions';
 import { Droppable } from 'react-beautiful-dnd';
+import { getProjectsSearchField } from '../../../store/selectors';
+import { useSelector } from "react-redux";
 
 interface IBoardsType {
   data: BoardsType,
   idProject: number,
+  searchParams: CardsType[],
 }
 
-export function ProjectBoard({ data, idProject }: IBoardsType) {
+export function ProjectBoard({ searchParams, data, idProject }: IBoardsType) {
 
   const dispatch = useDispatch();
 
@@ -26,8 +29,9 @@ export function ProjectBoard({ data, idProject }: IBoardsType) {
     }))
   }
 
-  return (
+  const search = useSelector(getProjectsSearchField);
 
+  return (
 
     <Box
       sx={{
@@ -57,7 +61,9 @@ export function ProjectBoard({ data, idProject }: IBoardsType) {
         {(provided) => (
           <div className='todo__wrapper' {...provided.droppableProps} ref={provided.innerRef}>
             {
-              data.cards.map((elem, index) => (<ProjectTodo index={index} data={elem} idCard={data.id} idProject={idProject} key={elem.id} />))
+              !search.length ?
+                            data.cards.map((elem, index) => (<ProjectTodo index={index} data={elem} idCard={data.id} idProject={idProject} key={elem.id} />))
+                            : searchParams.map((elem, index) => (<ProjectTodo index={index} data={elem} idCard={data.id} idProject={idProject} key={elem.id} />))
             }
             {provided.placeholder}
           </div>

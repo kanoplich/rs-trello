@@ -39,5 +39,5 @@ export interface ISort {
   droppableIndexStart: number;
   droppableIndexEnd: number;
   draggableId: string;
-  idProject: number;
+  indexProject: number;
 }

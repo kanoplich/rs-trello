@@ -1,5 +1,5 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit';
-import { ProjectModalType, ProjectType, CardsType, BoardsType } from '../types';
+import { ProjectModalType, ProjectType, } from '../types';
 import {
   addColumnForProjectInModal,
   checkAllProjects,
@@ -23,6 +23,8 @@ import {
   deleteCardBoard,
   deleteTaskBoard,
   sortDragAndDrop,
+  setActiveProjectId,
+  setActiveProjectIndex,
 } from './actions';
 
 let TASK_ID = 5;
@@ -49,6 +51,8 @@ export type RootState = {
     };
   };
   projectSearch: string;
+  activeProjectId: number;
+  activeProjectIndex: number;
 };
 const initialProjects = [
   {
@@ -133,10 +137,6 @@ const initialProjects = [
         title: 'DONE next',
         id: 3,
         cards: [
-          {
-            id: 4,
-            text: 'Test done',
-          },
         ],
       },
     ],
@@ -170,6 +170,8 @@ const initialState: RootState = {
     },
   },
   projectSearch: '',
+  activeProjectId: 0,
+  activeProjectIndex: 0,
 };
 
 const JiraReducer = createReducer(initialState, builder => {
@@ -297,12 +299,12 @@ const JiraReducer = createReducer(initialState, builder => {
         droppableIndexStart,
         droppableIndexEnd,
         draggableId,
-        idProject,
+        indexProject,
       } = action.payload;
 
 
       if (droppableIdStart === droppableIdEnd) {
-        const card = state.projects.projects[idProject - 1].columns.find(card => droppableIdStart === String(card.id));
+        const card = state.projects.projects[indexProject].columns.find(card => droppableIdStart === String(card.id));
         const todo = card?.cards.splice(droppableIndexStart, 1);
         if (typeof todo !== 'undefined') {
           card?.cards.splice(droppableIndexEnd, 0, ...todo);
@@ -310,13 +312,19 @@ const JiraReducer = createReducer(initialState, builder => {
       }
 
       if (droppableIdStart !== droppableIdEnd) {
-        const cardStart = state.projects.projects[idProject - 1].columns.find(card => droppableIdStart === String(card.id));
+        const cardStart = state.projects.projects[indexProject].columns.find(card => droppableIdStart === String(card.id));
         const todo = cardStart?.cards.splice(droppableIndexStart, 1);
-        const cardEnd = state.projects.projects[idProject - 1].columns.find(card => droppableIdEnd === String(card.id));
+        const cardEnd = state.projects.projects[indexProject].columns.find(card => droppableIdEnd === String(card.id));
         if (typeof todo !== 'undefined') {
           cardEnd?.cards.splice(droppableIndexEnd, 0, ...todo);
         }
       }
+    })
+    .addCase(setActiveProjectId, (state, action) => {
+      state.activeProjectId = action.payload;
+    })
+    .addCase(setActiveProjectIndex, (state, action) => {
+      state.activeProjectIndex = action.payload;
     })
 });
 
