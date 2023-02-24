@@ -8,9 +8,6 @@ export interface ProjectType {
   checked: boolean;
   columns: BoardsType[];
 }
-// {
-//   // [keyof: string]: string[] | string;
-// };
 
 export type ProjectModalType = {
   projectName: string;
