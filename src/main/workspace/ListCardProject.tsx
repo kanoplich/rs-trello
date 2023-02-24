@@ -22,6 +22,26 @@ export function ListCardProject({ data }: CardProjectProps) {
 
   const dispatch = useDispatch();
 
+  const getPassedIssue = () => {
+    let count = 0;
+    data.columns.filter(item => {
+      if (item.title === 'DONE') {
+        count += item.cards.length;
+      }
+    })
+    return count;
+  }
+
+  const getActiveIssue = () => {
+    let count = 0;
+    data.columns.filter(item => {
+      if (item.title !== 'DONE') {
+        count += item.cards.length;
+      }
+    })
+    return count;
+  }
+
   return (
     <Card
       sx={{
@@ -53,12 +73,13 @@ export function ListCardProject({ data }: CardProjectProps) {
         <Box>
           <span className='workspace__links_link'>
             <p className='workspace__links_issues'>My open issues</p>
-            <div className='workspace__links_count'></div>
+            <div className='workspace__links_count'>{getActiveIssue()}</div>
           </span>
         </Box>
         <Box>
           <span className='workspace__links_link'>
             <p className='workspace__links_issues'>Done issues</p>
+            <div className='workspace__links_count'>{getPassedIssue()}</div>
           </span>
         </Box>
       </CardContent>
