@@ -14,8 +14,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { addUser, getUser, getProjects, getColumn, getCard} from './api';
-import { bodyUserType, userType } from './types';
+import { addUser, getUser, getProjects, getColumn, getCard, 
+  addProject, addColumn, addCard, changeCard, changeColumn, 
+  changeProject, changeUser, deleteCard, deleteColumn, deteteProject} from './api';
+import { bodyUserType, ProjectType, userType, ProjectColumnsType, ProjectCardType } from './types';
 import * as qs from 'qs'
 
 
@@ -37,6 +39,7 @@ const style = {
   p: 4,
 };
 
+let text:string='';
 export let user:userType;
 
 function createField ( ) {
@@ -67,6 +70,7 @@ return  <>
 
 export default function FixedContainer() {
   const [open, setOpen] = React.useState(false);
+  const [errorState, setErrorState] = React.useState(false);
   const [buttonEnter, setButtonEnter] =React.useState('Log in');
   const [buttonChange, setButtonChange] =React.useState('Create new Account');
   const handleOpen = () => setOpen(true);
@@ -77,56 +81,103 @@ export default function FixedContainer() {
     if (!newCustomer) {
       setNewCustomer(true);
       setButtonEnter('Register');
-      setButtonChange('Log in your account')
-      const u= {
-        projects: ['63f1005a8a3531cf4a287b39'],
-        _id: "63ea5e95a971ed1fa800e8e8",
-        login: "login15",
-        password: "password3",
-        name: "name3",
-        surname: "surname3",
-        __v: 0,
-    };
-      const project = await getProjects(u.projects[0])/*.then(res=>
-        res= getColumn(res.column[0])
-      );*/
-      console.log(project)
-      const column = await getColumn(project.columns[0])
-      console.log(column)
-      const card = await getCard(column.cards[0])
-      console.log(card)
+      setButtonChange('Log in your account');
     } else {
       setNewCustomer(false);
       setButtonEnter('Log in');
-      setButtonChange('Create Account')
+      setButtonChange('Create Account');
     }
+    setErrorState(false);
+  }
+
+  function getFullDataUser (user:userType) {
+    if (user.projects.length!==0) {
+    user.projects.map(async (el, ind) =>{
+      const  newPr:ProjectType = await getProjects(el as string);
+      user.projects.splice(ind, 1,(newPr as ProjectType));
+      if ((user.projects[ind] as ProjectType).columns.length!==0) {
+       (user.projects[ind] as ProjectType).columns.map(async (elm, indx) =>{
+         const  newCol:ProjectColumnsType = await getColumn(elm as string);
+         (user.projects[ind] as ProjectType).columns.splice(indx, 1, (newCol as ProjectColumnsType));
+         if (((user.projects[ind] as ProjectType).columns[indx] as ProjectColumnsType).cards.length!==0) {
+         ((user.projects[ind] as ProjectType).columns[indx] as ProjectColumnsType).cards.map(async (e, i) =>{
+            const  newCard:ProjectCardType = await getCard(e as string);
+            ((user.projects[ind] as ProjectType).columns[indx] as ProjectColumnsType).cards.splice(i, 1, (newCard as ProjectCardType));
+           })}
+    })}
+  })}
+  return user
+  }
+
+  const deleteError = () => {
+    setErrorState(false);
+
+  }
+
+  const createErrorMesage = (text:string) => {
+    return <ListItem>
+    <Typography id="modal-modal-title" 
+            variant="h6"
+            sx={{
+              display: { xs: "flex", md: "flex" },
+              fontSize:16,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "red",
+              textDecoration: "none",
+            }}
+    > {text}
+    </Typography>
+  </ListItem>
+    
   }
 
   const verificateUser = async () => {
     const userLogin =(document.getElementById('user-login') as HTMLInputElement).value.trim();
     const userPassword = (document.getElementById('user-password') as HTMLInputElement).value.trim();
     if (!newCustomer) {
-       user = (await getUser(userLogin))[0];
+      const users = (await getUser(userLogin));
+      if (users.length!==0){
+        user=users[0];
        if (user.password===userPassword){
-        console.log(user);
+        user=getFullDataUser(user);
+        setErrorState(false);
         setOpen(false);
+       } else {
+        console.log('Password is wrong');
+        setErrorState(true);
+        text='Password is wrong';
+        return
+       }} else {
+        setErrorState(true);
+        text='Login is wrong';
        }
-
     } else {
       const userName = (document.getElementById('user-name') as HTMLInputElement).value;
       const userSurname = (document.getElementById('user-surname') as HTMLInputElement).value;
-      const ass: bodyUserType= { 
+      const newUser: bodyUserType= { 
         login: userLogin,
         password: userPassword,
       name: userName,
       surname: userSurname,
       projects:[],
      }
-    user= await addUser(ass);
-      setOpen(false);
-    }
+     user= await addUser(newUser).then(res=>{
+      if (res.id==='') {
+        setErrorState(true);
+        text= 'This user was created before'
+        return res
+      } else {
+        setErrorState(false);
+        setOpen(false);
+        return res
+      }
+    })
+  console.log(user)
+  
   }
-
+}
   
 
   return (
@@ -163,6 +214,7 @@ export default function FixedContainer() {
                          label="Enter your email" 
                          variant="outlined" 
                          margin="dense" 
+                         onInput={ deleteError} 
                          sx={{ 
                           width: '40vw', 
                           maxWidth:'400px'
@@ -179,6 +231,7 @@ export default function FixedContainer() {
                         }} 
               />
             </ListItem>
+            {(errorState)&& createErrorMesage(text)}
             {(newCustomer) && createField()}
             <ListItem>
             <Button onClick={verificateUser}
