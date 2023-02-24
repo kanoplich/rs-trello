@@ -39,7 +39,7 @@ export default function Project() {
   
   useEffect(() => {
     dispatch(setActiveProjectIndex(indexProject))
-  })
+  }, [indexProject]);
 
   const onDragEnd = (result: DropResult) => {
 
