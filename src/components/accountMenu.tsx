@@ -9,7 +9,11 @@ import IconButton from '@mui/material/IconButton';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import {user} from './registrationForm'
+import FixedContainer from './registrationForm'
 
+let nameUser=user?`${user.name} ${user.surname}`:'';
+let emailUser=user?`${user.login}`:'';
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -20,6 +24,11 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const openRegistationForm =() =>{
+    handleClose();
+    FixedContainer();
+  }
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -77,7 +86,7 @@ export default function AccountMenu() {
         </MenuItem>
         <MenuItem  onClick={handleClose}>
           <Avatar />
-          <ListItemText primary="Name Surname" secondary="example@mail.com"/>
+          <ListItemText primary={nameUser} secondary={emailUser}/>
         </MenuItem>
         <MenuItem onClick={handleClose} >
         <ListItemText>Manage Account</ListItemText>
