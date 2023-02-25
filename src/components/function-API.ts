@@ -112,4 +112,52 @@ export const  addColumnToUser = async ( user:userType, project:ProjectType, colu
   await getFullDataUser(changedUser);
   return changedUser
  }
- 
+
+
+ export const  changeColumnToUser = async ( user:userType, project:ProjectType, column:ProjectColumnsType) =>{
+  /*const newProject:ProjectType= await addProject(project);
+  console.log(newProject);*/
+  const bodyColumn= {id: column.id,
+                      title: column.title,
+                      cards: column.cards};
+  const index = (user.projects as ProjectType[]).findIndex(proj=> proj._id===project._id);
+  const indCol = ((user.projects as ProjectType[])[index].columns as ProjectColumnsType[]).findIndex(col=> col._id===column._id);
+  (user.projects as ProjectType[])[index].columns.splice(indCol, 1, (await changeColumn(column._id, bodyColumn )));
+
+  const changedUser = await changeProjectToUser (user, project);
+  return changedUser
+ }
+
+ export const  deleteColumnToUser = async ( user:userType, project:ProjectType, column:ProjectColumnsType) =>{
+  /*const newProject:ProjectType= await addProject(project);
+  console.log(newProject);*/
+  const index= (user.projects as ProjectType[]).findIndex(proj=> proj._id===project._id);
+  const indCol = ((user.projects as ProjectType[])[index].columns as ProjectColumnsType[]).findIndex(col=> col._id===column._id);
+  (user.projects as ProjectType[])[index].columns.splice(indCol, 1);
+  console.log(await deleteColumn(column._id));
+  const columnString:string[] =((user.projects as ProjectType[])[index].columns as ProjectColumnsType[]).map(
+    (col:ProjectColumnsType) =>column._id);
+  (user.projects as ProjectType[])[index].columns= columnString;
+  const changedUser = await changeProjectToUser (user, (user.projects[index] as ProjectType));
+  return changedUser
+ }
+
+ export const  deleteCardToUser = async ( user:userType, project:ProjectType, column:ProjectColumnsType, card:ProjectCardType) =>{
+  /*const newProject:ProjectType= await addProject(project);
+  console.log(newProject);*/
+  const index= (user.projects as ProjectType[]).findIndex(proj=> proj._id===project._id);
+  const indCol = ((user.projects as ProjectType[])[index].columns as ProjectColumnsType[]).findIndex(col=> col._id===column._id);
+  const indCard = (((user.projects as ProjectType[])[index].columns as ProjectColumnsType[])[indCol].cards as ProjectCardType[])
+    .findIndex(c=> c._id===card._id);
+  ((user.projects as ProjectType[])[index].columns as ProjectColumnsType[])[indCol].cards.splice(indCard, 1);
+  console.log(await deleteCard(card._id));
+
+  const cardString:string[] =(((user.projects as ProjectType[])[index]
+    .columns as ProjectColumnsType[])[indCol].cards as ProjectCardType[]).map(
+    (c:ProjectCardType) =>c._id);
+  ((user.projects as ProjectType[])[index].columns as ProjectColumnsType[])[indCol].cards= cardString;
+  const changedUser = await changeColumnToUser (user, 
+                                               (user.projects[index] as ProjectType), 
+                                               ((user.projects[index] as ProjectType).columns[indCol] as ProjectColumnsType));
+  return changedUser
+ }

@@ -18,7 +18,8 @@ import { addUser, getUser, getProjects, getColumn, getCard,
   addProject, addColumn, addCard, changeCard, changeColumn, 
   changeProject, changeUser, deleteCard, deleteColumn, deleteProject} from './api';
 import { bodyUserType, ProjectType, userType, ProjectColumnsType, ProjectCardType } from './types';
-import {getFullDataUser, addProjectToUser, addColumnToUser, addCardToUser, changeProjectToUser, deleteProjectToUser} from './function-API';
+import {getFullDataUser, addProjectToUser, addColumnToUser, addCardToUser, 
+  changeProjectToUser, deleteProjectToUser, deleteColumnToUser, changeColumnToUser, deleteCardToUser} from './function-API';
 
 
 const style = {
@@ -83,9 +84,11 @@ export default function FixedContainer() {
       setButtonEnter('Register');
       setButtonChange('Log in your account');
    let pr:ProjectType=(user.projects[0] as  ProjectType);
+   let col:ProjectColumnsType=(pr.columns[0] as  ProjectColumnsType);
+   let card: ProjectCardType= (col.cards[0] as ProjectCardType)
     /* pr.name='ffff';*/
      /*let columna:ProjectColumnsType=(pr.columns[0] as ProjectColumnsType);*/
-     console.log( await deleteProjectToUser( user, pr));
+     console.log( await deleteCardToUser( user, pr, col, card ));
      
     } else {
       setNewCustomer(false);
