@@ -1,56 +1,67 @@
-.footer{
-    position: relative;
-    z-index: 10;
-    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
-    color: white;
-    background-color: #1976d2;
-    -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    box-sizing: border-b/software/jira/features/scrum-boardsox;
+.footer {
+  position: relative;
+  z-index: 10;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+    0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+  color: white;
+  background-color: #1976d2;
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-sizing: border-b/software/jira/features/scrum-boardsox;
 }
-.footer-wrapper{
-    position: relative;
-    display: grid;
-    grid-template-columns:repeat(3,1fr);
-    align-items: center;
-    padding: 1rem 1.5rem;
-    width: 100%;
-    max-width: 1536px;
-    min-height: 60px;
-    margin: 0 auto;
+.footer-wrapper {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  padding: 1rem 1.5rem;
+  width: 100%;
+  max-width: 1536px;
+  min-height: 60px;
+  margin: 0 auto;
 }
-.footer-team{
-    display: flex;
-    flex-wrap: wrap;
+.footer-team {
+  display: flex;
+  flex-wrap: wrap;
 }
-.footer-link{
-    justify-content: flex-end;
-    margin:0;
-    text-decoration: none;
+.footer-link {
+  justify-content: flex-end;
+  margin: 0;
+  text-decoration: none;
 }
-.rss-link{
-    color: inherit;
+.rss-link {
+  color: inherit;
 }
-.github-icon{
-    margin-right:0.5rem;
+.github-icon {
+  margin-right: 0.5rem;
 }
 
-.footer-year{
-    margin: 0 auto;
+.footer-year {
+  margin: 0 auto;
 }
-.footer-popup{
-    position: absolute;
-    transform: translateY(-100%);
-    -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
-    transition: opacity 0.2s ease-in-out;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0;
+.footer-popup {
+  position: absolute;
+  transform: translateY(-100%);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+    0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+  transition: opacity 0.2s ease-in-out;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
 }
-.footer-popup.open{
-    z-index: 1;
-    opacity: 1;
-    pointer-events:all
+.footer-popup.open {
+  z-index: 1;
+  opacity: 1;
+  pointer-events: all;
+}
+
+@media (max-width: 760px) {
+  .footer-year {
+    display: none;
+  }
+  .footer-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

@@ -1,51 +1,51 @@
-import React, { useState } from "react";
-import "./footer.css";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import { Typography } from "@mui/material";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+import React, { useState } from 'react';
+import './footer.css';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { Typography } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import Divider from "@mui/material/Divider";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import Divider from '@mui/material/Divider';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 
 const githubTeam = [
   {
-    link: "https://github.com/kanoplich",
-    name: "Andrey",
-    role: "Teamlead",
+    link: 'https://github.com/kanoplich',
+    name: 'Andrey',
+    role: 'Teamlead',
   },
   {
-    link: "https://github.com/Hanna-ZAM",
-    name: "Anna",
-    role: "FE & BE",
+    link: 'https://github.com/Hanna-ZAM',
+    name: 'Anna',
+    role: 'FE & BE',
   },
   {
-    link: "https://github.com/ChizhovMN",
-    name: "Maxim",
-    role: "FE & BE",
+    link: 'https://github.com/ChizhovMN',
+    name: 'Maxim',
+    role: 'FE & BE',
   },
 ];
 
 function FooterBtn() {
   const [open, setOpen] = useState(false);
   return (
-    <Stack spacing={2} direction="row">
+    <Stack spacing={2} direction='row'>
       <Button
-        variant="text"
-        color="inherit"
-        className="github-btn"
+        variant='text'
+        color='inherit'
+        className='github-btn'
         onClick={() => {
-          const popUp = document.getElementById("footerPopUp");
-          popUp?.classList.toggle("open");
+          const popUp = document.getElementById('footerPopUp');
+          popUp?.classList.toggle('open');
           setOpen(!open);
         }}
       >
-        <GitHubIcon className="github-icon" />
+        <GitHubIcon className='github-icon' />
         Our Team!
       </Button>
     </Stack>
@@ -53,30 +53,35 @@ function FooterBtn() {
 }
 function FooterTeamList() {
   return (
-    <div className="footer-popup" id="footerPopUp">
+    <div className='footer-popup' id='footerPopUp'>
       <List
-        aria-label="mailbox folders"
+        aria-label='mailbox folders'
         sx={{
-          width: "100%",
+          width: '100%',
           maxWidth: 300,
-          bgcolor: "background.paper",
+          bgcolor: 'background.paper',
         }}
       >
         {githubTeam.map((item, index) => {
           return (
-            <Link to={item.link} key={index} target="_blank" className="footer-link">
+            <Link
+              to={item.link}
+              key={index}
+              target='_blank'
+              className='footer-link'
+            >
               <ListItem>
                 <ListItemAvatar>
                   <Avatar>{item.name[0]}</Avatar>
                 </ListItemAvatar>
                 <ListItemText
                   sx={{
-                    color: "black",
+                    color: 'black',
                   }}
-                  primary={item.name + " - " + item.role}
+                  primary={item.name + ' - ' + item.role}
                 />
               </ListItem>
-              <Divider variant="inset" component="li" />
+              <Divider variant='inset' component='li' />
             </Link>
           );
         })}
@@ -86,62 +91,49 @@ function FooterTeamList() {
 }
 
 export function Footer() {
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   return (
-    <footer className="footer">
+    <footer className='footer'>
       <FooterTeamList />
-      <div className="footer-wrapper">
-        <div className="footer-team">
+      <div className='footer-wrapper'>
+        <div className='footer-team'>
           <FooterBtn />
-          <Button
-          variant="text"
-          color="inherit"
-          >
-            <a href="https://rs.school/" target="_blank" rel="noreferrer" className="footer-link rss-link">RS-SCHOOL</a>
-          </Button>
-     
         </div>
-        <div className="footer-year">©2023</div>
-        <Typography
-          className=" footer-link"
-          variant="h6"
-          noWrap
-          component="a"
-          target="_blank"
-          href="https://www.atlassian.com/software/jira/features/scrum-boards"
-          sx={{
-            mr: 2,
-            display: { xs: "none", md: "flex" },
-            fontFamily: "monospace",
-            fontWeight: 700,
-            letterSpacing: ".3rem",
-            color: "White",
-            textDecoration: "none",
-            margin:0
+        <div className='footer-year'>©2023</div>
+        <div
+          style={{
+            marginLeft: 'auto',
           }}
         >
-          ORIGINAL
-        </Typography>
+          <Button variant='text' color='inherit'>
+            <a
+              href='https://rs.school/'
+              target='_blank'
+              rel='noreferrer'
+              className='footer-link rss-link'
+            >
+              RS-SCHOOL
+            </a>
+          </Button>
+        </div>
         <Typography
-          variant="h6"
+          className=' footer-link'
+          variant='h6'
           noWrap
-          component="a"
-          className=" footer-link"
-          target="_blank"
-          href="https://www.atlassian.com/software/jira/features/scrum-boards"
+          component='a'
+          target='_blank'
+          href='https://www.atlassian.com/software/jira/features/scrum-boards'
           sx={{
-            mr: 2,
-            display: { xs: "flex", md: "none" },
-            flexGrow: 1,
-            fontFamily: "monospace",
-            fontWeight: 500,
-            letterSpacing: ".1rem",
-            color: "inherit",
-            textDecoration: "none",
-            margin:0
+            position: 'absolute',
+            right: '0',
+            top: '-1rem',
+            color: 'white',
+            background: 'linear-gradient(#1976d2 55%, white 45%)',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
           }}
         >
-          ORIGINAL
+          ORIGINAL JIRA
         </Typography>
       </div>
     </footer>
