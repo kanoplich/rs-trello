@@ -29,6 +29,13 @@
   margin: 0;
   text-decoration: none;
 }
+.github-link {
+  display: block;
+  transition: all 0.3s ease-in-out;
+}
+.github-link:hover {
+  background-color: rgb(225, 225, 225);
+}
 .rss-link {
   color: inherit;
 }

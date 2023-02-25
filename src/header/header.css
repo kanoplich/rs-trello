@@ -1,11 +1,12 @@
-.header{
-    display: flex;
-    align-items: center;
+.header {
+  display: flex;
+  align-items: center;
 }
-.header-nav{
-    display: flex;
-    flex-direction: row;
+.header-nav {
+  display: flex;
+  flex-direction: row;
 }
-.nav-link{
-    text-decoration: none;
+.nav-link {
+  text-decoration: none;
+  color: inherit;
 }
