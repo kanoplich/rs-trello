@@ -1,7 +1,7 @@
 import { bodyUserType, userType, bodyProjectCardType, bodyProjectColumnsType, bodyProjectType, ProjectCardType, ProjectColumnsType, ProjectType } from "./types";
 import * as qs from 'qs'
 
-export const bases = 'https://srv-trello-clone.onrender.com';
+export const bases = 'http://localhost:3001';
 
 
 
@@ -80,7 +80,7 @@ export const addUser =async (user:bodyUserType):Promise<userType>=> await fetch 
     }
   }).catch(rej=>console.log(rej));
 
-  export const deteteProject =async (id:string):Promise<string>=> 
+  export const deleteProject =async (id:string):Promise<string>=> 
   await fetch ( `${bases}/projects/${id}`, {
     credentials: 'include',
     method: "delete"

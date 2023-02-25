@@ -16,9 +16,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { addUser, getUser, getProjects, getColumn, getCard, 
   addProject, addColumn, addCard, changeCard, changeColumn, 
-  changeProject, changeUser, deleteCard, deleteColumn, deteteProject} from './api';
+  changeProject, changeUser, deleteCard, deleteColumn, deleteProject} from './api';
 import { bodyUserType, ProjectType, userType, ProjectColumnsType, ProjectCardType } from './types';
-import {getFullDataUser, addProjectToUser, addColumnToUser, addCardToUser} from './function-API';
+import {getFullDataUser, addProjectToUser, addColumnToUser, addCardToUser, changeProjectToUser, deleteProjectToUser} from './function-API';
 
 
 const style = {
@@ -82,9 +82,10 @@ export default function FixedContainer() {
       setNewCustomer(true);
       setButtonEnter('Register');
       setButtonChange('Log in your account');
-   /*  let pr:ProjectType=(user.projects[0] as  ProjectType);
-      let columna:ProjectColumnsType=(pr.columns[0] as ProjectColumnsType);
-     console.log( addCardToUser(user, pr,  columna, {"id":333333,"text":"Column122555"}));*/
+   let pr:ProjectType=(user.projects[0] as  ProjectType);
+    /* pr.name='ffff';*/
+     /*let columna:ProjectColumnsType=(pr.columns[0] as ProjectColumnsType);*/
+     console.log( await deleteProjectToUser( user, pr));
      
     } else {
       setNewCustomer(false);
@@ -122,7 +123,7 @@ export default function FixedContainer() {
     const userPassword = (document.getElementById('user-password') as HTMLInputElement).value.trim();
     if (!newCustomer) {
       const users = (await getUser(userLogin));
-      console.log(users);
+      console.log(users[0]);
       if (users.length!==0){
         user=users[0];
        if (user.password===userPassword){
