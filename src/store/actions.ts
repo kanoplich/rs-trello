@@ -56,3 +56,7 @@ export const deleteCardBoard = createAction<BoardsType>('board/delete_card');
 export const deleteTaskBoard = createAction<CardsType>('board/delete_task');
 
 export const sortDragAndDrop = createAction<ISort>('board/sort_drag_and_drop');
+
+export const setActiveProjectId = createAction<number>('board/active_project_id');
+
+export const setActiveProjectIndex = createAction<number>('board/active_project_index');

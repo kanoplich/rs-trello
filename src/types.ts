@@ -8,9 +8,6 @@ export interface ProjectType {
   checked: boolean;
   columns: BoardsType[];
 }
-// {
-//   // [keyof: string]: string[] | string;
-// };
 
 export type ProjectModalType = {
   projectName: string;
@@ -39,5 +36,5 @@ export interface ISort {
   droppableIndexStart: number;
   droppableIndexEnd: number;
   draggableId: string;
-  idProject: number;
+  indexProject: number;
 }

@@ -7,6 +7,7 @@
 }
 .breadcrumbs__link:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
 .project__title {
   font-size: 1.71429em;

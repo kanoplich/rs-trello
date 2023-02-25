@@ -31,10 +31,10 @@ export const getProjectSearchResults = createSelector(
   (search, state) => {
     return search.length > 0
       ? state.filter(
-          item =>
-            item.name.toLowerCase().includes(search) ||
-            item.lead.toLowerCase().includes(search)
-        )
+        item =>
+          item.name.toLowerCase().includes(search) ||
+          item.lead.toLowerCase().includes(search)
+      )
       : state;
   }
 );
@@ -67,3 +67,13 @@ export const getColumnNameInModal = createSelector(
 
 export const getProjectsProjects: Selector<RootState, RootState['projects']['projects']> =
   createSelector([(state: RootState) => state.projects.projects], projects => projects);
+
+export const getActiveProjectId = createSelector([(state: RootState) => state.activeProjectId], state => state);
+
+export const getActiveProjectIndex = createSelector([(state: RootState) => state.activeProjectIndex], state => state);
+
+export const getSearchCards = createSelector([(state: RootState) => state.projects.projects, getActiveProjectIndex, getProjectsSearchField], (state, index, search) => {
+  return search.length > 0 ?
+    state[index].columns.map(item => item.cards.filter(elem => elem.text.toLowerCase().includes(search.toLowerCase())))
+    : state[index].columns.map(item => item.cards)
+});

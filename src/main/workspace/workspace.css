@@ -124,7 +124,7 @@
 }
 
 .workspace__links_count::after {
-  content: '0';
+  content: '';
 }
 
 .workspace__btn {

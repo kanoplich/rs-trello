@@ -21,6 +21,7 @@ import {
   checkProject,
   deleteProject,
   sortProjectOptions,
+  setActiveProjectId,
 } from '../../store/actions';
 import ArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import ArrowDown from '@mui/icons-material/KeyboardArrowDown';
@@ -30,7 +31,6 @@ export default function ProjectsTable() {
   const projects = useSelector(getProjects);
   const checkedProjects = useSelector(getSortedProjects);
   const sortOptions = useSelector(getSortedOptions);
-  console.log('sortOptions', sortOptions);
   const helperDispatch = (
     by: 'name' | 'none' | 'lead',
     direction: 'asc' | 'desc'
@@ -114,7 +114,7 @@ export default function ProjectsTable() {
                     <StarCheckBox check={row.checked} />
                   </TableCell>
                   <TableCell component='th' scope='row' align='center'>
-                    <Link to={`${row.name}/boards`}>{row.name}</Link>
+                    <Link onClick={() => dispatch(setActiveProjectId(row.id))} to={`${row.name}/boards`}>{row.name}</Link>
                   </TableCell>
                   <TableCell align='center'>{row.key}</TableCell>
                   <TableCell align='center'>{row.type}</TableCell>
