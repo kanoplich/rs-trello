@@ -1,6 +1,5 @@
 import { bodyUserType, userType, bodyProjectCardType, bodyProjectColumnsType, bodyProjectType, ProjectCardType, ProjectColumnsType, ProjectType } from "./types";
 import * as qs from 'qs'
-import { json } from "stream/consumers";
 
 export const bases = 'https://srv-trello-clone.onrender.com';
 
@@ -32,6 +31,7 @@ export const addUser =async (user:bodyUserType):Promise<userType>=> await fetch 
 
   export const changeUser =async (id:string, user:bodyUserType):Promise<userType>=> await fetch ( `${bases}/${id}`, {
     credentials: 'include',
+    
     method: "Put",
     body: qs.stringify(user),
     headers: {
@@ -80,7 +80,7 @@ export const addUser =async (user:bodyUserType):Promise<userType>=> await fetch 
     }
   }).catch(rej=>console.log(rej));
 
-  export const deteteProject =async (id:string):Promise<string>=> 
+  export const deleteProject =async (id:string):Promise<string>=> 
   await fetch ( `${bases}/projects/${id}`, {
     credentials: 'include',
     method: "delete"

@@ -16,10 +16,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { addUser, getUser, getProjects, getColumn, getCard, 
   addProject, addColumn, addCard, changeCard, changeColumn, 
-  changeProject, changeUser, deleteCard, deleteColumn, deteteProject} from './api';
+  changeProject, changeUser, deleteCard, deleteColumn, deleteProject} from './api';
 import { bodyUserType, ProjectType, userType, ProjectColumnsType, ProjectCardType } from './types';
-import * as qs from 'qs'
-
+import {getFullDataUser, addProjectToUser, addColumnToUser, addCardToUser, 
+  changeProjectToUser, deleteProjectToUser, deleteColumnToUser, changeColumnToUser, deleteCardToUser} from './function-API';
 
 
 const style = {
@@ -69,6 +69,7 @@ return  <>
 
 
 export default function FixedContainer() {
+  const [fromDashboard, setFromDashboard] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [errorState, setErrorState] = React.useState(false);
   const [buttonEnter, setButtonEnter] =React.useState('Log in');
@@ -82,6 +83,13 @@ export default function FixedContainer() {
       setNewCustomer(true);
       setButtonEnter('Register');
       setButtonChange('Log in your account');
+   let pr:ProjectType=(user.projects[0] as  ProjectType);
+   let col:ProjectColumnsType=(pr.columns[0] as  ProjectColumnsType);
+   let card: ProjectCardType= (col.cards[0] as ProjectCardType)
+    /* pr.name='ffff';*/
+     /*let columna:ProjectColumnsType=(pr.columns[0] as ProjectColumnsType);*/
+     console.log( await deleteCardToUser( user, pr, col, card ));
+     
     } else {
       setNewCustomer(false);
       setButtonEnter('Log in');
@@ -90,28 +98,8 @@ export default function FixedContainer() {
     setErrorState(false);
   }
 
-  function getFullDataUser (user:userType) {
-    if (user.projects.length!==0) {
-    user.projects.map(async (el, ind) =>{
-      const  newPr:ProjectType = await getProjects(el as string);
-      user.projects.splice(ind, 1,(newPr as ProjectType));
-      if ((user.projects[ind] as ProjectType).columns.length!==0) {
-       (user.projects[ind] as ProjectType).columns.map(async (elm, indx) =>{
-         const  newCol:ProjectColumnsType = await getColumn(elm as string);
-         (user.projects[ind] as ProjectType).columns.splice(indx, 1, (newCol as ProjectColumnsType));
-         if (((user.projects[ind] as ProjectType).columns[indx] as ProjectColumnsType).cards.length!==0) {
-         ((user.projects[ind] as ProjectType).columns[indx] as ProjectColumnsType).cards.map(async (e, i) =>{
-            const  newCard:ProjectCardType = await getCard(e as string);
-            ((user.projects[ind] as ProjectType).columns[indx] as ProjectColumnsType).cards.splice(i, 1, (newCard as ProjectCardType));
-           })}
-    })}
-  })}
-  return user
-  }
-
   const deleteError = () => {
     setErrorState(false);
-
   }
 
   const createErrorMesage = (text:string) => {
@@ -138,11 +126,13 @@ export default function FixedContainer() {
     const userPassword = (document.getElementById('user-password') as HTMLInputElement).value.trim();
     if (!newCustomer) {
       const users = (await getUser(userLogin));
+      console.log(users[0]);
       if (users.length!==0){
         user=users[0];
        if (user.password===userPassword){
-        user=getFullDataUser(user);
+        user= await getFullDataUser(user);
         setErrorState(false);
+        setFromDashboard(true);
         setOpen(false);
        } else {
         console.log('Password is wrong');
@@ -164,25 +154,28 @@ export default function FixedContainer() {
       projects:[],
      }
      user= await addUser(newUser).then(res=>{
-      if (res.id==='') {
+      if (res._id==='') {
         setErrorState(true);
         text= 'This user was created before'
         return res
       } else {
         setErrorState(false);
+        setFromDashboard(true);
         setOpen(false);
         return res
       }
     })
-  console.log(user)
-  
+  console.log(user);
+
   }
 }
   
 
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen}>Get started</Button>
+      <Button variant="contained" onClick={handleOpen}>Get started
+     
+</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -242,6 +235,7 @@ export default function FixedContainer() {
                       width: '100%'
                     }}
               >
+                
                 {buttonEnter}
             </Button>
             </ListItem>
