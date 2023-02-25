@@ -11,7 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
-import { Link, redirect, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const githubTeam = [
   {
@@ -68,7 +68,7 @@ function FooterTeamList() {
               to={item.link}
               key={index}
               target='_blank'
-              className='footer-link'
+              className='footer-link github-link'
             >
               <ListItem>
                 <ListItemAvatar>
@@ -91,7 +91,6 @@ function FooterTeamList() {
 }
 
 export function Footer() {
-  const navigate = useNavigate();
   return (
     <footer className='footer'>
       <FooterTeamList />

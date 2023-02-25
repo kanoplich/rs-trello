@@ -13,32 +13,22 @@ import { Link } from 'react-router-dom';
 import { routes } from '../../main/main';
 import AcountMenu from '../../components/accountMenu';
 import CreateBtn from '../../components/createProjectBtn';
+import { useDispatch } from 'react-redux';
+import { checkProjectModal } from '../../store/actions';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
+  const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
-
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
   return (
     <AppBar position='static'>
       <Container maxWidth='xl'>
@@ -103,8 +93,13 @@ function ResponsiveAppBar() {
                   </Typography>
                 </MenuItem>
               ))}
-              <MenuItem>
-                <CreateBtn text={'Create'} />
+              <MenuItem
+                onClick={() => dispatch(checkProjectModal(true))}
+                className='nav-link'
+              >
+                <Typography textAlign='center'>
+                  <span>Create</span>
+                </Typography>
               </MenuItem>
             </Menu>
           </Box>
