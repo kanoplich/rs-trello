@@ -83,7 +83,6 @@ export default function FixedContainer() {
   const [newCustomer, setNewCustomer] = React.useState(false);
 
   const userCreate = async () => {
-    debugger
     if (!newCustomer) {
       setNewCustomer(true);
       setButtonEnter('Register');
