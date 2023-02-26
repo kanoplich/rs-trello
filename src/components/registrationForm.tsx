@@ -70,50 +70,6 @@ const style = {
 let text: string = '';
 export let user: userType;
 
-function CreateField() {
-  const [validation, setValidation] = React.useState({
-    name: '',
-    isValid: false,
-  });
-  const handleValidation = (value: string, isValid: boolean) => {
-    setValidation({ name: value, isValid: isValid });
-  };
-  return (
-    <>
-      <ListItem>
-        <TextField
-          id='user-name'
-          label='Enter your name'
-          variant='outlined'
-          margin='dense'
-          sx={{
-            width: '100%',
-          }}
-          onChange={event => {
-            if (
-              !event.target.value.length ||
-              validation.name[0] !== validation.name[0].toUpperCase()
-            ) {
-            }
-          }}
-          error={validation.isValid}
-        />
-      </ListItem>
-      <ListItem>
-        <TextField
-          id='user-surname'
-          label='Enter your surname'
-          variant='outlined'
-          margin='dense'
-          sx={{
-            width: '100%',
-          }}
-        />
-      </ListItem>
-    </>
-  );
-}
-
 export default function FixedContainer() {
   const [fromDashboard, setFromDashboard] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -125,6 +81,18 @@ export default function FixedContainer() {
   const [newCustomer, setNewCustomer] = React.useState(false);
   const [validation, setValidation] = React.useState({
     email: '',
+    isValid: false,
+  });
+  const [password, setPassword] = React.useState({
+    password: '',
+    isValid: false,
+  });
+  const [name, setName] = React.useState({
+    name: '',
+    isValid: false,
+  });
+  const [surname, setSurname] = React.useState({
+    name: '',
     isValid: false,
   });
 
@@ -142,10 +110,6 @@ export default function FixedContainer() {
       setButtonEnter('Log in');
       setButtonChange('Create Account');
     }
-    setErrorState(false);
-  };
-
-  const deleteError = () => {
     setErrorState(false);
   };
 
@@ -243,7 +207,7 @@ export default function FixedContainer() {
           bgcolor: 'rgba(70, 99, 157, 0.5);',
         }}
       >
-        <Box sx={style}>
+        <Box sx={style} component='form'>
           <Typography
             id='modal-modal-title'
             variant='h6'
@@ -275,8 +239,8 @@ export default function FixedContainer() {
                   let valid = false;
                   if (event.target.value.match(mailPattern)) {
                     valid = true;
+                    setErrorState(!valid);
                   }
-                  setErrorState(!valid);
                   setValidation(prevState => ({
                     ...prevState,
                     email: event.target.value,
@@ -295,6 +259,7 @@ export default function FixedContainer() {
                 }}
                 autoComplete='true'
                 focused
+                required
               />
             </ListItem>
             <ListItem>
@@ -307,14 +272,114 @@ export default function FixedContainer() {
                 sx={{
                   width: '100%',
                 }}
+                placeholder='Your password here!'
+                onChange={event => {
+                  const pattern = /[a-zA-Z0-9]{8,15}/;
+                  const value = event.target.value.split(' ').join('');
+                  let valid = false;
+                  if (
+                    value.match(pattern) &&
+                    8 <= +value.length &&
+                    +value.length <= 15
+                  ) {
+                    valid = true;
+                  }
+                  setPassword({
+                    password: value,
+                    isValid: valid,
+                  });
+                }}
+                error={
+                  !password.isValid &&
+                  (password.password.length < 8 ||
+                    password.password.length > 15) &&
+                  password.password.length !== 0
+                }
+                color={password.isValid ? 'success' : 'info'}
+                helperText={
+                  !password.isValid && password.password.length > 0
+                    ? 'Write your password correctly'
+                    : ''
+                }
+                required
+                focused
+                autoComplete='true'
               />
             </ListItem>
-            {/* {errorState && createErrorMesage(text)}
-             */}
-            {newCustomer && <CreateField />}
+            {errorState && createErrorMesage(text)}
+
+            {newCustomer && (
+              <>
+                <ListItem>
+                  <TextField
+                    id='user-name'
+                    type='text'
+                    label='Enter your name'
+                    variant='outlined'
+                    margin='dense'
+                    sx={{
+                      width: '100%',
+                    }}
+                    placeholder='Your Name'
+                    color={name.isValid ? 'success' : 'info'}
+                    onChange={event => {
+                      const name = event.target.value;
+                      let valid = false;
+                      if (name[0] === name[0].toUpperCase()) {
+                        valid = true;
+                      }
+                      setName(prevState => ({
+                        ...prevState,
+                        name: event.target.value,
+                        isValid: valid,
+                      }));
+                    }}
+                    error={!name.isValid && name.name.length !== 0}
+                    focused
+                    required
+                  />
+                </ListItem>
+                <ListItem>
+                  <TextField
+                    type='text'
+                    id='user-surname'
+                    label='Enter your surname'
+                    variant='outlined'
+                    margin='dense'
+                    sx={{
+                      width: '100%',
+                    }}
+                    placeholder='Your Surname'
+                    color={surname.isValid ? 'success' : 'info'}
+                    onChange={event => {
+                      const surname = event.target.value;
+                      let valid = false;
+                      if (surname[0] === surname[0].toUpperCase()) {
+                        valid = true;
+                      }
+                      setSurname(prevState => ({
+                        ...prevState,
+                        name: event.target.value,
+                        isValid: valid,
+                      }));
+                    }}
+                    error={!surname.isValid && surname.name.length !== 0}
+                    focused
+                    required
+                  />
+                </ListItem>
+              </>
+            )}
             <ListItem>
               <Button
-                // onClick={verificateUser}
+                type='submit'
+                onClick={event => {
+                  event.preventDefault();
+                  // UN COOMIT IF U WANT THAT VALITDATION WORK
+                  // if (validation.isValid && password.isValid) {
+                  verificateUser();
+                  // }
+                }}
                 id='button-enter'
                 variant='contained'
                 size='large'
@@ -337,7 +402,7 @@ export default function FixedContainer() {
               </Button>
             </ListItem>
             <Divider />
-            <ListItem>
+            {/* <ListItem>
               <Link
                 href='#'
                 fontSize={10}
@@ -351,7 +416,7 @@ export default function FixedContainer() {
               >
                 Privacy Policy and User Notice
               </Link>
-            </ListItem>
+            </ListItem> */}
           </List>
         </Box>
       </Modal>
