@@ -25,7 +25,7 @@ export function ListCardProject({ data }: CardProjectProps) {
   const getPassedIssue = () => {
     let count = 0;
     data.columns.filter(item => {
-      if (item.title === 'DONE') {
+      if (item.title.includes("DONE")) {
         count += item.cards.length;
       }
     })
@@ -35,7 +35,7 @@ export function ListCardProject({ data }: CardProjectProps) {
   const getActiveIssue = () => {
     let count = 0;
     data.columns.filter(item => {
-      if (item.title !== 'DONE') {
+      if (!item.title.includes("DONE")) {
         count += item.cards.length;
       }
     })
