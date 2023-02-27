@@ -2,6 +2,7 @@ import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
@@ -73,6 +74,7 @@ function createField() {
 
 
 export default function FixedContainer() {
+  const [preloaderStatus,setPreloaderStatus] = React.useState(false);
   const [fromDashboard, setFromDashboard] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [errorState, setErrorState] = React.useState(false);
@@ -82,29 +84,22 @@ export default function FixedContainer() {
   const handleClose = () => setOpen(false);
   const [newCustomer, setNewCustomer] = React.useState(false);
 
-  const userCreate = async () => {
+const userCreate = async () => {
     if (!newCustomer) {
       setNewCustomer(true);
       setButtonEnter('Register');
       setButtonChange('Log in your account');
-      let pr: ProjectType = (user.projects[0] as ProjectType);
-      let col: ProjectColumnsType = (pr.columns[0] as ProjectColumnsType);
-      let card: ProjectCardType = (col.cards[0] as ProjectCardType)
-      /* pr.name='ffff';*/
-      /*let columna:ProjectColumnsType=(pr.columns[0] as ProjectColumnsType);*/
-      await deleteCardToUser(user, pr, col, card);
-
     } else {
       setNewCustomer(false);
       setButtonEnter('Log in');
       setButtonChange('Create Account');
     }
     setErrorState(false);
-  }
+}
 
-  const deleteError = () => {
+const deleteError = () => {
     setErrorState(false);
-  }
+}
 
   const createErrorMesage = (text: string) => {
     return <ListItem>
@@ -128,9 +123,11 @@ export default function FixedContainer() {
   const verificateUser = async () => {
     const userLogin = (document.getElementById('user-login') as HTMLInputElement).value.trim();
     const userPassword = (document.getElementById('user-password') as HTMLInputElement).value.trim();
+    setPreloaderStatus(true);
     if (!newCustomer) {
       const users = (await getUser(userLogin));
-      console.log(users[0]);
+      setPreloaderStatus(false);
+
       if (users.length !== 0) {
         user = users[0];
         if (user.password === userPassword) {
@@ -170,9 +167,32 @@ export default function FixedContainer() {
           return res
         }
       })
-      console.log(user);
-
+      
     }
+    setPreloaderStatus(false);
+    localStorage.setItem('userJira', JSON.stringify(user));
+    console.log(user);
+  }
+  
+  const createPreloader = () => {
+    return <ListItem>
+             <Box sx={{ display: 'flex',
+                        justifyContent:'center',
+                        alignItems: 'center' }}
+             >
+              <CircularProgress />
+              <Typography id="preloader-text"
+                          variant="h6"
+                          sx={{
+                            fontSize: '14px',
+                            width: '100%',
+                            textAlign: 'center',
+                            color: "#112650"
+                          }}
+              >Waiting server answer...
+              </Typography>
+             </Box>
+           </ListItem>
   }
 
 
@@ -229,10 +249,11 @@ export default function FixedContainer() {
                 }}
               />
             </ListItem>
+            {(preloaderStatus) && createPreloader()} 
             {(errorState) && createErrorMesage(text)}
             {(newCustomer) && createField()}
             <ListItem>
-              <Button onClick={verificateUser}
+                  <Button onClick={verificateUser}
                 id="button-enter"
                 variant="contained"
                 size="large"
@@ -240,7 +261,6 @@ export default function FixedContainer() {
                   width: '100%'
                 }}
               >
-
                 {buttonEnter}
               </Button>
             </ListItem>

@@ -9,13 +9,17 @@ import IconButton from '@mui/material/IconButton';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import {user} from './registrationForm'
+/*import {user} from './registrationForm'*/
 import FixedContainer from './registrationForm'
+import { Link } from 'react-router-dom';
 
-let nameUser=user?`${user.name} ${user.surname}`:'';
-let emailUser=user?`${user.login}`:'';
+
+
 
 export default function AccountMenu() {
+  let userJira= JSON.parse(localStorage.getItem('userJira') as string);
+  let nameUser=userJira?`${userJira.name} ${userJira.surname}`:'';
+  let emailUser=userJira?`${userJira.login}`:'';
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -24,6 +28,12 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const  logOut=() =>{
+    userJira=undefined;
+    localStorage.removeItem('userJira');
+    handleClose();
+    };
+  
 
   const openRegistationForm =() =>{
     handleClose();
@@ -105,8 +115,19 @@ export default function AccountMenu() {
           Personal settings
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={logOut}>
+        <Link
+              to='/'
+              style={{
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
           Log out
+        </Link>
         </MenuItem>
       </Menu>
     </React.Fragment>
