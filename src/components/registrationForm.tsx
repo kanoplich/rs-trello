@@ -55,7 +55,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '50vw',
+  width: '90vw',
   maxWidth: '500px',
   display: 'flex',
   flexDirection: 'column',
@@ -69,7 +69,6 @@ const style = {
 
 let text: string = '';
 export let user: userType;
-
 export default function FixedContainer() {
   const [fromDashboard, setFromDashboard] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -223,7 +222,11 @@ export default function FixedContainer() {
           >
             JIRA-CLONE
           </Typography>
-          <List>
+          <List
+            style={{
+              width: '100%',
+            }}
+          >
             <ListItem>
               <TextField
                 id='user-login'
@@ -254,8 +257,7 @@ export default function FixedContainer() {
                     : ''
                 }
                 sx={{
-                  width: '40vw',
-                  maxWidth: '400px',
+                  width: '100%',
                 }}
                 autoComplete='true'
                 focused
@@ -375,10 +377,9 @@ export default function FixedContainer() {
                 type='submit'
                 onClick={event => {
                   event.preventDefault();
-                  // UN COOMIT IF U WANT THAT VALITDATION WORK
-                  // if (validation.isValid && password.isValid) {
-                  verificateUser();
-                  // }
+                  if (validation.isValid && password.isValid) {
+                    verificateUser();
+                  }
                 }}
                 id='button-enter'
                 variant='contained'
