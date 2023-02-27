@@ -2,6 +2,7 @@ import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
@@ -71,8 +72,10 @@ const style = {
 };
 
 let text: string = '';
-export let user: userType;
+const INITIAL_USER={_id:'', login:'', password:'', name:'', surname:'', projects:[]};
+export let user: userType=INITIAL_USER;
 export default function FixedContainer() {
+  const [preloaderStatus,setPreloaderStatus] = React.useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [fromDashboard, setFromDashboard] = React.useState(false);
@@ -105,17 +108,34 @@ export default function FixedContainer() {
       setNewCustomer(true);
       setButtonEnter('Register');
       setButtonChange('Log in your account');
-      let pr: ProjectType = user?.projects[0] as ProjectType;
-      let col: ProjectColumnsType = pr?.columns[0] as ProjectColumnsType;
-      let card: ProjectCardType = col?.cards[0] as ProjectCardType;
-      console.log(await deleteCardToUser(user, pr, col, card));
-    } else {
+     } else {
       setNewCustomer(false);
       setButtonEnter('Log in');
       setButtonChange('Create Account');
     }
     setErrorState(false);
   };
+
+  const createPreloader = () => {
+    return <ListItem>
+             <Box sx={{ display: 'flex',
+                        justifyContent:'center',
+                        alignItems: 'center' }}
+             >
+              <CircularProgress />
+              <Typography id="preloader-text"
+                          variant="h6"
+                          sx={{
+                            fontSize: '14px',
+                            width: '100%',
+                            textAlign: 'center',
+                            color: "#112650"
+                          }}
+              >Waiting server answer...
+              </Typography>
+             </Box>
+           </ListItem>
+  }
 
   const createErrorMesage = (text: string) => {
     return (
@@ -141,20 +161,21 @@ export default function FixedContainer() {
   };
 
   const verificateUser = async () => {
+    user=INITIAL_USER;
     const userLogin = (
       document.getElementById('user-login') as HTMLInputElement
     ).value.trim();
     const userPassword = (
       document.getElementById('user-password') as HTMLInputElement
     ).value.trim();
+    setPreloaderStatus(true);
     if (!newCustomer) {
       const users = await getUser(userLogin);
-      console.log(users[0]);
+      setPreloaderStatus(false);
       if (users?.length !== 0) {
-        user = users[0];
-        if (user?.password === userPassword) {
-          user = await getFullDataUser(user);
-          setErrorState(false);
+        if (users[0]?.password === userPassword) {
+          user = await getFullDataUser(users[0]);
+          /*setErrorState(false);
           setFromDashboard(true);
           setOpen(false);
           navigate('/workspace');
@@ -165,7 +186,7 @@ export default function FixedContainer() {
               surname: user.surname,
               isLogin: true,
             })
-          );
+          );*/
           // OUR TYPES ARE NOT
           // dispatch(loadProjects(user.projects));
         } else {
@@ -175,8 +196,8 @@ export default function FixedContainer() {
           return;
         }
       } else {
-        setErrorState(true);
         text = 'Login is wrong';
+        setErrorState(true);
       }
     } else {
       const userName = (
@@ -192,7 +213,7 @@ export default function FixedContainer() {
         surname: userSurname,
         projects: [],
       };
-      navigate('/workspace');
+      /*navigate('/workspace');
       dispatch(
         loginUser({
           login: newUser.login,
@@ -200,23 +221,37 @@ export default function FixedContainer() {
           surname: newUser.surname,
           isLogin: true,
         })
-      );
+      );*/
       // OUR TYPES ARE NOT
       // dispatch(loadProjects(newUser.projects));
       user = await addUser(newUser).then(res => {
-        if (res._id === '') {
-          setErrorState(true);
-          text = 'This user was created before';
-          return res;
+        setPreloaderStatus(false);
+        if (res.login === '') {
+        return res;
         } else {
-          setErrorState(false);
-          setFromDashboard(true);
-          setOpen(false);
           return res;
         }
       });
-      console.log(user);
+      text = 'This user was created before';
     }
+    /*setPreloaderStatus(false);*/
+    if ((user.login!=='')) {
+      setErrorState(false);
+            setFromDashboard(true);
+            setOpen(false);
+            navigate('/workspace');
+            dispatch(
+              loginUser({
+                login: user.login,
+                name: user.name,
+                surname: user.surname,
+                isLogin: true,
+              })
+            );
+    } else if (user.login === ''){
+    setErrorState(true);
+    }
+    console.log(user);
   };
 
   return (
@@ -336,7 +371,7 @@ export default function FixedContainer() {
               />
             </ListItem>
             {errorState && createErrorMesage(text)}
-
+            {(preloaderStatus) && createPreloader()} 
             {newCustomer && (
               <>
                 <ListItem>
