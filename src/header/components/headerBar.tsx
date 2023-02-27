@@ -15,11 +15,14 @@ import AcountMenu from '../../components/accountMenu';
 import CreateBtn from '../../components/createProjectBtn';
 import { useDispatch } from 'react-redux';
 import { checkProjectModal } from '../../store/actions';
+import { useSelector } from 'react-redux';
+import { getUserRegister } from '../../store/selectors';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
   const dispatch = useDispatch();
+  const getUser = useSelector(getUserRegister);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -30,7 +33,12 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
   return (
-    <AppBar position='static'>
+    <AppBar
+      position='static'
+      style={
+        getUser.isLogin ? { pointerEvents: 'all' } : { pointerEvents: 'none' }
+      }
+    >
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Typography

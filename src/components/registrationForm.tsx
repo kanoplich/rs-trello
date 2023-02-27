@@ -49,6 +49,9 @@ import {
   changeColumnToUser,
   deleteCardToUser,
 } from './function-API';
+import { useDispatch } from 'react-redux';
+import { loadProjects, loginUser } from '../store/actions';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -70,6 +73,8 @@ const style = {
 let text: string = '';
 export let user: userType;
 export default function FixedContainer() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [fromDashboard, setFromDashboard] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [errorState, setErrorState] = React.useState(false);
@@ -152,6 +157,17 @@ export default function FixedContainer() {
           setErrorState(false);
           setFromDashboard(true);
           setOpen(false);
+          navigate('/workspace');
+          dispatch(
+            loginUser({
+              login: user.login,
+              name: user.name,
+              surname: user.surname,
+              isLogin: true,
+            })
+          );
+          // OUR TYPES ARE NOT
+          // dispatch(loadProjects(user.projects));
         } else {
           console.log('Password is wrong');
           setErrorState(true);
@@ -176,6 +192,17 @@ export default function FixedContainer() {
         surname: userSurname,
         projects: [],
       };
+      navigate('/workspace');
+      dispatch(
+        loginUser({
+          login: newUser.login,
+          name: newUser.name,
+          surname: newUser.surname,
+          isLogin: true,
+        })
+      );
+      // OUR TYPES ARE NOT
+      // dispatch(loadProjects(newUser.projects));
       user = await addUser(newUser).then(res => {
         if (res._id === '') {
           setErrorState(true);
@@ -403,21 +430,6 @@ export default function FixedContainer() {
               </Button>
             </ListItem>
             <Divider />
-            {/* <ListItem>
-              <Link
-                href='#'
-                fontSize={10}
-                underline='none'
-                paddingTop={1.2}
-                sx={{
-                  width: '100%',
-                  textAlign: 'center',
-                  color: '#112650',
-                }}
-              >
-                Privacy Policy and User Notice
-              </Link>
-            </ListItem> */}
           </List>
         </Box>
       </Modal>

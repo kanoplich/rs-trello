@@ -1,5 +1,5 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit';
-import { ProjectModalType, ProjectType, } from '../types';
+import { ProjectModalType, ProjectType } from '../types';
 import {
   addColumnForProjectInModal,
   checkAllProjects,
@@ -25,11 +25,19 @@ import {
   sortDragAndDrop,
   setActiveProjectId,
   setActiveProjectIndex,
+  loginUser,
+  loadProjects,
 } from './actions';
 
 let TASK_ID = 5;
 
 export type RootState = {
+  register: {
+    login: string;
+    name: string;
+    surname: string;
+    isLogin: boolean;
+  };
   modals: {
     projectModal: {
       isOpen: boolean;
@@ -136,14 +144,19 @@ const initialProjects = [
       {
         title: 'DONE next',
         id: 3,
-        cards: [
-        ],
+        cards: [],
       },
     ],
   },
 ];
 
 const initialState: RootState = {
+  register: {
+    name: 'HELLO',
+    surname: 'THERE',
+    login: '123123123',
+    isLogin: true,
+  },
   modals: {
     projectModal: {
       isOpen: false,
@@ -176,6 +189,9 @@ const initialState: RootState = {
 
 const JiraReducer = createReducer(initialState, builder => {
   builder
+    .addCase(loadProjects, (state, action) => {
+      state.projects.projects = action.payload;
+    })
     .addCase(checkProjectModal, (state, action) => {
       state.modals.projectModal.isOpen = action.payload;
     })
@@ -262,9 +278,9 @@ const JiraReducer = createReducer(initialState, builder => {
     .addCase(addCardBoard, (state, action) => {
       state.projects.projects.find(item => {
         if (item.id === action.payload.idProject) {
-          item.columns.push(action.payload)
+          item.columns.push(action.payload);
         }
-      })
+      });
     })
     .addCase(deleteCardBoard, (state, action) => {
       state.projects.projects.map(item => {
@@ -273,9 +289,9 @@ const JiraReducer = createReducer(initialState, builder => {
             if (elem.id === action.payload.id) {
               item.columns.splice(i, 1);
             }
-          })
+          });
         }
-      })
+      });
     })
     .addCase(deleteTaskBoard, (state, action) => {
       state.projects.projects.map(item => {
@@ -286,11 +302,11 @@ const JiraReducer = createReducer(initialState, builder => {
                 if (todo.id === action.payload.id) {
                   elem.cards.splice(i, 1);
                 }
-              })
+              });
             }
-          })
+          });
         }
-      })
+      });
     })
     .addCase(sortDragAndDrop, (state, action) => {
       const {
@@ -302,9 +318,10 @@ const JiraReducer = createReducer(initialState, builder => {
         indexProject,
       } = action.payload;
 
-
       if (droppableIdStart === droppableIdEnd) {
-        const card = state.projects.projects[indexProject].columns.find(card => droppableIdStart === String(card.id));
+        const card = state.projects.projects[indexProject].columns.find(
+          card => droppableIdStart === String(card.id)
+        );
         const todo = card?.cards.splice(droppableIndexStart, 1);
         if (typeof todo !== 'undefined') {
           card?.cards.splice(droppableIndexEnd, 0, ...todo);
@@ -312,9 +329,13 @@ const JiraReducer = createReducer(initialState, builder => {
       }
 
       if (droppableIdStart !== droppableIdEnd) {
-        const cardStart = state.projects.projects[indexProject].columns.find(card => droppableIdStart === String(card.id));
+        const cardStart = state.projects.projects[indexProject].columns.find(
+          card => droppableIdStart === String(card.id)
+        );
         const todo = cardStart?.cards.splice(droppableIndexStart, 1);
-        const cardEnd = state.projects.projects[indexProject].columns.find(card => droppableIdEnd === String(card.id));
+        const cardEnd = state.projects.projects[indexProject].columns.find(
+          card => droppableIdEnd === String(card.id)
+        );
         if (typeof todo !== 'undefined') {
           cardEnd?.cards.splice(droppableIndexEnd, 0, ...todo);
         }
@@ -326,6 +347,9 @@ const JiraReducer = createReducer(initialState, builder => {
     .addCase(setActiveProjectIndex, (state, action) => {
       state.activeProjectIndex = action.payload;
     })
+    .addCase(loginUser, (state, action) => {
+      state.register = action.payload;
+    });
 });
 
 const store = configureStore({ reducer: JiraReducer });

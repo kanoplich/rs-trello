@@ -1,7 +1,14 @@
 import { createAction } from '@reduxjs/toolkit';
-import { ProjectModalType, ProjectType, CardsType, BoardsType, ISort } from '../types';
+import {
+  ProjectModalType,
+  ProjectType,
+  CardsType,
+  BoardsType,
+  ISort,
+} from '../types';
 import { RootState } from './store';
 
+export const loadProjects = createAction<ProjectType[]>('jira/loadprojects');
 export const checkProjectModal = createAction<boolean>(
   'jira/checkProjectModal'
 );
@@ -57,6 +64,17 @@ export const deleteTaskBoard = createAction<CardsType>('board/delete_task');
 
 export const sortDragAndDrop = createAction<ISort>('board/sort_drag_and_drop');
 
-export const setActiveProjectId = createAction<number>('board/active_project_id');
+export const setActiveProjectId = createAction<number>(
+  'board/active_project_id'
+);
 
-export const setActiveProjectIndex = createAction<number>('board/active_project_index');
+export const setActiveProjectIndex = createAction<number>(
+  'board/active_project_index'
+);
+
+export const loginUser = createAction<{
+  login: string;
+  name: string;
+  surname: string;
+  isLogin: boolean;
+}>('user/logout');
