@@ -25,7 +25,8 @@ import {
   sortDragAndDrop,
   setActiveProjectId,
   setActiveProjectIndex,
-  logoutUser,
+  loginUser,
+  loadProjects,
 } from './actions';
 
 let TASK_ID = 5;
@@ -188,6 +189,9 @@ const initialState: RootState = {
 
 const JiraReducer = createReducer(initialState, builder => {
   builder
+    .addCase(loadProjects, (state, action) => {
+      state.projects.projects = action.payload;
+    })
     .addCase(checkProjectModal, (state, action) => {
       state.modals.projectModal.isOpen = action.payload;
     })
@@ -343,7 +347,7 @@ const JiraReducer = createReducer(initialState, builder => {
     .addCase(setActiveProjectIndex, (state, action) => {
       state.activeProjectIndex = action.payload;
     })
-    .addCase(logoutUser, (state, action) => {
+    .addCase(loginUser, (state, action) => {
       state.register = action.payload;
     });
 });

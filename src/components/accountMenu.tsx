@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 import { getUserRegister } from '../store/selectors';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logoutUser } from '../store/actions';
+import { loginUser } from '../store/actions';
 
 export default function AccountMenu() {
   const navigate = useNavigate();
@@ -116,7 +116,7 @@ export default function AccountMenu() {
             handleClose();
             navigate('/');
             dispatch(
-              logoutUser({
+              loginUser({
                 login: '',
                 name: '',
                 surname: '',

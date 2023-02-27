@@ -8,6 +8,7 @@ import {
 } from '../types';
 import { RootState } from './store';
 
+export const loadProjects = createAction<ProjectType[]>('jira/loadprojects');
 export const checkProjectModal = createAction<boolean>(
   'jira/checkProjectModal'
 );
@@ -71,7 +72,7 @@ export const setActiveProjectIndex = createAction<number>(
   'board/active_project_index'
 );
 
-export const logoutUser = createAction<{
+export const loginUser = createAction<{
   login: string;
   name: string;
   surname: string;
