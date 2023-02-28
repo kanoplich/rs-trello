@@ -38,6 +38,7 @@ import {
   userType,
   ProjectColumnsType,
   ProjectCardType,
+  ProjectTypeNew,
 } from './types';
 import {
   getFullDataUser,
@@ -53,6 +54,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { loadProjects, loginUser } from '../store/actions';
 import { useNavigate } from 'react-router-dom';
+import { adapterFromServer } from './adapter';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -71,6 +73,7 @@ const style = {
   p: 4,
 };
 
+export let userProjects:ProjectTypeNew[]=[];
 let text: string = '';
 const INITIAL_USER={_id:'', login:'', password:'', name:'', surname:'', projects:[]};
 export let user: userType=INITIAL_USER;
@@ -175,6 +178,7 @@ export default function FixedContainer() {
       if (users?.length !== 0) {
         if (users[0]?.password === userPassword) {
           user = await getFullDataUser(users[0]);
+         
           /*setErrorState(false);
           setFromDashboard(true);
           setOpen(false);
@@ -252,6 +256,7 @@ export default function FixedContainer() {
     setErrorState(true);
     }
     console.log(user);
+
   };
 
   return (

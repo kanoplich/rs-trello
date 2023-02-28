@@ -60,3 +60,29 @@ export type userType = {
     text: string
   }
   
+  export type ProjectTypeNew= {
+    name: string;
+    key: string;
+    lead: string;
+    type: string;
+    id: number;
+    checked: boolean;
+    columns: BoardsType[];
+  }
+  
+ 
+  export type BoardsType = {
+    title: string;
+    id: number;
+    cards: CardsType[];
+    idProject?: number;
+  }
+  
+  export type CardsType = {
+    id: number;
+    text: string;
+    idProject?: number;
+    idCard?: number;
+  }
+  
+  

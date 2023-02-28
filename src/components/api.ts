@@ -1,7 +1,7 @@
 import { bodyUserType, userType, bodyProjectCardType, bodyProjectColumnsType, bodyProjectType, ProjectCardType, ProjectColumnsType, ProjectType } from "./types";
 import * as qs from 'qs'
 
-export const bases = 'https://srv-trello-clone.onrender.com'
+export const bases = 'http://localhost:3001'
 
 
 export const getUser = async (login:string)=> await fetch (`${bases}/${login}`).then(res=> res.json()).catch(rej=>console.log(rej));
