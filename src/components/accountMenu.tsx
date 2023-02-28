@@ -16,7 +16,8 @@ import { getUserRegister } from '../store/selectors';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../store/actions';
-
+import { adapterFromServer } from './adapter';
+import { userProjects } from './registrationForm';
 export default function AccountMenu() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
