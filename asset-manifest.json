@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/rs-trello/static/css/main.70d1ffc7.css",
-    "main.js": "/rs-trello/static/js/main.58c694c0.js",
+    "main.js": "/rs-trello/static/js/main.910c96a4.js",
     "static/media/JiraScrum.svg": "/rs-trello/static/media/JiraScrum.8987d6ad0225d282ccb019d84ed5adf6.svg",
     "static/media/avatar_5.svg": "/rs-trello/static/media/avatar_5.99e0be9e404054e9de4874fcce03ce50.svg",
     "index.html": "/rs-trello/index.html",
     "main.70d1ffc7.css.map": "/rs-trello/static/css/main.70d1ffc7.css.map",
-    "main.58c694c0.js.map": "/rs-trello/static/js/main.58c694c0.js.map"
+    "main.910c96a4.js.map": "/rs-trello/static/js/main.910c96a4.js.map"
   },
   "entrypoints": [
     "static/css/main.70d1ffc7.css",
-    "static/js/main.58c694c0.js"
+    "static/js/main.910c96a4.js"
   ]
 }
