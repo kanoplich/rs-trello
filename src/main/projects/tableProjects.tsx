@@ -12,6 +12,7 @@ import {
   getProjects,
   getSortedOptions,
   getSortedProjects,
+  getUser,
 } from '../../store/selectors';
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/DeleteForever';
@@ -25,9 +26,14 @@ import {
 } from '../../store/actions';
 import ArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import ArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import {
+  changeProjectToUser,
+  deleteProjectToUser,
+} from '../../components/function-API';
 
 export default function ProjectsTable() {
   const dispatch = useDispatch();
+  const user = useSelector(getUser);
   const projects = useSelector(getProjects);
   const checkedProjects = useSelector(getSortedProjects);
   const sortOptions = useSelector(getSortedOptions);
@@ -109,12 +115,22 @@ export default function ProjectsTable() {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   className='project_item'
                 >
-                  <TableCell onClick={() => dispatch(checkProject(row.id))}>
+                  <TableCell
+                    onClick={() => {
+                      changeProjectToUser(user, row.id);
+                      dispatch(checkProject(row.id));
+                    }}
+                  >
                     {' '}
                     <StarCheckBox check={row.checked} />
                   </TableCell>
                   <TableCell component='th' scope='row' align='center'>
-                    <Link onClick={() => dispatch(setActiveProjectId(row.id))} to={`${row.name}/boards`}>{row.name}</Link>
+                    <Link
+                      onClick={() => dispatch(setActiveProjectId(row.id))}
+                      to={`${row.name}/boards`}
+                    >
+                      {row.name}
+                    </Link>
                   </TableCell>
                   <TableCell align='center'>{row.key}</TableCell>
                   <TableCell align='center'>{row.type}</TableCell>
@@ -122,7 +138,10 @@ export default function ProjectsTable() {
                   <TableCell
                     aria-label='delete'
                     sx={{ width: '1rem' }}
-                    onClick={() => dispatch(deleteProject(row.id))}
+                    onClick={() => {
+                      deleteProjectToUser(user, row.id);
+                      dispatch(deleteProject(row.id));
+                    }}
                   >
                     <IconButton>
                       <DeleteIcon />

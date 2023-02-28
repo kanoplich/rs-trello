@@ -52,9 +52,12 @@ import {
   deleteCardToUser,
 } from './function-API';
 import { useDispatch } from 'react-redux';
-import { loadProjects, loginUser } from '../store/actions';
+import { loadProjects, loadUser, loginUser } from '../store/actions';
 import { useNavigate } from 'react-router-dom';
 import { adapterFromServer } from './adapter';
+import store from '../store/store';
+import { useSelector } from 'react-redux';
+import { getStore } from '../store/selectors';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -73,12 +76,19 @@ const style = {
   p: 4,
 };
 
-export let userProjects:ProjectTypeNew[]=[];
+export let userProjects: ProjectTypeNew[] = [];
 let text: string = '';
-const INITIAL_USER={_id:'', login:'', password:'', name:'', surname:'', projects:[]};
-export let user: userType=INITIAL_USER;
+const INITIAL_USER = {
+  _id: '',
+  login: '',
+  password: '',
+  name: '',
+  surname: '',
+  projects: [],
+};
+export let user: userType = INITIAL_USER;
 export default function FixedContainer() {
-  const [preloaderStatus,setPreloaderStatus] = React.useState(false);
+  const [preloaderStatus, setPreloaderStatus] = React.useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [fromDashboard, setFromDashboard] = React.useState(false);
@@ -89,6 +99,7 @@ export default function FixedContainer() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [newCustomer, setNewCustomer] = React.useState(false);
+  const store = useSelector(getStore);
   const [validation, setValidation] = React.useState({
     email: '',
     isValid: false,
@@ -111,7 +122,7 @@ export default function FixedContainer() {
       setNewCustomer(true);
       setButtonEnter('Register');
       setButtonChange('Log in your account');
-     } else {
+    } else {
       setNewCustomer(false);
       setButtonEnter('Log in');
       setButtonChange('Create Account');
@@ -120,25 +131,32 @@ export default function FixedContainer() {
   };
 
   const createPreloader = () => {
-    return <ListItem>
-             <Box sx={{ display: 'flex',
-                        justifyContent:'center',
-                        alignItems: 'center' }}
-             >
-              <CircularProgress />
-              <Typography id="preloader-text"
-                          variant="h6"
-                          sx={{
-                            fontSize: '14px',
-                            width: '100%',
-                            textAlign: 'center',
-                            color: "#112650"
-                          }}
-              >Waiting server answer...
-              </Typography>
-             </Box>
-           </ListItem>
-  }
+    return (
+      <ListItem>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CircularProgress />
+          <Typography
+            id='preloader-text'
+            variant='h6'
+            sx={{
+              fontSize: '14px',
+              width: '100%',
+              textAlign: 'center',
+              color: '#112650',
+            }}
+          >
+            Waiting server answer...
+          </Typography>
+        </Box>
+      </ListItem>
+    );
+  };
 
   const createErrorMesage = (text: string) => {
     return (
@@ -164,7 +182,7 @@ export default function FixedContainer() {
   };
 
   const verificateUser = async () => {
-    user=INITIAL_USER;
+    user = INITIAL_USER;
     const userLogin = (
       document.getElementById('user-login') as HTMLInputElement
     ).value.trim();
@@ -178,7 +196,7 @@ export default function FixedContainer() {
       if (users?.length !== 0) {
         if (users[0]?.password === userPassword) {
           user = await getFullDataUser(users[0]);
-         
+          console.log('USER', user);
           /*setErrorState(false);
           setFromDashboard(true);
           setOpen(false);
@@ -231,7 +249,7 @@ export default function FixedContainer() {
       user = await addUser(newUser).then(res => {
         setPreloaderStatus(false);
         if (res.login === '') {
-        return res;
+          return res;
         } else {
           return res;
         }
@@ -239,24 +257,27 @@ export default function FixedContainer() {
       text = 'This user was created before';
     }
     /*setPreloaderStatus(false);*/
-    if ((user.login!=='')) {
+    if (user.login !== '') {
       setErrorState(false);
-            setFromDashboard(true);
-            setOpen(false);
-            navigate('/workspace');
-            dispatch(
-              loginUser({
-                login: user.login,
-                name: user.name,
-                surname: user.surname,
-                isLogin: true,
-              })
-            );
-    } else if (user.login === ''){
-    setErrorState(true);
+      setFromDashboard(true);
+      setOpen(false);
+      navigate('/workspace');
+      dispatch(
+        loginUser({
+          login: user.login,
+          name: user.name,
+          surname: user.surname,
+          isLogin: true,
+        })
+      );
+    } else if (user.login === '') {
+      setErrorState(true);
     }
+    setTimeout(() => {
+      dispatch(loadUser(user));
+      dispatch(loadProjects((user.projects as ProjectTypeNew[]) || []));
+    }, 500);
     console.log(user);
-
   };
 
   return (
@@ -376,7 +397,7 @@ export default function FixedContainer() {
               />
             </ListItem>
             {errorState && createErrorMesage(text)}
-            {(preloaderStatus) && createPreloader()} 
+            {preloaderStatus && createPreloader()}
             {newCustomer && (
               <>
                 <ListItem>
