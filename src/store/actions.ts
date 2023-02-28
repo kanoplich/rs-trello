@@ -1,4 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
+import { ProjectTypeNew, userType } from '../components/types';
 import {
   ProjectModalType,
   ProjectType,
@@ -8,6 +9,7 @@ import {
 } from '../types';
 import { RootState } from './store';
 
+export const loadUser = createAction<userType>('jira/loadUser');
 export const loadProjects = createAction<ProjectType[]>('jira/loadprojects');
 export const checkProjectModal = createAction<boolean>(
   'jira/checkProjectModal'

@@ -1,8 +1,14 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { create } from 'domain';
 import { Selector } from 'react-redux';
 import { ProjectType } from '../types';
 import { RootState } from './store';
 
+export const getStore = createSelector([(state: RootState) => state], s => s);
+export const getUser = createSelector(
+  [(state: RootState) => state.user],
+  user => user
+);
 export const selectProjectModal: Selector<
   RootState,
   RootState['modals']['projectModal']

@@ -17,15 +17,28 @@ import {
 import {
   getColumnNameInModal,
   getProjects,
+  getUser,
   selectProjectModal,
 } from '../../store/selectors';
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import { IconButton } from '@mui/material';
 import { BoardsType } from '../../types';
+import { addProject, deleteProject } from '../../components/api';
+import {
+  bodyProjectColumnsType,
+  ProjectColumnsType,
+} from '../../components/types';
+import { user } from '../../components/registrationForm';
+import {
+  addColumnToUser,
+  addProjectToUser,
+  deleteProjectToUser,
+} from '../../components/function-API';
 
 export default function ModalBody() {
   const dispatch = useDispatch();
   const modal = useSelector(selectProjectModal);
+  const user = useSelector(getUser);
   const projects = useSelector(getProjects);
   const column = useSelector(getColumnNameInModal);
   return (
@@ -96,17 +109,34 @@ export default function ModalBody() {
             },
             []
           );
-
+          const key = createKey();
+          addProjectToUser(user, {
+            name: modal.inputs.projectName || modal.defaultProjectName,
+            key: key,
+            lead: modal.inputs.teamLead || 'Default lead',
+            type: modal.inputs.typeField || modal.defaultType,
+            id: id,
+            checked: false,
+            columns: [] || (columns as ProjectColumnsType[]),
+          });
+          // addColumnToUser(user, id, columns as bodyProjectColumnsType);
+          // columns.map(item =>
+          // addColumnToUser(user, id, {
+          //   title: columns[0].title,
+          //   id: columns[0].id,
+          //   cards: columns[0].cards,
+          // } as bodyProjectColumnsType);
+          // );
+          console.log('COLUMNS', columns);
           dispatch(
             checkProjectModalFields({
               name: modal.inputs.projectName || modal.defaultProjectName,
-              key: createKey(),
+              key: key,
               lead: modal.inputs.teamLead || 'Default lead',
               type: modal.inputs.typeField || modal.defaultType,
               id: id,
               checked: false,
-              columns: columns,
-              logo: `../../assets/icon/avatar_${getRandomNum(1, 26)}.svg`,
+              columns: [] || (columns as BoardsType[]),
             })
           );
           dispatch(checkProjectModal(false));
@@ -129,6 +159,7 @@ export default function ModalBody() {
 
 export function ColumnsProjectModal() {
   const dispatch = useDispatch();
+  // const user = useSelector(getUser);
   const columns = useSelector(selectProjectModal);
   return (
     <>
@@ -136,7 +167,9 @@ export function ColumnsProjectModal() {
         <div key={item} className='modal_column_item'>
           <div>{item}</div>
           <IconButton
-            onClick={() => dispatch(deleteColumnForProjectImModal(item))}
+            onClick={() => {
+              dispatch(deleteColumnForProjectImModal(item));
+            }}
           >
             <DeleteIcon />
           </IconButton>

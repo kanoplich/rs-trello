@@ -1,4 +1,5 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit';
+import { userType } from '../components/types';
 import { ProjectModalType, ProjectType } from '../types';
 import {
   addColumnForProjectInModal,
@@ -27,11 +28,13 @@ import {
   setActiveProjectIndex,
   loginUser,
   loadProjects,
+  loadUser,
 } from './actions';
 
 let TASK_ID = 5;
 
 export type RootState = {
+  user: userType;
   register: {
     login: string;
     name: string;
@@ -62,100 +65,109 @@ export type RootState = {
   activeProjectId: number;
   activeProjectIndex: number;
 };
-const initialProjects = [
-  {
-    name: '1',
-    key: 'Zyb6kr',
-    lead: 'Default lead1',
-    type: 'Team-managed software',
-    logo: `../../assets/icon/avatar_1.svg`,
-    id: 1,
-    checked: false,
-    columns: [
-      {
-        title: 'TO DO',
-        id: 1,
-        cards: [
-          {
-            id: 1,
-            text: 'Test to do',
-          },
-          {
-            id: 2,
-            text: 'Test to do',
-          },
-        ],
-      },
-      {
-        title: 'IN PROGRESS',
-        id: 2,
-        cards: [
-          {
-            id: 3,
-            text: 'Test in progress',
-          },
-        ],
-      },
-      {
-        title: 'DONE',
-        id: 3,
-        cards: [
-          {
-            id: 4,
-            text: 'Test done',
-          },
-        ],
-      },
-    ],
+// const initialProjects = [
+//   {
+//     name: '1',
+//     key: 'Zyb6kr',
+//     lead: 'Default lead1',
+//     type: 'Team-managed software',
+//     id: 1,
+//     checked: false,
+//     columns: [
+//       {
+//         title: 'TO DO',
+//         id: 1,
+//         cards: [
+//           {
+//             id: 1,
+//             text: 'Test to do',
+//           },
+//           {
+//             id: 2,
+//             text: 'Test to do',
+//           },
+//         ],
+//       },
+//       {
+//         title: 'IN PROGRESS',
+//         id: 2,
+//         cards: [
+//           {
+//             id: 3,
+//             text: 'Test in progress',
+//           },
+//         ],
+//       },
+//       {
+//         title: 'DONE',
+//         id: 3,
+//         cards: [
+//           {
+//             id: 4,
+//             text: 'Test done',
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     name: 'Default Project',
+//     key: 'sJaFMY',
+//     lead: 'Default lead',
+//     type: 'Team-managed software',
+//     logo: `../../assets/icon/avatar_2.svg`,
+//     id: 2,
+//     checked: false,
+//     columns: [
+//       {
+//         title: 'TO DO next',
+//         id: 1,
+//         cards: [
+//           {
+//             id: 1,
+//             text: 'Test to do next',
+//           },
+//           {
+//             id: 2,
+//             text: 'Test to do',
+//           },
+//         ],
+//       },
+//       {
+//         title: 'IN PROGRESS next',
+//         id: 2,
+//         cards: [
+//           {
+//             id: 3,
+//             text: 'Test in progress',
+//           },
+//         ],
+//       },
+//       {
+//         title: 'DONE next',
+//         id: 3,
+//         cards: [],
+//       },
+//     ],
+//   },
+// ];
+// localStorage.getItem('jira_rs_clone')
+// ? JSON.parse(localStorage.getItem('jira_rs_clone')!)
+// :
+let initialState: RootState = {
+  user: {
+    _id: '',
+    login: '',
+    password: '',
+    name: '',
+    surname: '',
+    projects: [],
   },
-  {
-    name: 'Default Project',
-    key: 'sJaFMY',
-    lead: 'Default lead',
-    type: 'Team-managed software',
-    logo: `../../assets/icon/avatar_2.svg`,
-    id: 2,
-    checked: false,
-    columns: [
-      {
-        title: 'TO DO next',
-        id: 1,
-        cards: [
-          {
-            id: 1,
-            text: 'Test to do next',
-          },
-          {
-            id: 2,
-            text: 'Test to do',
-          },
-        ],
-      },
-      {
-        title: 'IN PROGRESS next',
-        id: 2,
-        cards: [
-          {
-            id: 3,
-            text: 'Test in progress',
-          },
-        ],
-      },
-      {
-        title: 'DONE next',
-        id: 3,
-        cards: [],
-      },
-    ],
-  },
-];
-
-const initialState: RootState = {
   register: {
-    name: 'HELLO',
-    surname: 'THERE',
-    login: '123123123',
-    isLogin: true,
+    name: '',
+    surname: '',
+    login: '',
+    isLogin: false,
   },
   modals: {
     projectModal: {
@@ -175,7 +187,7 @@ const initialState: RootState = {
     },
   },
   projects: {
-    projects: initialProjects,
+    projects: [],
     checkAllProjects: false,
     sort: {
       by: 'none',
@@ -186,9 +198,20 @@ const initialState: RootState = {
   activeProjectId: 0,
   activeProjectIndex: 0,
 };
+// window.addEventListener('beforeunload', event => {
+//   localStorage.setItem('jira_rs_clone', JSON.stringify(initialState));
+// });
+// window.addEventListener('load', event => {
+//   if (localStorage.getItem('jira_rs_clone')) {
+//     initialState = JSON.parse(localStorage.getItem('jira_rs_clone')!);
+//   }
+// });
 
 const JiraReducer = createReducer(initialState, builder => {
   builder
+    .addCase(loadUser, (state, action) => {
+      state.user = action.payload;
+    })
     .addCase(loadProjects, (state, action) => {
       state.projects.projects = action.payload;
     })
