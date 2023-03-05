@@ -1,0 +1,81 @@
+.projects_main {
+  display: flex;
+  flex-direction: column;
+  max-width: 1536px;
+  padding: 0 1.5rem;
+  margin: 0 auto;
+}
+.projects_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.project_btn {
+  display: flex;
+  color: #1976d2;
+  gap: 1rem;
+}
+.modal_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal_header_text {
+  margin: 0;
+}
+.modal_body {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+.modal_add_col {
+  display: flex;
+  gap: 1rem;
+}
+.modal_project_columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-height: 20vh;
+  overflow: overlay;
+}
+.modal_column_item {
+  display: flex;
+  align-items: center;
+  padding: 0px 0px 0px 17px;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: #fff;
+  background-color: #1976d2;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
+.project_item {
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+.project_item:hover {
+  background-color: rgb(225, 225, 225);
+}
+.error_project {
+  margin-top: 2rem;
+  text-align: center;
+}
+.project_sort {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.project_sort:hover {
+  color: rgb(117, 102, 230);
+}
+.project_arrow {
+  position: absolute;
+}
